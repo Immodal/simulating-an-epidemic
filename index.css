@@ -1,0 +1,14 @@
+.section {
+  padding-left: 1em; 
+  margin-bottom: 1em;
+}
+
+.title {
+  text-decoration: underline
+}
+
+.contentDiv {
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content:flex-start;
+}
