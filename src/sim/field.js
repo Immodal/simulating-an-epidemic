@@ -44,7 +44,7 @@ class Field {
    */
   draw() {
     background(0)
-    //this.qtree.draw()
+    this.qtree.draw()
     this.pts.forEach(pt => pt.draw())
   }
 }

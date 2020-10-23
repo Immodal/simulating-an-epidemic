@@ -7,6 +7,7 @@ class Point {
     this.infectionCircle = new Circle(this.x, this.y, Point.infectionRadius)
     this.lastStatusUpdate = millis()
     this.lastInfection = millis()
+    this.ignoreSocialDistancing = false
   }
 
   /**
@@ -34,9 +35,12 @@ class Point {
     this.lastInfection = runInfection ? currentTime : this.lastInfection
     others.forEach(pt => {
       // Repulse
-      let dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
-      dist.setMag(Point.maxSpeed / (dist.mag()*dist.mag()))
-      pt.velocity.add(dist)
+      if (!pt.ignoreSocialDistancing && Point.areSocialDistancing) {
+        const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
+        const mag = max(dist.mag(),1) // prevent mag from being 0
+        dist.setMag(Point.maxSpeed*Point.socialDistanceStrength/mag)
+        pt.velocity.add(dist) // Think of this as a single instance of acceleration instead of continuous
+      }
       // Infect
       if(runInfection && pt.status==0 && random() < Point.infectionRate) {
         pt.setStatus(Point.INFECTIOUS1)
@@ -86,11 +90,11 @@ class Point {
     strokeWeight(1)
     stroke(0)
     fill(color)
-    circle(this.x, this.y, Point.radius)
+    circle(this.x, this.y, Point.radius*2)
     if (this.status==Point.INFECTIOUS1 || this.status==Point.INFECTIOUS2) {
       noFill()
       stroke(color)
-      circle(this.infectionCircle.x, this.infectionCircle.y, this.infectionCircle.r)
+      circle(this.infectionCircle.x, this.infectionCircle.y, this.infectionCircle.r*2)
     }
   }
 }
@@ -100,11 +104,13 @@ Point.INFECTIOUS1 = 1 // Infectious, no symptoms
 Point.INFECTIOUS2 = 2 // Infectious, with symptoms
 Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 
-Point.radius = 8
-Point.maxSpeed = 0.5
+Point.radius = 4
+Point.maxSpeed = 0.6
 
-Point.infectionRadius = 32
+Point.areSocialDistancing = true
+Point.socialDistanceStrength = 10
+Point.infectionRadius = 16
 Point.infectionInterval = 3000
-Point.infectionRate = 0.05
+Point.infectionRate = 0.20
 Point.infectious1Interval = 12000
 Point.infectious2Interval = 15000
