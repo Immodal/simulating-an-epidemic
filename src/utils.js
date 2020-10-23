@@ -18,5 +18,10 @@ const Utils = {
   /**
    * Get a random element from an array
    */
-  pickRandom: arr => arr[Utils.randomInt(0, arr.length)]
+  pickRandom: arr => arr[Utils.randomInt(0, arr.length)],
+
+  /**
+   * Get distance between two points
+   */
+  dist: (x1, y1, x2, y2) => Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)),
 }

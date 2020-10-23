@@ -10,7 +10,7 @@ class Circle extends Boundary {
    */
   contains(pt) {
     // Euclidean distance
-    return Boundary.dist(pt.x, pt.y, this.x, this.y) <= this.r
+    return Utils.dist(pt.x, pt.y, this.x, this.y) <= this.r
   }
 
   /**

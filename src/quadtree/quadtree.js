@@ -71,6 +71,9 @@ class Quadtree {
     return false
   }
 
+  /**
+   * Draw
+   */
   draw() {
     stroke(255)
     noFill()
