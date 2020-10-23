@@ -10,32 +10,43 @@ class Point {
   }
 
   /**
-   * Update information forward a single time step
+   * Update movement information
    * @param {Quadtree} qtree 
    */
-  update(qtree) {
-    // Position
+  move() {
+    this.velocity.limit(Point.maxSpeed)
     this.x += this.velocity.x
     this.y += this.velocity.y
     this.infectionCircle = new Circle(this.x, this.y, Point.infectionRadius)
-    // Status and Infection
+  }
+
+  /**
+   * 
+   * @param {Quadtree} qtree 
+   */
+  update(qtree) {
+    // Get points that are within range
+    const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
+    // Repulse and infect
     const currentTime = millis()
-    if(this.status == Point.INFECTIOUS1 
-        && currentTime - this.lastStatusUpdate >= Point.infectious1Interval) {
+    const runInfection = this.isInfectious() && currentTime - this.lastInfection >= Point.infectionInterval
+    const pos = createVector(this.x, this.y)
+    this.lastInfection = runInfection ? currentTime : this.lastInfection
+    others.forEach(pt => {
+      // Repulse
+      let dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
+      dist.setMag(Point.maxSpeed / (dist.mag()*dist.mag()))
+      pt.velocity.add(dist)
+      // Infect
+      if(runInfection && pt.status==0 && random() < Point.infectionRate) {
+        pt.setStatus(Point.INFECTIOUS1)
+      }
+    })
+    // Update status
+    if(this.status == Point.INFECTIOUS1 && currentTime - this.lastStatusUpdate >= Point.infectious1Interval) {
       this.setStatus(Point.INFECTIOUS2)
-    } else if(this.status == Point.INFECTIOUS2 
-        && currentTime - this.lastStatusUpdate >= Point.infectious2Interval) {
+    } else if(this.status == Point.INFECTIOUS2 && currentTime - this.lastStatusUpdate >= Point.infectious2Interval) {
       this.setStatus(Point.REMOVED)
-    } else if(this.isInfectious() 
-        && currentTime - this.lastInfection >= Point.infectionInterval) {
-      this.lastInfection = currentTime
-      qtree.query(this.infectionCircle).forEach(pt =>{ 
-        if(pt.status==0 
-            && random() < Point.infectionRate 
-            && Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius) {
-          pt.setStatus(Point.INFECTIOUS1)
-        }
-      })
     }
   }
 
@@ -90,6 +101,8 @@ Point.INFECTIOUS2 = 2 // Infectious, with symptoms
 Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 
 Point.radius = 8
+Point.maxSpeed = 0.5
+
 Point.infectionRadius = 32
 Point.infectionInterval = 3000
 Point.infectionRate = 0.05
