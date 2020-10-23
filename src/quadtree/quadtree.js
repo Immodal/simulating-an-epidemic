@@ -70,6 +70,14 @@ class Quadtree {
     }
     return false
   }
+
+  draw() {
+    stroke(255)
+    noFill()
+    strokeWeight(1)
+    rect(this.boundary.x, this.boundary.y, this.boundary.w, this.boundary.h)
+    if(this.divs.length>0) this.divs.forEach(d => d.draw())
+  }
 }
 
 // Extra code used for testing
