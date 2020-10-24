@@ -120,7 +120,7 @@ class Field {
   draw() {
     background(0)
     if(false) this._drawWalls()
-    if(false) this._drawRepulsionZones()
+    if(true) this._drawRepulsionZones()
     if(false) this.qtree.draw()
     stroke("#DCDCDC")
     strokeWeight(2)
