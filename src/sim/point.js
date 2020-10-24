@@ -53,7 +53,7 @@ class Point {
       this.setStatus(Point.REMOVED)
     }
   }
-
+  
   /**
    * Randomly rotate velocity within a given range
    */
@@ -107,7 +107,7 @@ Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 Point.radius = 4
 Point.maxSpeed = 0.6
 
-Point.areSocialDistancing = true
+Point.areSocialDistancing = false
 Point.socialDistanceStrength = 10
 Point.infectionRadius = 16
 Point.infectionInterval = 3000

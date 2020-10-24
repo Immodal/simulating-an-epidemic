@@ -2,6 +2,7 @@ let field;
 
 function setup() {
   createCanvas(600, 600)
+  //frameRate(1)
   field = new Field(50, 50, 500, 500)
 
   for(let i=0; i<500; i++) {
