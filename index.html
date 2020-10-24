@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="src/utils.js"></script>
     <script src="src/quadtree/boundary.js"></script>
     <script src="src/quadtree/rectangle.js"></script>
@@ -13,12 +13,13 @@
     <script src="src/sim/field.js"></script>
     <script src="src/sketch.js"></script>
   </head>
-  <body>
+  <body style="background-color: #000000">
     <h1>Simulating An Epidemic</h1>
     <p>Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a>, check out the readme for more info.</p>
-    <div id="content" class="contentDiv">
-      <div id="main" class="contentDiv">
-        <div id="cv" style="margin-bottom: 1em"></div>
+    <div id="main" class="contentDiv">
+      <div id="cv" style="margin-bottom: 1em"></div>
+      <div style="margin-left: 1em; position: relative; height:275px; width:500px">
+        <canvas id="chartcv1"></canvas>
       </div>
     </div>
   </body>

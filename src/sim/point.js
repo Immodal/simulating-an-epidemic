@@ -25,7 +25,7 @@ class Point {
    * 
    * @param {Quadtree} qtree 
    */
-  update(qtree) {
+  update(qtree, socialDistancing) {
     // Get points that are within range
     const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
     // Repulse and infect
@@ -35,7 +35,7 @@ class Point {
     this.lastInfection = runInfection ? currentTime : this.lastInfection
     others.forEach(pt => {
       // Repulse
-      if (!pt.ignoreSocialDistancing && Point.areSocialDistancing) {
+      if (socialDistancing && !pt.ignoreSocialDistancing) {
         const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
         const mag = max(dist.mag(),1) // prevent mag from being 0
         dist.setMag(Point.maxSpeed*Point.socialDistanceStrength/mag)
@@ -53,7 +53,7 @@ class Point {
       this.setStatus(Point.REMOVED)
     }
   }
-  
+
   /**
    * Randomly rotate velocity within a given range
    */
@@ -83,10 +83,10 @@ class Point {
    */
   draw() {
     let color = null
-    if (this.status==Point.SUSCEPTIBLE) color = "#00FFFF"
-    else if (this.status==Point.INFECTIOUS1) color ="#FFFF00"
-    else if (this.status==Point.INFECTIOUS2) color = "#FF0000"
-    else color = "#606060"
+    if (this.status==Point.SUSCEPTIBLE) color = Point.COLOR_SUSCEPTIBLE
+    else if (this.status==Point.INFECTIOUS1) color = Point.COLOR_INFECTIOUS1
+    else if (this.status==Point.INFECTIOUS2) color = Point.COLOR_INFECTIOUS2
+    else color = Point.COLOR_REMOVED
     strokeWeight(1)
     stroke(0)
     fill(color)
@@ -99,6 +99,11 @@ class Point {
   }
 }
 
+Point.COLOR_SUSCEPTIBLE = "#008080"
+Point.COLOR_INFECTIOUS1 = "#ffc40c"
+Point.COLOR_INFECTIOUS2 = "#FF4500"
+Point.COLOR_REMOVED = "#606060"
+
 Point.SUSCEPTIBLE = 0
 Point.INFECTIOUS1 = 1 // Infectious, no symptoms
 Point.INFECTIOUS2 = 2 // Infectious, with symptoms
@@ -107,10 +112,9 @@ Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 Point.radius = 4
 Point.maxSpeed = 0.6
 
-Point.areSocialDistancing = false
 Point.socialDistanceStrength = 10
 Point.infectionRadius = 16
-Point.infectionInterval = 3000
+Point.infectionInterval = 1000
 Point.infectionRate = 0.20
-Point.infectious1Interval = 12000
-Point.infectious2Interval = 15000
+Point.infectious1Interval = 4000
+Point.infectious2Interval = 8000

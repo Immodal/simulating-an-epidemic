@@ -1,13 +1,17 @@
 class Field {
-  constructor(x, y, w, h, qtreeCapacity=10) {
+  constructor(x, y, w, h, nPoints, infectiousRate, qtreeCapacity=10) {
     this.x = x
     this.y = y
     this.w = w
     this.h = h
+
     this.pts = []
+    this.fill(nPoints, infectiousRate)
+    this.socialDistancing = false
     this.qtreeCapacity = qtreeCapacity
     this.qtree = new Quadtree(new Rectangle(this.x, this.y, this.w, this.h), this.qtreeCapacity)
     this.repulsionZones = []
+    this.stats = null
     // Internal query boundaries
     this.padding = 0.1
     this.north = new Rectangle(this.x, this.y, this.w, this.h*this.padding)
@@ -15,6 +19,24 @@ class Field {
     this.east = new Rectangle(this.x+(this.w - this.w*this.padding), this.y, this.w*this.padding, this.h)
     this.west = new Rectangle(this.x, this.y, this.w*this.padding, this.h)
     this.central = new Rectangle(this.x+this.w*this.padding, this.y+this.h*this.padding, this.w*(1-this.padding), this.h*(1-this.padding))
+  }
+
+  /**
+   * Fill this field with nPoints number of Points
+   * @param {Integer} nPoints Number of points to generate
+   * @param {Float} infectiousRate Chance a random point will start off with the INFECTIOUS1 status
+   */
+  fill(nPoints, infectiousRate) {
+    this.pts = []
+    for(let i=0; i<nPoints; i++) {
+      const rx = random(this.x, this.x+this.w)
+      const ry = random(this.y, this.y+this.h)
+      const rv = createVector(random(-Point.maxSpeed, Point.maxSpeed), random(-Point.maxSpeed, Point.maxSpeed))
+      let st = Point.SUSCEPTIBLE
+      if (random()<infectiousRate) st = Point.INFECTIOUS1
+      const point = new Point(rx, ry, rv, st)
+      this.insert(point)
+    }
   }
 
   /**
@@ -38,7 +60,35 @@ class Field {
     this.qtree.query(this.east).forEach(pt => { if(pt.x + pt.velocity.x >= this.x + this.w) pt.velocity.x = -pt.velocity.x })
     this.qtree.query(this.west).forEach(pt => { if(pt.x + pt.velocity.x <= this.x) pt.velocity.x = -pt.velocity.x })
     this.pts.forEach(pt => pt.move())
-    this.pts.forEach(pt => pt.update(this.qtree))
+    this.pts.forEach(pt => pt.update(this.qtree, this.socialDistancing))
+  }
+
+  /**
+   * Update stats for charting
+   */
+  updateStats() {
+    if (this.stats==null) {
+      this.stats = { day: [],
+        nSusceptible: [], 
+        nInfectious1: [], nInfectious2: [],
+        nRemoved: []
+      }
+    }
+    let nSusceptible = 0
+    let nInfectious1 = 0
+    let nInfectious2 = 0
+    let nRemoved = 0
+    this.pts.forEach(pt => {
+      if (pt.status==Point.SUSCEPTIBLE) nSusceptible += 1
+      else if (pt.status==Point.INFECTIOUS1) nInfectious1 += 1
+      else if (pt.status==Point.INFECTIOUS2) nInfectious2 += 1
+      else if (pt.status==Point.REMOVED) nRemoved += 1
+    })
+    this.stats.day.push(this.stats.day.length==0 ? 0 : this.stats.day[this.stats.day.length-1]+1)
+    this.stats.nSusceptible.push(nSusceptible)
+    this.stats.nInfectious1.push(nInfectious1)
+    this.stats.nInfectious2.push(nInfectious2)
+    this.stats.nRemoved.push(nRemoved)
   }
 
   /**
@@ -70,11 +120,18 @@ class Field {
   draw() {
     background(0)
     if(false) this._drawWalls()
-    if(true) this._drawRepulsionZones()
-    this.qtree.draw()
+    if(false) this._drawRepulsionZones()
+    if(false) this.qtree.draw()
+    stroke("#DCDCDC")
+    strokeWeight(2)
+    noFill()
+    rect(this.x, this.y, this.w, this.h)
     this.pts.forEach(pt => pt.draw())
   }
 
+  /**
+   * Draw walls
+   */
   _drawWalls() {
     stroke(0,255,0)
     noFill()
@@ -84,6 +141,9 @@ class Field {
     rect(this.west.x, this.west.y, this.west.w, this.west.h)
   }
 
+  /**
+   * Draw repulsion zones
+   */
   _drawRepulsionZones() {
     stroke(0,255,0)
     noFill()
