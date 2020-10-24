@@ -64,34 +64,6 @@ class Field {
   }
 
   /**
-   * Update stats for charting
-   */
-  updateStats() {
-    if (this.stats==null) {
-      this.stats = { day: [],
-        nSusceptible: [], 
-        nInfectious1: [], nInfectious2: [],
-        nRemoved: []
-      }
-    }
-    let nSusceptible = 0
-    let nInfectious1 = 0
-    let nInfectious2 = 0
-    let nRemoved = 0
-    this.pts.forEach(pt => {
-      if (pt.status==Point.SUSCEPTIBLE) nSusceptible += 1
-      else if (pt.status==Point.INFECTIOUS1) nInfectious1 += 1
-      else if (pt.status==Point.INFECTIOUS2) nInfectious2 += 1
-      else if (pt.status==Point.REMOVED) nRemoved += 1
-    })
-    this.stats.day.push(this.stats.day.length==0 ? 0 : this.stats.day[this.stats.day.length-1]+1)
-    this.stats.nSusceptible.push(nSusceptible)
-    this.stats.nInfectious1.push(nInfectious1)
-    this.stats.nInfectious2.push(nInfectious2)
-    this.stats.nRemoved.push(nRemoved)
-  }
-
-  /**
    * Add a Circle Boundary that automatically repulses nearby points
    * @param {Circle} circle 
    */
@@ -109,7 +81,7 @@ class Field {
     pts.forEach(pt => {
       const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
       const mag = max(dist.mag(),1) // prevent mag from being 0
-      dist.setMag(Point.maxSpeed/mag)
+      dist.setMag(Point.maxSpeed*3/mag)
       pt.velocity.add(dist) // Think of this as a single instance of acceleration instead of continuous
     })
   }
@@ -117,11 +89,10 @@ class Field {
   /**
    * Draw
    */
-  draw() {
-    background(0)
-    if(false) this._drawWalls()
-    if(true) this._drawRepulsionZones()
-    if(false) this.qtree.draw()
+  draw(debug=false) {
+    if(debug) this._drawWalls()
+    if(debug) this._drawRepulsionZones()
+    if(debug) this.qtree.draw()
     stroke("#DCDCDC")
     strokeWeight(2)
     noFill()

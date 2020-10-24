@@ -14,8 +14,8 @@ class Point {
    * Update movement information
    * @param {Quadtree} qtree 
    */
-  move() {
-    this.velocity.limit(Point.maxSpeed)
+  move(bypassLimit=false) {
+    if (!bypassLimit) this.velocity.limit(Point.maxSpeed)
     this.x += this.velocity.x
     this.y += this.velocity.y
     this.infectionCircle = new Circle(this.x, this.y, Point.infectionRadius)
