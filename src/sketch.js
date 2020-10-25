@@ -1,4 +1,10 @@
-let sender, fields, simComplete, lastChartUpdate, infectionChart, RMax, RVal;
+let controlsDiv, controlsTextDiv, controlsInpDiv;
+let socialDistancingSlider, socialDistancingLabel;
+let ignoreSocialDistancingSlider, ignoreSocialDistancingLabel;
+let infectionRadiusSlider, infectionRadiusLabel;
+let infectionChanceSlider, infectionChanceLabel;
+
+let sender, fields, simNum, simComplete, lastChartUpdate, infectionChart, RMax, RVal;
 let simpleBtn, centralLocBtn, commuBtn;
 
 let globalUpdateCount = 0
@@ -21,6 +27,7 @@ function setup() {
   commuBtn = new Button(3*BTN_W_SPACE, BTN_Y, BTN_W, BTN_H, "COMMUNITIES", startSim(setCommunitiesSim))
   btns.push(commuBtn)
 
+  initControls()
   startSim(setCommunitiesSim)()
 }
 
@@ -76,11 +83,7 @@ function updateR() {
           nInfectious += 1
           const timeInfectious = globalUpdateCount - pt.lastStatusUpdate + (pt.status == Point.INFECTIOUS2) ? Point.infectious1Interval : 0
           if (timeInfectious>0) {
-            //console.log("start")
-            //console.log(timeInfectious)
             const timeRemaining = Point.infectious2Interval + Point.infectious1Interval - timeInfectious
-            //console.log(timeRemaining)
-            //console.log(pt.nInfected)
             return pt.nInfected/timeInfectious*timeRemaining // estimated infections over duration of illness
           } else return 0
         } else return 0
@@ -93,74 +96,4 @@ function updateR() {
     } else RVal = 0
     lastRUpdate = globalUpdateCount
   }
-}
-
-function startSim(callback) {
-  return () => {
-    globalUpdateCount=0
-    lastRUpdate=0
-    RMax = 0
-    fields = []
-    btns.forEach(b => b.state = false)
-  
-    callback()
-  
-    updateR()
-    resetChart()
-  }
-}
-
-function setBasicSim() {
-  Point.radius = POINT_RADIUS_DEFAULT
-  Point.infectionRadius = INFECTION_RADIUS_DEFAULT
-
-  const field = new Field(FIELD_MARGIN, FIELD_START_Y, width-2*FIELD_MARGIN, width-2*FIELD_MARGIN, 500, 0.01)
-  fields.push(field)
-
-  sender = new Sender()
-  simpleBtn.state = true
-}
-
-function setCentralLocSim() {
-  Point.radius = CENTRAL_LOC_POINT_RADIUS
-  Point.infectionRadius = CENTRAL_LOC_INFECTION_RADIUS
-
-  const field = new Field(FIELD_MARGIN, FIELD_START_Y, width-2*FIELD_MARGIN, width-2*FIELD_MARGIN, 500, 0.01)
-  field.addRepulsionZone(new Circle(field.x+field.w/2, field.y+field.h/2, 32))
-  fields.push(field)
-
-  const central = new Field(field.x+field.w/2-CENTRAL_LOC_SIZE/2, field.y+field.h/2-CENTRAL_LOC_SIZE/2, CENTRAL_LOC_SIZE, CENTRAL_LOC_SIZE, 0, 0, 50)
-  fields.push(central)
-
-  sender = new CentralLocSender(fields)
-  centralLocBtn.state = true
-}
-
-function setCommunitiesSim() {
-  Point.radius = COMMUNITIES_POINT_RADIUS
-  Point.infectionRadius = COMMUNITIES_INFECTION_RADIUS
-
-  let fy = FIELD_START_Y
-  const fieldSpace = width-2*FIELD_MARGIN
-  const fieldSubmargin = 10
-  const fieldW = (fieldSpace-fieldSubmargin*4)/4
-  let fx0 = FIELD_MARGIN
-  let fx1 = fx0 + fieldW + fieldSubmargin
-  let fx2 = fx1 + fieldW + fieldSubmargin
-  let fx3 = fx2 + fieldW + fieldSubmargin
-
-  for(let i=0; i<4; i++) {
-    fy += i>0 ? (fieldW + fieldSubmargin) : 0
-    const field0 = new Field(fx0, fy, fieldW, fieldW, 50, 0.01)
-    fields.push(field0)
-    const field1 = new Field(fx1, fy, fieldW, fieldW, 50, 0.01)
-    fields.push(field1)
-    const field2 = new Field(fx2, fy, fieldW, fieldW, 50, 0.01)
-    fields.push(field2)
-    const field3 = new Field(fx3, fy, fieldW, fieldW, 50, 0.01)
-    fields.push(field3)
-  }
-
-  sender = new CommunitiesSender(fields)
-  commuBtn.state = true
 }

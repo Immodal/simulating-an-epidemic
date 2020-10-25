@@ -26,7 +26,7 @@ class Point {
    * 
    * @param {Quadtree} qtree 
    */
-  update(qtree, socialDistancing) {
+  update(qtree) {
     // Get points that are within range
     const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
     // Repulse and infect
@@ -34,16 +34,16 @@ class Point {
     const pos = createVector(this.x, this.y)
     others.forEach(pt => {
       // Repulse
-      if (socialDistancing && !pt.ignoreSocialDistancing) {
+      if (!pt.ignoreSocialDistancing) {
         const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
         const mag = max(dist.mag(),1) // prevent mag from being 0
-        dist.setMag(Point.maxSpeed*Point.socialDistanceStrength/mag)
+        dist.setMag(Point.maxSpeed*Point.socialDistanceStrength*Point.socialDistanceFactor/mag)
         pt.velocity.add(dist) // Think of this as a single instance of acceleration instead of continuous
       }
       // Infect
       if(runInfection) {
         this.lastInfection = globalUpdateCount
-        if (pt.status==0 && random() < Point.infectionRate) {
+        if (pt.status==0 && random() < Point.infectionChance) {
           pt.setStatus(Point.INFECTIOUS1)
           this.nInfected += 1
         }
@@ -116,8 +116,9 @@ Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 Point.maxSpeed = 1
 Point.radius = POINT_RADIUS_DEFAULT
 Point.socialDistanceStrength = SOCIAL_DISTANCE_STRENGTH_DEFAULT
+Point.socialDistanceFactor = SOCIAL_DISTANCE_FACTOR_DEFAULT
 Point.infectionRadius = INFECTION_RADIUS_DEFAULT
 Point.infectionInterval = INFECTION_INTERVAL_DEFAULT
-Point.infectionRate = INFECTION_RATE_DEFAULT
+Point.infectionChance = INFECTION_CHANCE_DEFAULT
 Point.infectious1Interval = INFECTIOUS1_INTERVAL_DEFAULT
 Point.infectious2Interval = INFECTIOUS2_INTERVAL_DEFAULT

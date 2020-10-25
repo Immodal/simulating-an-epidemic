@@ -112,6 +112,7 @@ function getNewChartData() {
       ],
     },
     options: {
+      responsive: false,
       title: {
         display: true,
         text: 'Population Status'

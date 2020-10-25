@@ -2,13 +2,13 @@ h1 {
   color: #DCDCDC;
 }
 
-p {
+h3 {
   color: #DCDCDC;
 }
 
-.section {
-  padding-left: 1em; 
-  margin-bottom: 1em;
+p {
+  color: #DCDCDC;
+  font-size: 12px;
 }
 
 .title {

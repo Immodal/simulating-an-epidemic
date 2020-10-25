@@ -1,5 +1,5 @@
 class Field {
-  constructor(x, y, w, h, nPoints, infectiousRate, qtreeCapacity=10) {
+  constructor(x, y, w, h, nPoints, infectiousRate, qtreeCapacity) {
     this.x = x
     this.y = y
     this.w = w
@@ -7,7 +7,6 @@ class Field {
 
     this.pts = []
     this.fill(nPoints, infectiousRate)
-    this.socialDistancing = false
     this.qtreeCapacity = qtreeCapacity
     this.qtree = new Quadtree(new Rectangle(this.x, this.y, this.w, this.h), this.qtreeCapacity)
     this.repulsionZones = []
@@ -60,7 +59,7 @@ class Field {
     this.qtree.query(this.east).forEach(pt => { if(pt.x + pt.velocity.x >= this.x + this.w) pt.velocity.x = -pt.velocity.x })
     this.qtree.query(this.west).forEach(pt => { if(pt.x + pt.velocity.x <= this.x) pt.velocity.x = -pt.velocity.x })
     this.pts.forEach(pt => pt.move())
-    this.pts.forEach(pt => pt.update(this.qtree, this.socialDistancing))
+    this.pts.forEach(pt => pt.update(this.qtree))
   }
 
   /**
