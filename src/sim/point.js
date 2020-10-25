@@ -7,6 +7,7 @@ class Point {
     this.infectionCircle = new Circle(this.x, this.y, Point.infectionRadius)
     this.lastStatusUpdate = globalUpdateCount
     this.lastInfection = globalUpdateCount
+    this.nInfected = 0
     this.ignoreSocialDistancing = false
   }
 
@@ -31,7 +32,6 @@ class Point {
     // Repulse and infect
     const runInfection = this.isInfectious() && globalUpdateCount - this.lastInfection >= Point.infectionInterval + randomGaussian(0, DAY_LENGTH/10)
     const pos = createVector(this.x, this.y)
-    this.lastInfection = runInfection ? globalUpdateCount : this.lastInfection
     others.forEach(pt => {
       // Repulse
       if (socialDistancing && !pt.ignoreSocialDistancing) {
@@ -41,8 +41,12 @@ class Point {
         pt.velocity.add(dist) // Think of this as a single instance of acceleration instead of continuous
       }
       // Infect
-      if(runInfection && pt.status==0 && random() < Point.infectionRate) {
-        pt.setStatus(Point.INFECTIOUS1)
+      if(runInfection) {
+        this.lastInfection = globalUpdateCount
+        if (pt.status==0 && random() < Point.infectionRate) {
+          pt.setStatus(Point.INFECTIOUS1)
+          this.nInfected += 1
+        }
       }
     })
     // Update status
