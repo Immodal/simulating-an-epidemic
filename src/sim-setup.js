@@ -15,7 +15,7 @@ function startSim(callback) {
 
     resetControls()
     updateR()
-    resetChart()
+    infectionChart.reset()
   }
 }
 
