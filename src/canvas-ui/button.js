@@ -20,7 +20,7 @@ class Button {
       stroke(0)
       fill(Point.COLOR_INFECTIOUS1)
     } else {
-      stroke("#DCDCDC")
+      stroke(COLOR_LIGHT_GRAY)
       noFill()
     }
     rect(this.boundary.x, this.boundary.y, this.boundary.w, this.boundary.h, 5)
@@ -30,7 +30,7 @@ class Button {
     textSize(12)
     strokeWeight(0)
     if (this.state) fill(0)
-    else fill("#DCDCDC")
+    else fill(COLOR_LIGHT_GRAY)
     text(this.msg, this.boundary.cx, this.boundary.cy, this.boundary.w, this.boundary.h)
     rectMode(CORNER)
   }

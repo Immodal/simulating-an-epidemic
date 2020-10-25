@@ -1,19 +1,6 @@
 let sender, fields, simType;
 let simpleBtn, centralLocBtn;
 
-const CANVAS_W = 600
-const CANVAS_H = 700
-const TEXT_SIZE = 25
-const TEXT_COLOR = "#DCDCDC"
-const TEXT_Y = 10 + TEXT_SIZE/2
-const BTN_Y = TEXT_Y + 25
-const BTN_HORIZONTAL_SPACING = 2
-const BTN_W_SPACE = CANVAS_W/6
-const BTN_W = BTN_W_SPACE - 2*BTN_HORIZONTAL_SPACING
-const BTN_H = 50
-const FIELD_MARGIN = 10
-const FIELD_START_Y = BTN_Y + BTN_H + FIELD_MARGIN
-
 let btns = []
 let blockBtns = false
 
@@ -25,13 +12,13 @@ let lastChartUpdate = 0
 function setup() {
   const canvas = createCanvas(CANVAS_W, CANVAS_H)
   canvas.parent("#cv")
-  Chart.defaults.global.defaultFontColor = TEXT_COLOR
+  Chart.defaults.global.defaultFontColor = COLOR_LIGHT_GRAY
   infectionChart = new Chart(document.getElementById('chartcv1').getContext('2d'), getNewChartData())
 
   const btnW = width/6
-  simpleBtn = new Button(2*BTN_W_SPACE, BTN_Y, BTN_W, 50, "SIMPLE", setBasicSim)
+  simpleBtn = new Button(2*BTN_W_SPACE, BTN_Y, BTN_W, BTN_H, "SIMPLE", setBasicSim)
   btns.push(simpleBtn)
-  centralLocBtn = new Button(3*BTN_W_SPACE, BTN_Y, BTN_W, 50, "CENTRAL LOCATION", setCentralLocSim)
+  centralLocBtn = new Button(3*BTN_W_SPACE, BTN_Y, BTN_W, BTN_H, "CENTRAL LOCATION", setCentralLocSim)
   btns.push(centralLocBtn)
 
   setBasicSim()
@@ -46,7 +33,7 @@ function draw() {
   sender.update()
 
   stroke(0)
-  fill(TEXT_COLOR)
+  fill(COLOR_LIGHT_GRAY)
   textAlign(CENTER, CENTER)
   textSize(TEXT_SIZE)
   text("Choose a Simulation", width/2, TEXT_Y)
@@ -91,8 +78,7 @@ function setCentralLocSim() {
   field.addRepulsionZone(new Circle(field.x+field.w/2, field.y+field.h/2, 32))
   fields.push(field)
 
-  const centralSize = 16
-  const central = new Field(field.x+field.w/2-centralSize/2, field.y+field.h/2-centralSize/2, centralSize, centralSize, 0, 0, 50)
+  const central = new Field(field.x+field.w/2-CENTRAL_LOC_SIZE/2, field.y+field.h/2-CENTRAL_LOC_SIZE/2, CENTRAL_LOC_SIZE, CENTRAL_LOC_SIZE, 0, 0, 50)
   fields.push(central)
 
   centralLocBtn.state = true

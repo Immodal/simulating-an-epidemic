@@ -93,7 +93,7 @@ class Field {
     if(debug) this._drawWalls()
     if(debug) this._drawRepulsionZones()
     if(debug) this.qtree.draw()
-    stroke("#DCDCDC")
+    stroke(COLOR_LIGHT_GRAY)
     strokeWeight(2)
     noFill()
     rect(this.x, this.y, this.w, this.h)

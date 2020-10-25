@@ -30,7 +30,7 @@ class Point {
     const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
     // Repulse and infect
     const currentTime = millis()
-    const runInfection = this.isInfectious() && currentTime - this.lastInfection >= Point.infectionInterval
+    const runInfection = this.isInfectious() && currentTime - this.lastInfection >= Point.infectionInterval + randomGaussian(0, 60)
     const pos = createVector(this.x, this.y)
     this.lastInfection = runInfection ? currentTime : this.lastInfection
     others.forEach(pt => {
@@ -99,10 +99,10 @@ class Point {
   }
 }
 
-Point.COLOR_SUSCEPTIBLE = "#008080"
-Point.COLOR_INFECTIOUS1 = "#ffc40c"
-Point.COLOR_INFECTIOUS2 = "#FF4500"
-Point.COLOR_REMOVED = "#606060"
+Point.COLOR_SUSCEPTIBLE = COLOR_TEAL
+Point.COLOR_INFECTIOUS1 = COLOR_DIM_YELLOW
+Point.COLOR_INFECTIOUS2 = COLOR_ORANGE_RED
+Point.COLOR_REMOVED = COLOR_MED_GRAY
 
 Point.SUSCEPTIBLE = 0
 Point.INFECTIOUS1 = 1 // Infectious, no symptoms
