@@ -5,8 +5,8 @@ class Point {
     this.velocity = velocity
     this.status = status
     this.infectionCircle = new Circle(this.x, this.y, Point.infectionRadius)
-    this.lastStatusUpdate = millis()
-    this.lastInfection = millis()
+    this.lastStatusUpdate = globalUpdateCount
+    this.lastInfection = globalUpdateCount
     this.ignoreSocialDistancing = false
   }
 
@@ -29,10 +29,9 @@ class Point {
     // Get points that are within range
     const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
     // Repulse and infect
-    const currentTime = millis()
-    const runInfection = this.isInfectious() && currentTime - this.lastInfection >= Point.infectionInterval + randomGaussian(0, 60)
+    const runInfection = this.isInfectious() && globalUpdateCount - this.lastInfection >= Point.infectionInterval + randomGaussian(0, DAY_LENGTH/10)
     const pos = createVector(this.x, this.y)
-    this.lastInfection = runInfection ? currentTime : this.lastInfection
+    this.lastInfection = runInfection ? globalUpdateCount : this.lastInfection
     others.forEach(pt => {
       // Repulse
       if (socialDistancing && !pt.ignoreSocialDistancing) {
@@ -47,9 +46,9 @@ class Point {
       }
     })
     // Update status
-    if(this.status == Point.INFECTIOUS1 && currentTime - this.lastStatusUpdate >= Point.infectious1Interval) {
+    if(this.status == Point.INFECTIOUS1 && globalUpdateCount - this.lastStatusUpdate >= Point.infectious1Interval) {
       this.setStatus(Point.INFECTIOUS2)
-    } else if(this.status == Point.INFECTIOUS2 && currentTime - this.lastStatusUpdate >= Point.infectious2Interval) {
+    } else if(this.status == Point.INFECTIOUS2 && globalUpdateCount - this.lastStatusUpdate >= Point.infectious2Interval) {
       this.setStatus(Point.REMOVED)
     }
   }
@@ -67,8 +66,8 @@ class Point {
    */
   setStatus(status) {
     this.status = status
-    this.lastStatusUpdate = millis()
-    if (this.isInfectious()) this.lastInfection = millis()
+    this.lastStatusUpdate = globalUpdateCount
+    if (this.isInfectious()) this.lastInfection = globalUpdateCount
   }
 
   /**
@@ -112,9 +111,9 @@ Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 Point.radius = 4
 Point.maxSpeed = 0.6
 
-Point.socialDistanceStrength = 10
-Point.infectionRadius = 16
-Point.infectionInterval = 1000
-Point.infectionRate = 0.20
-Point.infectious1Interval = 4000
-Point.infectious2Interval = 8000
+Point.socialDistanceStrength = SOCIAL_DISTANCE_STRENGTH_DEFAULT
+Point.infectionRadius = INFECTION_RADIUS_DEFAULT
+Point.infectionInterval = INFECTION_INTERVAL_DEFAULT
+Point.infectionRate = INFECTION_RATE_DEFAULT
+Point.infectious1Interval = INFECTIOUS1_INTERVAL_DEFAULT
+Point.infectious2Interval = INFECTIOUS2_INTERVAL_DEFAULT

@@ -1,9 +1,8 @@
 class CentralLocSender extends Sender {
   constructor(fields) {
     super()
-
-    this.interval = 50
-    this.lastAuto = 0
+    
+    this.lastAuto = globalUpdateCount
     this.f0 = fields[0]
     this.f0TargetsCounter = 0
     this.f0Targets = [
@@ -21,15 +20,14 @@ class CentralLocSender extends Sender {
   }
 
   auto() {
-    const currentTime = millis()
-    if (currentTime - this.lastAuto > this.interval) {
+    if (globalUpdateCount - this.lastAuto > CENTRAL_LOC_SENDER_INTERVAL) {
       if (this.f0.pts.length>0) this.launch(this.f0, this.f1, this.f1Target)
       if (this.f1.pts.length>0) {
         this.launch(this.f1, this.f0, this.f0Targets[this.f0TargetsCounter])
         this.f0TargetsCounter += 1
         if (this.f0TargetsCounter>=this.f0Targets.length) this.f0TargetsCounter=0
       }
-      this.lastAuto = currentTime
+      this.lastAuto = globalUpdateCount
     }
   }
 }

@@ -2,8 +2,7 @@
  * Update the chart with data from the simulation
  */
 function updateChart() {
-  const currentTime = millis()
-  if (simComplete<SIM_COMPLETE_THRESH && (lastChartUpdate==0 || currentTime - lastChartUpdate >= dayLength)) {
+  if (simComplete<SIM_COMPLETE_THRESH && (lastChartUpdate==0 || globalUpdateCount - lastChartUpdate >= DAY_LENGTH)) {
     // Tally population status
     stats = []
     fields.forEach(f => stats.push(getStats(f.pts)))
@@ -42,7 +41,7 @@ function updateChart() {
     removed.push(acc)
 
     infectionChart.update()
-    lastChartUpdate = currentTime
+    lastChartUpdate = globalUpdateCount
   }
 }
 
@@ -74,9 +73,9 @@ function getStats(pts) {
  */
 function resetChart() {
   simComplete = 0
-  lastChartUpdate = 0
+  lastChartUpdate = globalUpdateCount
   infectionChart.config = getNewChartData()
-  updateChart()
+  infectionChart.update()
 }
 
 /**

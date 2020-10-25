@@ -1,15 +1,12 @@
-let sender, fields, simType;
+let sender, fields, simType, simComplete, lastChartUpdate;
 let simpleBtn, centralLocBtn;
+let globalUpdateCount = 0
 
 let btns = []
 let blockBtns = false
 
-let dayLength = 1000
-const SIM_COMPLETE_THRESH = 3
-let simComplete = 0
-let lastChartUpdate = 0
-
 function setup() {
+  frameRate(30)
   const canvas = createCanvas(CANVAS_W, CANVAS_H)
   canvas.parent("#cv")
   Chart.defaults.global.defaultFontColor = COLOR_LIGHT_GRAY
@@ -27,10 +24,13 @@ function setup() {
 function draw() {
   background(0)
 
-  sender.auto()
-
-  fields.forEach(f => f.update())
-  sender.update()
+  for(let i=0; i<SIM_SPEED_DEFAULT; i++) {
+    globalUpdateCount += 1
+    updateChart()
+    sender.auto()
+    fields.forEach(f => f.update())
+    sender.update()
+  }
 
   stroke(0)
   fill(COLOR_LIGHT_GRAY)
@@ -41,7 +41,6 @@ function draw() {
   fields.forEach(f => f.draw())
   sender.draw()
 
-  updateChart()
 }
 
 function mousePressed() {
@@ -57,6 +56,7 @@ function mouseReleased() {
 }
 
 function setBasicSim() {
+  globalUpdateCount=0
   simType = 0
   fields = []
   btns.forEach(b => b.state = false)
@@ -70,6 +70,7 @@ function setBasicSim() {
 }
 
 function setCentralLocSim() {
+  globalUpdateCount=0
   simType = 1
   fields = []
   btns.forEach(b => b.state = false)

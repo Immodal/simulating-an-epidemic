@@ -6,7 +6,7 @@ class Sender {
   auto() {}
 
   launch(from, to, target) {
-    const targetCircle = new Circle(target.x, target.y, 6)
+    const targetCircle = new Circle(target.x, target.y, 16)
 
     const rand = Utils.randomInt(0, from.pts.length)
     const point = from.pts[rand]
@@ -15,7 +15,7 @@ class Sender {
 
     const vel = p5.Vector.sub(target, createVector(point.x, point.y))
     vel.normalize()
-    vel.mult(10)
+    vel.mult(20)
     point.velocity = vel
   }
 
