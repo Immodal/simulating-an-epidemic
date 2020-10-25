@@ -3,7 +3,7 @@
  */
 function updateChart() {
   const currentTime = millis()
-  if (simComplete<3 && (lastChartUpdate==0 || currentTime - lastChartUpdate >= dayLength)) {
+  if (simComplete<SIM_COMPLETE_THRESH && (lastChartUpdate==0 || currentTime - lastChartUpdate >= dayLength)) {
     // Tally population status
     stats = []
     fields.forEach(f => stats.push(getStats(f.pts)))
@@ -27,7 +27,7 @@ function updateChart() {
     const susceptible = infectionChart.data.datasets[2].data
     const removed = infectionChart.data.datasets[3].data
 
-    days.push(days.length==0 ? 0 : days[days.length-1]+1)
+    if (infectious1.length>=10) days.push(days[days.length-1]+1)
     let acc = nInfectious2
     infectious2.push(acc)
 
@@ -86,7 +86,7 @@ function getNewChartData() {
   return {
     type: 'line',
     data: {
-      labels: [],
+      labels: Utils.range(10),
       datasets:[
         {
           label: "Infectious with Symptoms",
