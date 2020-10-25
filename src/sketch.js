@@ -1,10 +1,5 @@
-let controlsDiv, controlsTextDiv, controlsInpDiv;
-let socialDistancingSlider, socialDistancingLabel;
-let ignoreSocialDistancingSlider, ignoreSocialDistancingLabel;
-let infectionRadiusSlider, infectionRadiusLabel;
-let infectionChanceSlider, infectionChanceLabel;
 
-let sender, fields, simNum, infectionChart, RMax, RVal;
+let sender, fields, simNum, infectionChart, RMax, RVal, controls;
 let simpleBtn, centralLocBtn, commuBtn;
 
 let globalUpdateCount = 0
@@ -17,7 +12,6 @@ function setup() {
   frameRate(30)
   const canvas = createCanvas(CANVAS_W, CANVAS_H)
   canvas.parent("#cv")
-  infectionChart = new InfectionChart(document.getElementById('chartcv1').getContext('2d'))
 
   simpleBtn = new Button(1*BTN_W_SPACE, BTN_Y, BTN_W, BTN_H, "SIMPLE", startSim(setBasicSim))
   btns.push(simpleBtn)
@@ -26,7 +20,8 @@ function setup() {
   commuBtn = new Button(3*BTN_W_SPACE, BTN_Y, BTN_W, BTN_H, "COMMUNITIES", startSim(setCommunitiesSim))
   btns.push(commuBtn)
 
-  initControls()
+  infectionChart = new InfectionChart(document.getElementById('chartcv1').getContext('2d'))
+  controls = new Controls()
   startSim(setCommunitiesSim)()
 }
 
