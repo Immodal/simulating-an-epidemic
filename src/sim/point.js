@@ -108,9 +108,9 @@ Point.INFECTIOUS1 = 1 // Infectious, no symptoms
 Point.INFECTIOUS2 = 2 // Infectious, with symptoms
 Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
 
-Point.radius = 4
-Point.maxSpeed = 0.6
 
+Point.maxSpeed = 1
+Point.radius = POINT_RADIUS_DEFAULT
 Point.socialDistanceStrength = SOCIAL_DISTANCE_STRENGTH_DEFAULT
 Point.infectionRadius = INFECTION_RADIUS_DEFAULT
 Point.infectionInterval = INFECTION_INTERVAL_DEFAULT

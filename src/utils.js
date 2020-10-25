@@ -24,4 +24,17 @@ const Utils = {
    * Get distance between two points
    */
   dist: (x1, y1, x2, y2) => Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)),
+
+  /**
+   * Shuffles array in place
+   */
+  shuffle: arr => {
+    let j, x;
+    for (let i = arr.length - 1; i > 0; i--) {
+      j = Utils.randomInt(0, i)
+      x = arr[i]
+      arr[i] = arr[j]
+      arr[j] = x
+    }
+  },
 }
