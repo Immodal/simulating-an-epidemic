@@ -15,7 +15,7 @@ class Sender {
 
     const vel = p5.Vector.sub(target, createVector(point.x, point.y))
     vel.normalize()
-    vel.mult(20)
+    vel.mult(25)
     point.velocity = vel
   }
 

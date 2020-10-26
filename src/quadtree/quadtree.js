@@ -42,6 +42,14 @@ class Quadtree {
   }
 
   /**
+   * Count the number of points in this tree and its children
+   */
+  count() {
+    if(this.divs.length==0) return this.pts.length
+    else return this.divs.reduce((acc, d) => acc + d.count(), 0)
+  }
+
+  /**
    * Create 4 subdivisions and then redistribute points into them
    */
   _subdivide() {

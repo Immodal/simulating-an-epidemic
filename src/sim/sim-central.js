@@ -18,7 +18,7 @@ class SimCentral extends Simulation {
   
     const central = new Field(field.x+field.w/2-CENTRAL_LOC_SIZE/2, field.y+field.h/2-CENTRAL_LOC_SIZE/2, CENTRAL_LOC_SIZE, CENTRAL_LOC_SIZE, 
       0, 0, 
-      50, false)
+      QTREE_DEFAULT_CAPACITY)
     this.fields.push(central)
   
     this.sender = new CentralLocSender(this.fields)

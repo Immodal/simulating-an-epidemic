@@ -8,7 +8,7 @@ class CommunitiesSender extends Sender {
   }
 
   auto() {
-    if (globalUpdateCount - this.lastAuto > COMMUNITIES_SENDER_INTERVAL) {
+    if (CommunitiesSender.interval!=COMMUNITIES_CROSSING_INTERVAL_MAX && globalUpdateCount - this.lastAuto > CommunitiesSender.interval) {
       if (this.order.length==0) {
         this.order = this.fs.slice()
         Utils.shuffle(this.order)
@@ -23,3 +23,5 @@ class CommunitiesSender extends Sender {
     }
   }
 }
+
+CommunitiesSender.interval = COMMUNITIES_CROSSING_INTERVAL_DEFAULT

@@ -2,7 +2,8 @@ class CentralLocSender extends Sender {
   constructor(fields) {
     super()
     
-    this.lastAuto = globalUpdateCount
+    this.lastVisit = globalUpdateCount
+    this.lastLeave = globalUpdateCount
     this.f0 = fields[0]
     this.f0TargetsCounter = 0
     this.f0Targets = [
@@ -20,14 +21,22 @@ class CentralLocSender extends Sender {
   }
 
   auto() {
-    if (globalUpdateCount - this.lastAuto > CENTRAL_LOC_SENDER_INTERVAL) {
+    if (CentralLocSender.visitInterval!=CENTRAL_LOC_VISIT_INTERVAL_MAX 
+        && globalUpdateCount - this.lastVisit > CentralLocSender.visitInterval
+        && this.f1.qtree.count() < CENTRAL_LOC_CAPACITY) {
       if (this.f0.pts.length>0) this.launch(this.f0, this.f1, this.f1Target)
+      this.lastVisit = globalUpdateCount
+    }
+    if (CentralLocSender.leaveInterval!=CENTRAL_LOC_LEAVE_INTERVAL_MAX && globalUpdateCount - this.lastLeave > CentralLocSender.leaveInterval) {
       if (this.f1.pts.length>0) {
         this.launch(this.f1, this.f0, this.f0Targets[this.f0TargetsCounter])
         this.f0TargetsCounter += 1
         if (this.f0TargetsCounter>=this.f0Targets.length) this.f0TargetsCounter=0
       }
-      this.lastAuto = globalUpdateCount
+      this.lastLeave = globalUpdateCount
     }
   }
 }
+
+CentralLocSender.visitInterval = CENTRAL_LOC_VISIT_INTERVAL_DEFAULT
+CentralLocSender.leaveInterval = CENTRAL_LOC_LEAVE_INTERVAL_DEFAULT

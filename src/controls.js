@@ -1,7 +1,7 @@
 class Controls {
   constructor() {
     // Destructuring directly into variable is unstable and causes some objects to be undefined
-    let [slider0, label0] = this.makeSliderGroup(
+    let group = this.makeSliderGroup(
       "Social Distancing Factor: ", 
       "sdistancingTxt",
       "sdistancingInp",
@@ -9,10 +9,10 @@ class Controls {
       SOCIAL_DISTANCE_FACTOR_MAX,
       SOCIAL_DISTANCE_FACTOR_DEFAULT,
       SOCIAL_DISTANCE_FACTOR_STEP)
-    this.sDistSlider = slider0
-    this.sDistLabel = label0
+    this.sDistSlider = group[0]
+    this.sDistLabel = group[1]
   
-    let [slider1, label1] = this.makeSliderGroup(
+    group = this.makeSliderGroup(
       "% Ignores Social Distancing: ", 
       "isdistancingTxt",
       "isdistancingInp",
@@ -20,10 +20,10 @@ class Controls {
       SOCIAL_DISTANCE_IGNORE_MAX,
       SOCIAL_DISTANCE_IGNORE_DEFAULT,
       SOCIAL_DISTANCE_IGNORE_STEP)
-    this.igSDistSlider = slider1
-    this.igSDistLabel = label1
+    this.igSDistSlider = group[0]
+    this.igSDistLabel = group[1]
   
-    let [slider2, label2] = this.makeSliderGroup(
+    group = this.makeSliderGroup(
       "Infection Radius: ", 
       "infectionRadiusTxt",
       "infectionRadiusInp",
@@ -31,10 +31,10 @@ class Controls {
       INFECTION_RADIUS_MAX,
       INFECTION_RADIUS_DEFAULT,
       INFECTION_RADIUS_STEP)
-    this.infRadSlider = slider2
-    this.infRadLabel = label2
+    this.infRadSlider = group[0]
+    this.infRadLabel = group[1]
   
-    let [slider3, label3] = this.makeSliderGroup(
+    group = this.makeSliderGroup(
       "Daily Infection Chance: ", 
       "infectionChanceTxt",
       "infectionChanceInp",
@@ -42,10 +42,10 @@ class Controls {
       INFECTION_CHANCE_MAX,
       INFECTION_CHANCE_DEFAULT,
       INFECTION_CHANCE_STEP)
-    this.infChanceSlider = slider3
-    this.infChanceLabel = label3
+    this.infChanceSlider = group[0]
+    this.infChanceLabel = group[1]
 
-    let [slider4, label4] = this.makeSliderGroup(
+    group = this.makeSliderGroup(
       "Initial Infection Chance (applies on RESET): ", 
       "initialPopInfTxt",
       "initialPopInfInp",
@@ -53,10 +53,10 @@ class Controls {
       INFECTION_INITIAL_PROPORTION_MAX,
       INFECTION_INITIAL_PROPORTION_DEFAULT,
       INFECTION_INITIAL_PROPORTION_STEP)
-    this.infPopInitSlider = slider4
-    this.infPopInitLabel = label4
+    this.infPopInitSlider = group[0]
+    this.infPopInitLabel = group[1]
 
-    let [slider5, label5] = this.makeSliderGroup(
+    group = this.makeSliderGroup(
       "Infectious, No Symptoms Duration (Days): ", 
       "inf1DurationTxt",
       "inf1DurationInp",
@@ -64,10 +64,10 @@ class Controls {
       INFECTIOUS1_DURATION_MAX,
       INFECTIOUS1_DURATION_DEFAULT,
       INFECTIOUS1_DURATION_STEP)
-    this.inf1DurationSlider = slider5
-    this.inf1DurationLabel = label5
+    this.inf1DurationSlider = group[0]
+    this.inf1DurationLabel = group[1]
 
-    let [slider6, label6] = this.makeSliderGroup(
+    group = this.makeSliderGroup(
       "Infectious With Symptoms Duration (Days): ", 
       "inf2DurationTxt",
       "inf2DurationInp",
@@ -75,8 +75,41 @@ class Controls {
       INFECTIOUS2_DURATION_MAX,
       INFECTIOUS2_DURATION_DEFAULT,
       INFECTIOUS2_DURATION_STEP)
-    this.inf2DurationSlider = slider6
-    this.inf2DurationLabel = label6
+    this.inf2DurationSlider = group[0]
+    this.inf2DurationLabel = group[1]
+
+    group = this.makeSliderGroup(
+      `Central Location Visit Interval (Up to a max capacity of ${CENTRAL_LOC_CAPACITY}): `, 
+      "cenVisitIntTxt",
+      "cenVisitIntInp",
+      CENTRAL_LOC_VISIT_INTERVAL_MIN,
+      CENTRAL_LOC_VISIT_INTERVAL_MAX,
+      CENTRAL_LOC_VISIT_INTERVAL_DEFAULT,
+      CENTRAL_LOC_VISIT_INTERVAL_STEP)
+    this.cenVisitIntSlider = group[0]
+    this.cenVisitIntLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "Central Location Leave Interval: ", 
+      "cenLeaveIntTxt",
+      "cenLeaveIntInp",
+      CENTRAL_LOC_LEAVE_INTERVAL_MIN,
+      CENTRAL_LOC_LEAVE_INTERVAL_MAX,
+      CENTRAL_LOC_LEAVE_INTERVAL_DEFAULT,
+      CENTRAL_LOC_LEAVE_INTERVAL_STEP)
+    this.cenLeaveIntSlider = group[0]
+    this.cenLeaveIntLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "Communities Crossing Interval: ", 
+      "comCrossIntTxt",
+      "comCrossIntInp",
+      COMMUNITIES_CROSSING_INTERVAL_MIN,
+      COMMUNITIES_CROSSING_INTERVAL_MAX,
+      COMMUNITIES_CROSSING_INTERVAL_DEFAULT,
+      COMMUNITIES_CROSSING_INTERVAL_STEP)
+    this.comCrossIntSlider = group[0]
+    this.comCrossIntLabel = group[1]
   }
 
   /**
@@ -106,6 +139,15 @@ class Controls {
 
     this.inf2DurationSlider.value(INFECTIOUS2_DURATION_DEFAULT)
     this.inf2DurationCallback()
+
+    this.cenVisitIntSlider.value(CENTRAL_LOC_VISIT_INTERVAL_DEFAULT)
+    this.cenVisitIntCallback()
+
+    this.cenLeaveIntSlider.value(CENTRAL_LOC_LEAVE_INTERVAL_DEFAULT)
+    this.cenLeaveIntCallback()
+
+    this.comCrossIntSlider.value(COMMUNITIES_CROSSING_INTERVAL_DEFAULT)
+    this.comCrossIntCallback()
   }
 
   /**
@@ -133,6 +175,15 @@ class Controls {
 
     this.inf2DurationCallback = this.inf2DurationCallbackHOF(this.inf2DurationSlider, this.inf2DurationLabel)
     this.inf2DurationSlider.changed(this.inf2DurationCallback)
+
+    this.cenVisitIntCallback = this.cenVisitIntCallbackHOF(this.cenVisitIntSlider, this.cenVisitIntLabel)
+    this.cenVisitIntSlider.changed(this.cenVisitIntCallback)
+
+    this.cenLeaveIntCallback = this.cenLeaveIntCallbackHOF(this.cenLeaveIntSlider, this.cenLeaveIntLabel)
+    this.cenLeaveIntSlider.changed(this.cenLeaveIntCallback)
+
+    this.comCrossIntCallback = this.comCrossIntCallbackHOF(this.comCrossIntSlider, this.comCrossIntLabel)
+    this.comCrossIntSlider.changed(this.comCrossIntCallback)
   }
 
   /**
@@ -205,6 +256,31 @@ class Controls {
     return () => {
       label.html(slider.value())
       Point.infectious2Interval = slider.value() * DAY_LENGTH
+    }
+  }
+
+  cenVisitIntCallbackHOF(slider, label) {
+    return () => {
+      if (slider.value()==CENTRAL_LOC_VISIT_INTERVAL_MAX) label.html("Off")
+      else label.html(slider.value())
+      CentralLocSender.visitInterval = slider.value()
+    }
+  }
+
+  cenLeaveIntCallbackHOF(slider, label) {
+    return () => {
+      if (slider.value()==CENTRAL_LOC_LEAVE_INTERVAL_MAX) label.html("Off")
+      else label.html(slider.value())
+      CentralLocSender.leaveInterval = slider.value()
+    }
+  }
+
+
+  comCrossIntCallbackHOF(slider, label) {
+    return () => {
+      if (slider.value()==COMMUNITIES_CROSSING_INTERVAL_MAX) label.html("Off")
+      else label.html(slider.value())
+      CommunitiesSender.interval = slider.value()
     }
   }
 }
