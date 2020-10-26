@@ -11,8 +11,6 @@ class Controls {
       SOCIAL_DISTANCE_FACTOR_STEP)
     this.sDistSlider = slider0
     this.sDistLabel = label0
-    this.sDistCallback = this.sDistCallbackHOF(this.sDistSlider, this.sDistLabel)
-    this.sDistSlider.changed(this.sDistCallback)
   
     let [slider1, label1] = this.makeSliderGroup(
       "% Ignores Social Distancing: ", 
@@ -24,8 +22,6 @@ class Controls {
       SOCIAL_DISTANCE_IGNORE_STEP)
     this.igSDistSlider = slider1
     this.igSDistLabel = label1
-    this.igSDistCallback = this.igSDistCallbackHOF(this.igSDistSlider, this.igSDistLabel)
-    this.igSDistSlider.changed(this.igSDistCallback)
   
     let [slider2, label2] = this.makeSliderGroup(
       "Infection Radius: ", 
@@ -37,8 +33,6 @@ class Controls {
       INFECTION_RADIUS_STEP)
     this.infRadSlider = slider2
     this.infRadLabel = label2
-    this.infRadCallback = this.infRadCallbackHOF(this.infRadSlider, this.infRadLabel)
-    this.infRadSlider.changed(this.infRadCallback)
   
     let [slider3, label3] = this.makeSliderGroup(
       "Daily Infection Chance: ", 
@@ -50,8 +44,6 @@ class Controls {
       INFECTION_CHANCE_STEP)
     this.infChanceSlider = slider3
     this.infChanceLabel = label3
-    this.infChanceCallback = this.infChanceCallbackHOF(this.infChanceSlider, this.infChanceLabel)
-    this.infChanceSlider.changed(this.infChanceCallback)
   }
 
   /**
@@ -72,6 +64,24 @@ class Controls {
   
     this.infChanceSlider.value(INFECTION_CHANCE_DEFAULT)
     this.infChanceCallback()
+  }
+
+  /**
+   * Update callbacks to update the correct Objects
+   * @param {Simulation} sim The current Simulation
+   */
+  updateCallbacks(sim) {
+    this.sDistCallback = this.sDistCallbackHOF(this.sDistSlider, this.sDistLabel)
+    this.sDistSlider.changed(this.sDistCallback)
+
+    this.igSDistCallback = this.igSDistCallbackHOF(this.igSDistSlider, this.igSDistLabel, sim)
+    this.igSDistSlider.changed(this.igSDistCallback)
+
+    this.infRadCallback = this.infRadCallbackHOF(this.infRadSlider, this.infRadLabel)
+    this.infRadSlider.changed(this.infRadCallback)
+
+    this.infChanceCallback = this.infChanceCallbackHOF(this.infChanceSlider, this.infChanceLabel)
+    this.infChanceSlider.changed(this.infChanceCallback)
   }
 
   /**
@@ -98,13 +108,13 @@ class Controls {
     }
   }
 
-  igSDistCallbackHOF(slider, label) {
+  igSDistCallbackHOF(slider, label, sim) {
     return () => {
       label.html(slider.value())
-      fields.forEach(f => f.pts.forEach(pt => {
+      sim.fields.forEach(f => f.pts.forEach(pt => {
         pt.ignoreSocialDistancing = random()<slider.value()/100 ? true : false
       }))
-      sender.objs.forEach(o => {
+      sim.sender.objs.forEach(o => {
         o.point.ignoreSocialDistancing = random()<slider.value()/100 ? true : false
       })
     }
