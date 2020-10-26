@@ -2,15 +2,6 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="src/utils.js"></script>
@@ -35,31 +26,45 @@
   </head>
   <body style="background-color: #000000">
     <h1>Simulating An Epidemic</h1>
-    <p>Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a>, check out the readme for more info.</p>
-    <div id="main" class="container-fluid">
-      <div class="row">
-        <div id="cv" class="col"></div>
-        <div id="col1" class="col">
-          <canvas id="chartcv1" style="height:300px; width:580px"></canvas>
+    <p>
+      An interactive simulation based on 3Blue1Brown's very informative <a href="https://www.youtube.com/watch?v=gxAaO2rsdIs&ab_channel=3Blue1Brown">video with the same name</a>. 
+      I would highly recommend watching it!
+      This was developed on a 1920x1080 screen, and is best experienced at the same resolution.
+      Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a></p>
+    <div id="main" class="contentDiv">
+      <div id="cv" class="section"></div>
+      <div id="col1">
+        <canvas id="chartcv1" class="section" style="height:300px; width:580px"></canvas>
+      </div>
+      <div id="col2" class="section" style="min-width: 500px;">
+        <div class="row"><h3>Controls</h3></div>
+        <div class="row">
+          <div id="sdistancingTxt" class="column"></div>
+          <div id="sdistancingInp" class="sliderCol"></div>
         </div>
-        <div id="col2" class="col">
-          <div class="row"><h3>Controls</h3></div>
-          <div class="row">
-            <div id="sdistancingTxt" class="col"></div>
-            <div id="sdistancingInp" class="col"></div>
-          </div>
-          <div class="row">
-            <div id="isdistancingTxt" class="col"></div>
-            <div id="isdistancingInp" class="col"></div>
-          </div>
-          <div class="row">
-            <div id="infectionRadiusTxt" class="col"></div>
-            <div id="infectionRadiusInp" class="col"></div>
-          </div>
-          <div class="row">
-            <div id="infectionChanceTxt" class="col"></div>
-            <div id="infectionChanceInp" class="col"></div>
-          </div>
+        <div class="row">
+          <div id="isdistancingTxt" class="column"></div>
+          <div id="isdistancingInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="infectionRadiusTxt" class="column"></div>
+          <div id="infectionRadiusInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="infectionChanceTxt" class="column"></div>
+          <div id="infectionChanceInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="initialPopInfTxt" class="column"></div>
+          <div id="initialPopInfInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="inf1DurationTxt" class="column"></div>
+          <div id="inf1DurationInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="inf2DurationTxt" class="column"></div>
+          <div id="inf2DurationInp" class="sliderCol"></div>
         </div>
       </div>
     </div>

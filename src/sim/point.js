@@ -120,5 +120,5 @@ Point.socialDistanceFactor = SOCIAL_DISTANCE_FACTOR_DEFAULT
 Point.infectionRadius = INFECTION_RADIUS_DEFAULT
 Point.infectionInterval = INFECTION_INTERVAL_DEFAULT
 Point.infectionChance = INFECTION_CHANCE_DEFAULT
-Point.infectious1Interval = INFECTIOUS1_INTERVAL_DEFAULT
-Point.infectious2Interval = INFECTIOUS2_INTERVAL_DEFAULT
+Point.infectious1Interval = INFECTIOUS1_DURATION_DEFAULT
+Point.infectious2Interval = INFECTIOUS2_DURATION_DEFAULT

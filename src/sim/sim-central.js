@@ -7,11 +7,11 @@ class SimCentral extends Simulation {
     this.id = SIM_CENTRAL
   }
 
-  reset() {
+  _reset() {
     Point.radius = CENTRAL_LOC_POINT_RADIUS
 
     this.fields = []
-    const field = new Field(FIELD_MARGIN, FIELD_START_Y, width-2*FIELD_MARGIN, width-2*FIELD_MARGIN, 500, 0.01,
+    const field = new Field(FIELD_MARGIN, FIELD_START_Y, width-2*FIELD_MARGIN, width-2*FIELD_MARGIN, 500, this.controls.infPopInitSlider.value(),
       QTREE_DEFAULT_CAPACITY)
     field.addRepulsionZone(new Circle(field.x+field.w/2, field.y+field.h/2, 32))
     this.fields.push(field)

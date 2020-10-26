@@ -3,27 +3,35 @@ class Simulation {
     this.controls = controls
     this.chart = chart
 
-    globalUpdateCount = 0
     this.id = null
+    this.speed = SIM_SPEED_DEFAULT
+  
+    this.reset(true)
+  }
+
+  /**
+   * Reset the simulation
+   */
+  reset(full=false) {
+    globalUpdateCount = 0
     this.lastRUpdate = 0
     this.rMax = 0
     this.rVal = 0
     this.fields = []
-    this.speed = SIM_SPEED_DEFAULT
-  
+
     // Unique for each simulation
-    this.reset()
+    this._reset()
 
     this.updateR()
     this.controls.updateCallbacks(this)
-    this.controls.reset()
+    if(full) this.controls.reset()
     this.chart.reset()
   }
 
   /**
    * Override this for each unique sim
    */
-  reset() {}
+  _reset() {}
 
   /**
    * Move simulation forward timesteps dictated by simulation speed
@@ -43,6 +51,8 @@ class Simulation {
    * Draw
    */
   draw() {
+    stroke(255)
+    fill(255)
     textSize(TEXT_SIZE_R)
     text(`R: ${this.rVal.toFixed(4)}`, 2*width/5, TEXT_Y_R)
     text(`Rmax: ${this.rMax.toFixed(4)}`, 3*width/5, TEXT_Y_R)

@@ -44,6 +44,39 @@ class Controls {
       INFECTION_CHANCE_STEP)
     this.infChanceSlider = slider3
     this.infChanceLabel = label3
+
+    let [slider4, label4] = this.makeSliderGroup(
+      "Initial Infection Chance (applies on RESET): ", 
+      "initialPopInfTxt",
+      "initialPopInfInp",
+      INFECTION_INITIAL_PROPORTION_MIN,
+      INFECTION_INITIAL_PROPORTION_MAX,
+      INFECTION_INITIAL_PROPORTION_DEFAULT,
+      INFECTION_INITIAL_PROPORTION_STEP)
+    this.infPopInitSlider = slider4
+    this.infPopInitLabel = label4
+
+    let [slider5, label5] = this.makeSliderGroup(
+      "Infectious, No Symptoms Duration (Days): ", 
+      "inf1DurationTxt",
+      "inf1DurationInp",
+      INFECTIOUS1_DURATION_MIN,
+      INFECTIOUS1_DURATION_MAX,
+      INFECTIOUS1_DURATION_DEFAULT,
+      INFECTIOUS1_DURATION_STEP)
+    this.inf1DurationSlider = slider5
+    this.inf1DurationLabel = label5
+
+    let [slider6, label6] = this.makeSliderGroup(
+      "Infectious With Symptoms Duration (Days): ", 
+      "inf2DurationTxt",
+      "inf2DurationInp",
+      INFECTIOUS2_DURATION_MIN,
+      INFECTIOUS2_DURATION_MAX,
+      INFECTIOUS2_DURATION_DEFAULT,
+      INFECTIOUS2_DURATION_STEP)
+    this.inf2DurationSlider = slider6
+    this.inf2DurationLabel = label6
   }
 
   /**
@@ -64,6 +97,15 @@ class Controls {
   
     this.infChanceSlider.value(INFECTION_CHANCE_DEFAULT)
     this.infChanceCallback()
+
+    this.infPopInitSlider.value(INFECTION_INITIAL_PROPORTION_DEFAULT)
+    this.infPopInitCallback()
+
+    this.inf1DurationSlider.value(INFECTIOUS1_DURATION_DEFAULT)
+    this.inf1DurationCallback()
+
+    this.inf2DurationSlider.value(INFECTIOUS2_DURATION_DEFAULT)
+    this.inf2DurationCallback()
   }
 
   /**
@@ -82,6 +124,15 @@ class Controls {
 
     this.infChanceCallback = this.infChanceCallbackHOF(this.infChanceSlider, this.infChanceLabel)
     this.infChanceSlider.changed(this.infChanceCallback)
+
+    this.infPopInitCallback = this.infPopInitCallbackHOF(this.infPopInitSlider, this.infPopInitLabel)
+    this.infPopInitSlider.changed(this.infPopInitCallback)
+
+    this.inf1DurationCallback = this.inf1DurationCallbackHOF(this.inf1DurationSlider, this.inf1DurationLabel)
+    this.inf1DurationSlider.changed(this.inf1DurationCallback)
+
+    this.inf2DurationCallback = this.inf2DurationCallbackHOF(this.inf2DurationSlider, this.inf2DurationLabel)
+    this.inf2DurationSlider.changed(this.inf2DurationCallback)
   }
 
   /**
@@ -92,6 +143,9 @@ class Controls {
     titleObj.parent(titleParent)
     const slider = createSlider(sliderMin, sliderMax, sliderStart, sliderStep)
     slider.parent(sliderParent)
+    slider.style("width", "100%")
+    slider.style("display", "inline-block")
+    slider.style("align-self", "flex-end")
     const label = createSpan(`${slider.value()}`)
     label.parent(titleObj)
     return [slider, label]
@@ -131,6 +185,26 @@ class Controls {
     return () => {
       label.html(slider.value())
       Point.infectionChance = slider.value()
+    }
+  }
+
+  infPopInitCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+    }
+  }
+
+  inf1DurationCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+      Point.infectious1Interval = slider.value() * DAY_LENGTH
+    }
+  }
+
+  inf2DurationCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+      Point.infectious2Interval = slider.value() * DAY_LENGTH
     }
   }
 }
