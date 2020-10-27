@@ -158,6 +158,8 @@ class Controls {
   reset(sNum) {
     this.activeTestingCb.checked(ACTIVE_TESTING_STATUS_DEFAULT)
 
+    this.quarantineSymptomsCb.checked(QUARANTINE_WITH_SYMPTOMS_DEFAULT)
+
     this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
     this.popSizeCallback()
 
