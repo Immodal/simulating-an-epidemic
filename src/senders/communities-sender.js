@@ -13,7 +13,11 @@ class CommunitiesSender extends Sender {
   }
 
   auto() {
-    if (this.controls.quarantineCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
+    if (this.controls.quarantineSymptomsCb.checked()) {
+      this.fs.slice(0, this.fs.length-1).forEach(f => this.quarantineSymptomatic(f, this.q1, this.q1Target))
+    }
+
+    if (this.controls.activeTestingCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       const testOrder = Utils.shuffle(this.fs.slice(0, this.fs.length-1))
       for(let i=0; i<testOrder.length; i++) {
         if(testOrder[i].pts.length>0) {

@@ -11,7 +11,11 @@ class SimpleSender extends Sender {
   }
 
   auto() {
-    if (this.controls.quarantineCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
+    if (this.controls.quarantineSymptomsCb.checked()) {
+      this.quarantineSymptomatic(this.f0, this.q1, this.q1Target)
+    }
+
+    if (this.controls.activeTestingCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       if (this.f0.pts.length>0) {
         const nToTest = ceil(this.controls.popSizeSlider.value() * this.controls.testPropSlider.value()/100)
         this.testAndQuarantine(nToTest, this.f0, this.q1, this.q1Target)

@@ -1,6 +1,7 @@
 class Sender {
   constructor() {
     this.objs = []
+    this.nQuarantined = 0
   }
 
   auto() {}
@@ -23,20 +24,39 @@ class Sender {
   }
 
   /**
-   * 
+   * Quarantine all that are showing symptoms in a population
+   * @param {Field} from 
+   * @param {Field} to 
+   * @param {p5.Vector} target
+   */
+  quarantineSymptomatic(from, to, target) {
+    let found = []
+    from.pts.forEach((pt,i) => { if(pt.status == Point.INFECTIOUS2) found.push(i) })
+    found.sort(Utils.sortDesc)
+      .forEach(i => {
+        from.pts[i].inQuarantine = true
+        this.launch(i, from, to, target)
+        this.nQuarantined += 1
+      })
+  }
+
+  /**
+   * Randomly test a predetermined number of the population and quarantine the infected
    * @param {Integer} n Number of points to test
    * @param {Field} from 
    * @param {Field} to 
+   * @param {p5.Vector} target
    */
   testAndQuarantine(n, from, to, target) {
     let subjects = Utils.range(from.pts.length)
     Utils.shuffle(subjects)
       .slice(0, min(subjects.length, n))
       .filter(s => from.pts[s].isInfectious())
-      .sort((a,b) => a<b ? 1 : a>b ? -1 : 0)
+      .sort(Utils.sortDesc)
       .forEach(s => {
         from.pts[s].inQuarantine = true
         this.launch(s, from, to, target)
+        this.nQuarantined += 1
       })
   }
 

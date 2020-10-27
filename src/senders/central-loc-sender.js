@@ -26,7 +26,11 @@ class CentralLocSender extends Sender {
   }
 
   auto() {
-    if (this.controls.quarantineCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
+    if (this.controls.quarantineSymptomsCb.checked()) {
+      this.fs.slice(0, this.fs.length-1).forEach(f => this.quarantineSymptomatic(f, this.q1, this.q1Target))
+    }
+
+    if (this.controls.activeTestingCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       if (this.f0.pts.length + this.f1.pts.length>0) {
         const nToTest = ceil(this.controls.popSizeSlider.value() * this.controls.testPropSlider.value()/100)
         this.testAndQuarantine(nToTest, this.f1, this.q1, this.q1Target)

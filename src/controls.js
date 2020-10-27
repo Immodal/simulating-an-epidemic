@@ -133,7 +133,9 @@ class Controls {
     this.comCrossIntSlider = group[0]
     this.comCrossIntLabel = group[1]
 
-    this.quarantineCb = this.makeCheckbox("Enable Quarantine", "quarantineCb", QUARANTINE_STATUS_DEFAULT)
+    this.activeTestingCb = this.makeCheckbox("Enable Active Testing", "testingCb", ACTIVE_TESTING_STATUS_DEFAULT)
+
+    this.quarantineSymptomsCb = this.makeCheckbox("Quarantine When Showing Symptoms", "quarantineWithSymptomsCb", QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     group = this.makeSliderGroup(
       "% Population/Community to Test Daily: ", 
@@ -152,7 +154,7 @@ class Controls {
    * @param {Integer} sNum Simulation Number
    */
   reset(sNum) {
-    this.quarantineCb.checked(QUARANTINE_STATUS_DEFAULT)
+    this.activeTestingCb.checked(ACTIVE_TESTING_STATUS_DEFAULT)
 
     this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
     this.popSizeCallback()

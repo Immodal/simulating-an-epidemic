@@ -6,6 +6,16 @@ const Utils = {
   isNumber: n => !isNaN(parseFloat(n)) && !isNaN(n - 0),
 
   /**
+   * Sort numbers in descending order
+   */
+  sortDesc: (a,b) => a<b ? 1 : a>b ? -1 : 0,
+
+  /**
+   * Sort numbers in ascending order
+   */
+  sortAsc: (a,b) => a<b ? -1 : a>b ? 1 : 0,
+
+  /**
    * Returns an Array of numbers 0 -> (n-1)
    */
   range: n => Array(n).fill().map((_, i) => i),

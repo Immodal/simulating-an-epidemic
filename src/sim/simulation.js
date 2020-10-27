@@ -54,8 +54,11 @@ class Simulation {
     stroke(255)
     fill(255)
     textSize(TEXT_SIZE_R)
-    text(`R: ${this.rVal.toFixed(4)}`, 2*width/5, TEXT_Y_R)
-    text(`Rmax: ${this.rMax.toFixed(4)}`, 3*width/5, TEXT_Y_R)
+    rectMode(CENTER)
+    text(`R: ${this.rVal.toFixed(4)}`, 2.35*width/8, TEXT_Y_R)
+    text(`Rmax: ${this.rMax.toFixed(4)}`, width/2, TEXT_Y_R)
+    text(`Quarantined: ${this.sender.nQuarantined}`, 5.6*width/8, TEXT_Y_R)
+    rectMode(CORNER)
     
     this.fields.forEach(f => f.draw())
     this.sender.draw()
