@@ -1,7 +1,5 @@
 class Controls {
   constructor() {
-    this.quarantineCb = this.makeCheckbox("Enable Quarantine", "quarantineCb", QUARANTINE_STATUS_DEFAULT)
-
     // Destructuring directly into variable is unstable and causes some objects to be undefined
     let group = this.makeSliderGroup(
       "Population Size (applies on RESET, doesn't affect COMMUNITIES): ", 
@@ -134,6 +132,19 @@ class Controls {
       COMMUNITIES_CROSSING_INTERVAL_STEP)
     this.comCrossIntSlider = group[0]
     this.comCrossIntLabel = group[1]
+
+    this.quarantineCb = this.makeCheckbox("Enable Quarantine", "quarantineCb", QUARANTINE_STATUS_DEFAULT)
+
+    group = this.makeSliderGroup(
+      "% Population/Community to Test Daily: ", 
+      "testPropTxt",
+      "testPropInp",
+      TEST_PROP_MIN,
+      TEST_PROP_MAX,
+      TEST_PROP_DEFAULT,
+      TEST_PROP_STEP)
+    this.testPropSlider = group[0]
+    this.testPropLabel = group[1]
   }
 
   /**
@@ -180,6 +191,9 @@ class Controls {
 
     this.comCrossIntSlider.value(COMMUNITIES_CROSSING_INTERVAL_DEFAULT)
     this.comCrossIntCallback()
+
+    this.testPropSlider.value(TEST_PROP_DEFAULT)
+    this.testPropCallback()
   }
 
   /**
@@ -222,6 +236,9 @@ class Controls {
 
     this.comCrossIntCallback = this.comCrossIntCallbackHOF(this.comCrossIntSlider, this.comCrossIntLabel)
     this.comCrossIntSlider.changed(this.comCrossIntCallback)
+
+    this.testPropCallback = this.testPropCallbackHOF(this.testPropSlider, this.testPropLabel)
+    this.testPropSlider.changed(this.testPropCallback)
   }
 
   /**
@@ -341,6 +358,12 @@ class Controls {
       if (slider.value()==COMMUNITIES_CROSSING_INTERVAL_MAX) label.html("Off")
       else label.html(slider.value())
       CommunitiesSender.interval = slider.value()
+    }
+  }
+
+  testPropCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
     }
   }
 }

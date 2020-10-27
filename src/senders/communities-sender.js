@@ -17,7 +17,7 @@ class CommunitiesSender extends Sender {
       const testOrder = Utils.shuffle(this.fs.slice(0, this.fs.length-1))
       for(let i=0; i<testOrder.length; i++) {
         if(testOrder[i].pts.length>0) {
-          const nToTest = ceil(this.controls.comSizeSlider.value() * TEST_PROP_DEFAULT/100)
+          const nToTest = ceil(this.controls.comSizeSlider.value() * this.controls.testPropSlider.value()/100)
           this.testAndQuarantine(nToTest, testOrder[i], this.q1, this.q1Target)
         }
       }

@@ -28,7 +28,7 @@ class CentralLocSender extends Sender {
   auto() {
     if (this.controls.quarantineCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       if (this.f0.pts.length + this.f1.pts.length>0) {
-        const nToTest = ceil(this.controls.popSizeSlider.value() * TEST_PROP_DEFAULT/100)
+        const nToTest = ceil(this.controls.popSizeSlider.value() * this.controls.testPropSlider.value()/100)
         this.testAndQuarantine(nToTest, this.f1, this.q1, this.q1Target)
         
         const remToTest = nToTest-this.f1.pts.length
