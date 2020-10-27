@@ -4,7 +4,7 @@ class Controls {
 
     // Destructuring directly into variable is unstable and causes some objects to be undefined
     let group = this.makeSliderGroup(
-      "Population Size (applies on RESET, doesn't affect COMMUNITIES): ", 
+      "Number of People (applies on RESET, doesn't affect COMMUNITIES): ", 
       "popSizeTxt",
       "popSizeInp",
       POPULATION_SIZE_MIN,
@@ -15,7 +15,7 @@ class Controls {
     this.popSizeLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Community Size (applies on RESET): ", 
+      "Number of People Per Community (applies on RESET): ", 
       "comSizeTxt",
       "comSizeInp",
       COMMUNITY_SIZE_MIN,
@@ -37,7 +37,7 @@ class Controls {
     this.sDistLabel = group[1]
   
     group = this.makeSliderGroup(
-      "% Ignores Social Distancing: ", 
+      "% of People Ignoring Social Distancing: ", 
       "isdistancingTxt",
       "isdistancingInp",
       SOCIAL_DISTANCE_IGNORE_MIN,
@@ -140,7 +140,7 @@ class Controls {
     this.quarantineSymptomsCb = this.makeCheckbox("Quarantine When Showing Symptoms", "quarantineWithSymptomsCb", QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     group = this.makeSliderGroup(
-      "% Population/Community to Test Daily: ", 
+      "% of People Tested Daily: ", 
       "testPropTxt",
       "testPropInp",
       TEST_PROP_MIN,

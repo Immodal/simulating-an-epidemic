@@ -26,40 +26,46 @@
     <script src="src/sketch.js"></script>
   </head>
   <body style="background-color: #000000">
-    <h1>Simulating An Epidemic</h1>
-    <p>
-      An interactive simulation based on 3Blue1Brown's very informative <a href="https://www.youtube.com/watch?v=gxAaO2rsdIs&ab_channel=3Blue1Brown">video with the same name</a>. 
-      I would highly recommend watching it because it provides a much more through explanation of these simulations that I could provide here.
-      This was developed on a 1920x1080 screen, and is best experienced at the same resolution.
-      Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a></p>
+    
     <div id="main" class="contentDiv">
-      <div id="cv" class="section"></div>
-      <div id="col1" class="section" style="height:580px; width:590px;">
-        <div class="row" style="height:260px;">
-          <canvas id="chartcv1" class="section" style="height:280px; width:550px"></canvas>
-        </div>
-        <div class="row">
-          <h3>Key Takeaways</h3>
-          <ol>
-            <li>While the disease still exists, as soon as people let up and go back to their normal lives with nothing in place to contain the cases, few though they might be, there will be an additional wave.</li>
-            <li>The growth rate is vey sensitive to: 
-              <ul>
-                <li># Daily interactions, . (Infection Radius)</li>
-                <li>Personal Hygiene, eg. hand washing, mask wearing. (Infection Chance)</li>
-                <li>Duration of illness (Infectious Duration)</li>
-              </ul>
-            </li>
-            <li>Changes in how many people slip through testing can cause disproportionately large changes to the total number of people infected. (Active Testing, % Population Tested Daily)</li>
-            <li>Social distancing slows the spread, but even small imperfections prolong it. (Social Distancing Factor, % Ignores Social Distancing)</li>
-            <li>Reducing transit between communities, late in the game, has a very limited effect. (Communities Crossing Interval)</li>
-          </ol>
-        </div>
+      <div id="col1" class="section" style="height:800px; width:600px;">
+        <h1>Simulating An Epidemic</h1>
+        <p>
+          What would happen if everyone went about their lives like COVID-19 doesn't exist? How quickly would the disease spread? 
+          On the side of the coin, what if a significant proportion of the people in your area was tested every day for the disease? How quickly could it be eradicated?
+          We all have that little scientist in our head, asking hypothetical questions about the current pandemic that has changed out lives forever. 
+        </p>
+        <br>
+        <p>
+          This page contains a series of limited toy simulations for indulging said scientist, allowing them to alter many characteristics of the disease and of how people behave, 
+          to help understand why preventative measures such as quarantine, social distancing, community lock-downs, personal hygiene and extensive testing are important tools in this fight.
+        </p>
+        <br>
+        <p>There are three main sections:</p>
+        <ol>
+          <li>Simulation - Here you can watch hundreds of people (small circles) move around their area, as they interact with disease carriers and spread the disease themselves.</li>
+          <li>Population Status Chart - This chart documents the distribution of people who are healthy, infected, and recovered or dead at each point in time, at the end providing insight into how the disease progressed.</li>
+          <li>Controls - Here you can change the many variables that can have drastic effects on the outcome of the simulation.</li>
+        </ol>
+        <h3>Key Takeaways</h3>
+        <ol>
+          <li>While the disease still exists, as soon as people let up and go back to their normal lives with nothing in place to contain the cases, few though they might be, there will be an additional wave.</li>
+          <li>The growth rate is very sensitive to: 
+            <ul>
+              <li>Number of daily interactions. (Infection Radius)</li>
+              <li>Personal Hygiene, eg. hand washing, mask wearing. (Infection Chance)</li>
+              <li>Duration of illness (Infectious Duration)</li>
+            </ul>
+          </li>
+          <li>Changes in how many people slip through testing can cause disproportionately large changes to the total number of people infected. (Active Testing, % Population Tested Daily)</li>
+          <li>Social distancing slows the spread, but even small imperfections prolong it. (Social Distancing Factor, % Ignores Social Distancing)</li>
+          <li>Reducing transit between communities, late in the game, has a very limited effect. (Communities Crossing Interval)</li>
+        </ol>
+        <canvas id="chartcv1" class="section" style="height:280px; width:550px"></canvas>
       </div>
       <div id="col2" class="section" style="min-width: 500px;">
-        <div class="row"><h3>Controls</h3></div>
-        <div class="row">
-          <div id="dontOverrideSettingsCb" class="column" style="width:100%"></div>
-        </div>
+        <div class="row"><h2>Controls</h2></div>
+        <div class="row"><h4 style="color:#008080">Disease Prevention</h4></div>
         <div class="row">
           <div id="testingCb" class="column"></div>
           <div id="quarantineWithSymptomsCb" class="column"></div>
@@ -69,14 +75,6 @@
           <div id="testPropInp" class="sliderCol"></div>
         </div>
         <div class="row">
-          <div id="popSizeTxt" class="column"></div>
-          <div id="popSizeInp" class="sliderCol"></div>
-        </div>
-        <div class="row">
-          <div id="comSizeTxt" class="column"></div>
-          <div id="comSizeInp" class="sliderCol"></div>
-        </div>
-        <div class="row">
           <div id="sdistancingTxt" class="column"></div>
           <div id="sdistancingInp" class="sliderCol"></div>
         </div>
@@ -84,6 +82,7 @@
           <div id="isdistancingTxt" class="column"></div>
           <div id="isdistancingInp" class="sliderCol"></div>
         </div>
+        <div class="row"><h4 style="color:#FF4500">Disease Attributes</h4></div>
         <div class="row">
           <div id="infectionRadiusTxt" class="column"></div>
           <div id="infectionRadiusInp" class="sliderCol"></div>
@@ -104,6 +103,18 @@
           <div id="inf2DurationTxt" class="column"></div>
           <div id="inf2DurationInp" class="sliderCol"></div>
         </div>
+        <div class="row"><h4>Simulation</h4></div>
+        <div class="row">
+          <div id="dontOverrideSettingsCb" class="column" style="width:100%"></div>
+        </div>
+        <div class="row">
+          <div id="popSizeTxt" class="column"></div>
+          <div id="popSizeInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="comSizeTxt" class="column"></div>
+          <div id="comSizeInp" class="sliderCol"></div>
+        </div>
         <div class="row">
           <div id="cenVisitIntTxt" class="column"></div>
           <div id="cenVisitIntInp" class="sliderCol"></div>
@@ -117,6 +128,16 @@
           <div id="comCrossIntInp" class="sliderCol"></div>
         </div>
       </div>
+      <div id="cv" class="section"></div>
     </div>
   </body>
+  <footer>
+    <h6>
+      An interactive simulation based on 3Blue1Brown's very informative <a href="https://www.youtube.com/watch?v=gxAaO2rsdIs&ab_channel=3Blue1Brown">video with the same name</a>. 
+      I would highly recommend watching it because it provides a much more thorough explanation of these simulations that I could provide here.
+      <br>
+      Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a>
+      <br>
+      This was developed on a desktop with a 1920x1080 screen, and is best experienced at the same resolution.
+  </footer> 
 </html>
