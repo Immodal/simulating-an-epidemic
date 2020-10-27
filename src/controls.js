@@ -1,5 +1,7 @@
 class Controls {
   constructor() {
+    this.quarantineCb = this.makeCheckbox("Enable Quarantine", "quarantineCb", QUARANTINE_STATUS_DEFAULT)
+
     // Destructuring directly into variable is unstable and causes some objects to be undefined
     let group = this.makeSliderGroup(
       "Population Size (applies on RESET, doesn't affect COMMUNITIES): ", 
@@ -139,6 +141,8 @@ class Controls {
    * @param {Integer} sNum Simulation Number
    */
   reset(sNum) {
+    this.quarantineCb.checked(QUARANTINE_STATUS_DEFAULT)
+
     this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
     this.popSizeCallback()
 
@@ -237,6 +241,16 @@ class Controls {
   }
 
   /**
+   * 
+   */
+  makeCheckbox(title, parent, state=false) {
+    const cb = createCheckbox(title, state)
+    cb.parent(parent)
+    cb.style('color', COLOR_LIGHT_GRAY)
+    return cb
+  }
+
+  /**
    * Callbacks must be higher order functions because "this" is undefined when that callbacks are called
    * @param {Slider} slider 
    */
@@ -321,7 +335,6 @@ class Controls {
       CentralLocSender.leaveInterval = slider.value()
     }
   }
-
 
   comCrossIntCallbackHOF(slider, label) {
     return () => {

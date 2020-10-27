@@ -9,6 +9,7 @@ class Point {
     this.lastInfection = globalUpdateCount
     this.nInfected = 0
     this.ignoreSocialDistancing = false
+    this.inQuarantine = false
   }
 
   /**
@@ -30,11 +31,11 @@ class Point {
     // Get points that are within range
     const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
     // Repulse and infect
-    const runInfection = this.isInfectious() && globalUpdateCount - this.lastInfection >= Point.infectionInterval + randomGaussian(0, DAY_LENGTH/10)
+    const runInfection = !this.inQuarantine && this.isInfectious() && globalUpdateCount - this.lastInfection >= Point.infectionInterval + randomGaussian(0, DAY_LENGTH/10)
     const pos = createVector(this.x, this.y)
     others.forEach(pt => {
       // Repulse
-      if (!pt.ignoreSocialDistancing) {
+      if (!this.inQuarantine && !pt.ignoreSocialDistancing) {
         const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
         const mag = max(dist.mag(),1) // prevent mag from being 0
         dist.setMag(Point.maxSpeed*Point.socialDistanceStrength*Point.socialDistanceFactor/mag)
@@ -94,7 +95,7 @@ class Point {
     stroke(0)
     fill(color)
     circle(this.x, this.y, Point.radius*2)
-    if (this.status==Point.INFECTIOUS1 || this.status==Point.INFECTIOUS2) {
+    if (!this.inQuarantine && (this.status==Point.INFECTIOUS1 || this.status==Point.INFECTIOUS2)) {
       noFill()
       stroke(color)
       circle(this.infectionCircle.x, this.infectionCircle.y, this.infectionCircle.r*2)

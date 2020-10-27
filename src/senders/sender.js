@@ -5,18 +5,39 @@ class Sender {
 
   auto() {}
 
-  launch(from, to, target) {
+  launch(ptInd, from, to, target) {
     const targetCircle = new Circle(target.x, target.y, 16)
 
-    const rand = Utils.randomInt(0, from.pts.length)
-    const point = from.pts[rand]
+    const point = from.pts[ptInd]
     this.objs.push({ target:target, targetCircle:targetCircle, field:to, point:point })
-    from.pts.splice(rand, 1)
+    from.pts.splice(ptInd, 1)
 
     const vel = p5.Vector.sub(target, createVector(point.x, point.y))
     vel.normalize()
     vel.mult(25)
     point.velocity = vel
+  }
+
+  launchRandom(from, to, target) {
+    this.launch(Utils.randomInt(0, from.pts.length), from, to, target)
+  }
+
+  /**
+   * 
+   * @param {Integer} n Number of points to test
+   * @param {Field} from 
+   * @param {Field} to 
+   */
+  testAndQuarantine(n, from, to, target) {
+    let subjects = Utils.range(from.pts.length)
+    Utils.shuffle(subjects)
+      .slice(0, min(subjects.length, n))
+      .filter(s => from.pts[s].isInfectious())
+      .sort((a,b) => a<b ? 1 : a>b ? -1 : 0)
+      .forEach(s => {
+        from.pts[s].inQuarantine = true
+        this.launch(s, from, to, target)
+      })
   }
 
   update() {

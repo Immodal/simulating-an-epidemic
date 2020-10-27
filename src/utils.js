@@ -36,5 +36,6 @@ const Utils = {
       arr[i] = arr[j]
       arr[j] = x
     }
+    return arr
   },
 }

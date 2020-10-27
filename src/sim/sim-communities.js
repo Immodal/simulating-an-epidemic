@@ -28,10 +28,11 @@ class SimCommunities extends Simulation {
       this.fields.push(field1)
       const field2 = new Field(fx2, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
       this.fields.push(field2)
-      const field3 = new Field(fx3, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
+      const field3 = new Field(fx3, fy, fieldW, fieldW, 
+        this.fields.length<=14 ? this.controls.comSizeSlider.value() : 0, this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
       this.fields.push(field3)
     }
   
-    this.sender = new CommunitiesSender(this.fields)
+    this.sender = new CommunitiesSender(this.fields, this.controls)
   }
 }

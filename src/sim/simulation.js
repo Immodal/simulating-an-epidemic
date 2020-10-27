@@ -1,11 +1,10 @@
 class Simulation {
-  constructor(controls, chart, quarantine=true) {
+  constructor(controls, chart) {
     this.controls = controls
     this.chart = chart
 
     this.id = null
     this.speed = SIM_SPEED_DEFAULT
-    this.quarantine = quarantine
   
     this.reset(true)
   }

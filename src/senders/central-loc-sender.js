@@ -18,18 +18,37 @@ class CentralLocSender extends Sender {
     ]
     this.f1 = fields[1]
     this.f1Target = createVector(fields[1].x+fields[1].w/2, fields[1].y+fields[1].h/2)
+
+    this.controls = controls
+    this.lastTest = globalUpdateCount
+    this.q1 = fields[2]
+    this.q1Target = createVector(this.q1.x+this.q1.w/2, this.q1.y+this.q1.h/2)
   }
 
   auto() {
+    if (this.controls.quarantineCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
+      if (this.f0.pts.length + this.f1.pts.length>0) {
+        const nToTest = ceil(this.controls.popSizeSlider.value() * TEST_PROP_DEFAULT/100)
+        this.testAndQuarantine(nToTest, this.f1, this.q1, this.q1Target)
+        
+        const remToTest = nToTest-this.f1.pts.length
+        if (this.f0.pts.length>=remToTest) {
+          this.testAndQuarantine(remToTest, this.f0, this.q1, this.q1Target)
+        }
+      }
+      this.lastTest = globalUpdateCount
+    }
+
     if (CentralLocSender.visitInterval!=CENTRAL_LOC_VISIT_INTERVAL_MAX 
         && globalUpdateCount - this.lastVisit > CentralLocSender.visitInterval
         && this.f1.qtree.count() < CENTRAL_LOC_CAPACITY) {
-      if (this.f0.pts.length>0) this.launch(this.f0, this.f1, this.f1Target)
+      if (this.f0.pts.length>0) this.launchRandom(this.f0, this.f1, this.f1Target)
       this.lastVisit = globalUpdateCount
     }
+
     if (CentralLocSender.leaveInterval!=CENTRAL_LOC_LEAVE_INTERVAL_MAX && globalUpdateCount - this.lastLeave > CentralLocSender.leaveInterval) {
       if (this.f1.pts.length>0) {
-        this.launch(this.f1, this.f0, this.f0Targets[this.f0TargetsCounter])
+        this.launchRandom(this.f1, this.f0, this.f0Targets[this.f0TargetsCounter])
         this.f0TargetsCounter += 1
         if (this.f0TargetsCounter>=this.f0Targets.length) this.f0TargetsCounter=0
       }
