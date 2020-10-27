@@ -35,7 +35,7 @@ class Point {
     const pos = createVector(this.x, this.y)
     others.forEach(pt => {
       // Repulse
-      if (!this.inQuarantine && !pt.ignoreSocialDistancing) {
+      if (!(this.inQuarantine || pt.ignoreSocialDistancing)) {
         const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
         const mag = max(dist.mag(),1) // prevent mag from being 0
         dist.setMag(Point.maxSpeed*Point.socialDistanceStrength*Point.socialDistanceFactor/mag)
