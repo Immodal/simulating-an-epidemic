@@ -12,7 +12,7 @@ class SimBasic extends Simulation {
 
     this.fields = []
     const field = new Field(FIELD_MARGIN, FIELD_START_Y, width-2*FIELD_MARGIN, width-2*FIELD_MARGIN, 
-      500, this.controls.infPopInitSlider.value(), 
+      this.controls.popSizeSlider.value(), this.controls.infPopInitSlider.value(), 
       QTREE_DEFAULT_CAPACITY)
     this.fields.push(field)
   

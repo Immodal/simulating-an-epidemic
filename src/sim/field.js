@@ -115,6 +115,7 @@ class Field {
    * Draw repulsion zones
    */
   _drawRepulsionZones() {
+    strokeWeight(2)
     stroke(0,255,0)
     noFill()
     this.repulsionZones.forEach(c => circle(c.x, c.y, c.r*2))

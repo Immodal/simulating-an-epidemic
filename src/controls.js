@@ -2,6 +2,28 @@ class Controls {
   constructor() {
     // Destructuring directly into variable is unstable and causes some objects to be undefined
     let group = this.makeSliderGroup(
+      "Population Size (applies on RESET, doesn't affect COMMUNITIES): ", 
+      "popSizeTxt",
+      "popSizeInp",
+      POPULATION_SIZE_MIN,
+      POPULATION_SIZE_MAX,
+      POPULATION_SIZE_DEFAULT,
+      POPULATION_SIZE_STEP)
+    this.popSizeSlider = group[0]
+    this.popSizeLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "Community Size (applies on RESET): ", 
+      "comSizeTxt",
+      "comSizeInp",
+      COMMUNITY_SIZE_MIN,
+      COMMUNITY_SIZE_MAX,
+      COMMUNITY_SIZE_DEFAULT,
+      COMMUNITY_SIZE_STEP)
+    this.comSizeSlider = group[0]
+    this.comSizeLabel = group[1]
+
+    group = this.makeSliderGroup(
       "Social Distancing Factor: ", 
       "sdistancingTxt",
       "sdistancingInp",
@@ -117,6 +139,12 @@ class Controls {
    * @param {Integer} sNum Simulation Number
    */
   reset(sNum) {
+    this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
+    this.popSizeCallback()
+
+    this.comSizeSlider.value(COMMUNITY_SIZE_DEFAULT)
+    this.comSizeCallback()
+
     this.sDistSlider.value(SOCIAL_DISTANCE_FACTOR_DEFAULT)
     this.sDistCallback()
   
@@ -155,6 +183,12 @@ class Controls {
    * @param {Simulation} sim The current Simulation
    */
   updateCallbacks(sim) {
+    this.popSizeCallback = this.popSizeCallbackHOF(this.popSizeSlider, this.popSizeLabel)
+    this.popSizeSlider.changed(this.popSizeCallback)
+
+    this.comSizeCallback = this.comSizeCallbackHOF(this.comSizeSlider, this.comSizeLabel)
+    this.comSizeSlider.changed(this.comSizeCallback)
+
     this.sDistCallback = this.sDistCallbackHOF(this.sDistSlider, this.sDistLabel)
     this.sDistSlider.changed(this.sDistCallback)
 
@@ -196,7 +230,7 @@ class Controls {
     slider.parent(sliderParent)
     slider.style("width", "100%")
     slider.style("display", "inline-block")
-    slider.style("align-self", "flex-end")
+    slider.style("align-self", "center")
     const label = createSpan(`${slider.value()}`)
     label.parent(titleObj)
     return [slider, label]
@@ -206,6 +240,19 @@ class Controls {
    * Callbacks must be higher order functions because "this" is undefined when that callbacks are called
    * @param {Slider} slider 
    */
+  popSizeCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+    }
+  }
+
+  comSizeCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+    }
+  }
+
+
   sDistCallbackHOF(slider, label) {
     return () => {
       label.html(slider.value())
