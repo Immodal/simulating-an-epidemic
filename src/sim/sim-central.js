@@ -2,8 +2,8 @@
  * Random Walk with a Central Location
  */
 class SimCentral extends Simulation {
-  constructor(controls, chart) {
-    super(controls, chart)
+  constructor(controls, chart, fullReset=false) {
+    super(controls, chart, fullReset)
     this.id = SIM_CENTRAL
   }
 

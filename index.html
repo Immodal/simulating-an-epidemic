@@ -29,16 +29,37 @@
     <h1>Simulating An Epidemic</h1>
     <p>
       An interactive simulation based on 3Blue1Brown's very informative <a href="https://www.youtube.com/watch?v=gxAaO2rsdIs&ab_channel=3Blue1Brown">video with the same name</a>. 
-      I would highly recommend watching it!
+      I would highly recommend watching it because it provides a much more through explanation of these simulations that I could provide here.
       This was developed on a 1920x1080 screen, and is best experienced at the same resolution.
       Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a></p>
     <div id="main" class="contentDiv">
       <div id="cv" class="section"></div>
-      <div id="col1">
-        <canvas id="chartcv1" class="section" style="height:300px; width:580px"></canvas>
+      <div id="col1" class="section" style="height:580px; width:590px;">
+        <div class="row" style="height:260px;">
+          <canvas id="chartcv1" class="section" style="height:280px; width:550px"></canvas>
+        </div>
+        <div class="row">
+          <h3>Key Takeaways</h3>
+          <ol>
+            <li>While the disease still exists, as soon as people let up and go back to their normal lives with nothing in place to contain the cases, few though they might be, there will be an additional wave.</li>
+            <li>The growth rate is vey sensitive to: 
+              <ul>
+                <li># Daily interactions. (Infection Radius)</li>
+                <li>Personal Hygiene, eg. Hand washing, no face touching. (Infection Chance)</li>
+                <li>Duration of illness (Infectious Duration)</li>
+              </ul>
+            </li>
+            <li>Changes in how many people slip through testing can cause disproportionately large changes to the total number of people infected. (Active Testing, % Population Tested Daily)</li>
+            <li>Social distancing slows the spread, but even small imperfections prolong it. (Social Distancing Factor, % Ignores Social Distancing)</li>
+            <li>Reducing transit between communities, late in the game, has a very limited effect. (Communities Crossing Interval)</li>
+          </ol>
+        </div>
       </div>
       <div id="col2" class="section" style="min-width: 500px;">
         <div class="row"><h3>Controls</h3></div>
+        <div class="row">
+          <div id="dontOverrideSettingsCb" class="column" style="width:100%"></div>
+        </div>
         <div class="row">
           <div id="testingCb" class="column"></div>
           <div id="quarantineWithSymptomsCb" class="column"></div>

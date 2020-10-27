@@ -1,12 +1,12 @@
 class Simulation {
-  constructor(controls, chart) {
+  constructor(controls, chart, fullReset=false) {
     this.controls = controls
     this.chart = chart
 
     this.id = null
     this.speed = SIM_SPEED_DEFAULT
   
-    this.reset(true)
+    this.reset(fullReset)
   }
 
   /**

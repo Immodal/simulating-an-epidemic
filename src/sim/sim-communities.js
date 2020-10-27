@@ -2,8 +2,8 @@
  * Multiple isolated communities
  */
 class SimCommunities extends Simulation {
-  constructor(controls, chart) {
-    super(controls, chart)
+  constructor(controls, chart, fullReset=false) {
+    super(controls, chart, fullReset)
     this.id = SIM_COMMUNITIES
   }
 

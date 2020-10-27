@@ -1,5 +1,7 @@
 class Controls {
   constructor() {
+    this.dontOverrideSettingsCb = this.makeCheckbox("Don't reset settings when changing simulation", "dontOverrideSettingsCb", false)
+
     // Destructuring directly into variable is unstable and causes some objects to be undefined
     let group = this.makeSliderGroup(
       "Population Size (applies on RESET, doesn't affect COMMUNITIES): ", 

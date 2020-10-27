@@ -27,7 +27,8 @@ class CentralLocSender extends Sender {
 
   auto() {
     if (this.controls.quarantineSymptomsCb.checked()) {
-      this.fs.slice(0, this.fs.length-1).forEach(f => this.quarantineSymptomatic(f, this.q1, this.q1Target))
+      this.quarantineSymptomatic(this.f0, this.q1, this.q1Target)
+      this.quarantineSymptomatic(this.f1, this.q1, this.q1Target)
     }
 
     if (this.controls.activeTestingCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {

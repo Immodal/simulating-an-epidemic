@@ -2,8 +2,8 @@
  * Basic Random Walk Sim
  */
 class SimBasic extends Simulation {
-  constructor(controls, chart) {
-    super(controls, chart)
+  constructor(controls, chart, fullReset=false) {
+    super(controls, chart, fullReset)
     this.id = SIM_BASIC
   }
 

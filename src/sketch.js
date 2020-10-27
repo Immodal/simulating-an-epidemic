@@ -18,7 +18,7 @@ function setup() {
     () => {
       if (!simpleBtn.state) {
         btns.forEach(b => b.state = false)
-        sim = new SimBasic(controls, infectionChart)
+        sim = new SimBasic(controls, infectionChart, controls.dontOverrideSettingsCb.checked())
         simpleBtn.state = true
       }
     })
@@ -27,7 +27,7 @@ function setup() {
     () => {
       if (!centralLocBtn.state) {
         btns.forEach(b => b.state = false)
-        sim = new SimCentral(controls, infectionChart)
+        sim = new SimCentral(controls, infectionChart, controls.dontOverrideSettingsCb.checked())
         centralLocBtn.state = true
       }
     })
@@ -36,7 +36,7 @@ function setup() {
     () => {
       if (!commuBtn.state) {
         btns.forEach(b => b.state = false)
-        sim = new SimCommunities(controls, infectionChart)
+        sim = new SimCommunities(controls, infectionChart, controls.dontOverrideSettingsCb.checked())
         commuBtn.state = true
       }
     })
@@ -47,7 +47,7 @@ function setup() {
       resetBtn.state = true
     })
 
-  sim = new SimBasic(controls, infectionChart)
+  sim = new SimBasic(controls, infectionChart, true)
   simpleBtn.state = true
 }
 

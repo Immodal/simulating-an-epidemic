@@ -5,7 +5,7 @@ const COLOR_DIM_YELLOW = "#ffc40c"
 const COLOR_ORANGE_RED = "#FF4500"
 
 const CANVAS_W = 600
-const CANVAS_H = 750
+const CANVAS_H = 725
 
 const SIM_BASIC = 0
 const SIM_CENTRAL = 1

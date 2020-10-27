@@ -13,9 +13,22 @@ p {
   font-size: 15px;
 }
 
+ul {
+  color: #DCDCDC;
+}
+
+ol {
+  padding-left: 18px;
+  color: #DCDCDC;
+}
+
+li {
+  color: #DCDCDC;
+}
+
 .section {
   padding-left: 1em; 
-  margin-bottom: 1em;
+  margin-top: 0.2em;
 }
 
 .title {
