@@ -61,10 +61,40 @@
           <li>Social distancing slows the spread, but even small imperfections prolong it. (Social Distancing Factor, % Ignores Social Distancing)</li>
           <li>Reducing transit between communities, late in the game, has a very limited effect. (Communities Crossing Interval)</li>
         </ol>
-        <canvas id="chartcv1" class="section" style="height:280px; width:550px"></canvas>
       </div>
       <div id="col2" class="section" style="min-width: 500px;">
         <div class="row"><h2>Controls</h2></div>
+        <div class="row"><h4>Simulation</h4></div>
+        <div class="row">
+          <div id="chooseASimTxt" class="column">
+            <p>Choose a Simulation:</p>
+          </div>
+          <div id="chooseASimInp" class="sliderCol" style="justify-content: center;">
+          </div>
+        </div>
+        <div class="row">
+          <div id="dontOverrideSettingsCb" class="column" style="width:100%"></div>
+        </div>
+        <div class="row">
+          <div id="popSizeTxt" class="column"></div>
+          <div id="popSizeInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="comSizeTxt" class="column"></div>
+          <div id="comSizeInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="cenVisitIntTxt" class="column"></div>
+          <div id="cenVisitIntInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="cenLeaveIntTxt" class="column"></div>
+          <div id="cenLeaveIntInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="comCrossIntTxt" class="column"></div>
+          <div id="comCrossIntInp" class="sliderCol"></div>
+        </div>
         <div class="row"><h4 style="color:#008080">Disease Prevention</h4></div>
         <div class="row">
           <div id="testingCb" class="column"></div>
@@ -103,32 +133,10 @@
           <div id="inf2DurationTxt" class="column"></div>
           <div id="inf2DurationInp" class="sliderCol"></div>
         </div>
-        <div class="row"><h4>Simulation</h4></div>
-        <div class="row">
-          <div id="dontOverrideSettingsCb" class="column" style="width:100%"></div>
-        </div>
-        <div class="row">
-          <div id="popSizeTxt" class="column"></div>
-          <div id="popSizeInp" class="sliderCol"></div>
-        </div>
-        <div class="row">
-          <div id="comSizeTxt" class="column"></div>
-          <div id="comSizeInp" class="sliderCol"></div>
-        </div>
-        <div class="row">
-          <div id="cenVisitIntTxt" class="column"></div>
-          <div id="cenVisitIntInp" class="sliderCol"></div>
-        </div>
-        <div class="row">
-          <div id="cenLeaveIntTxt" class="column"></div>
-          <div id="cenLeaveIntInp" class="sliderCol"></div>
-        </div>
-        <div class="row">
-          <div id="comCrossIntTxt" class="column"></div>
-          <div id="comCrossIntInp" class="sliderCol"></div>
-        </div>
       </div>
-      <div id="cv" class="section"></div>
+      <div id="cv" class="section">
+        <canvas id="chartcv1" class="section" style="height:280px; width:550px"></canvas>
+      </div>
     </div>
   </body>
   <footer>

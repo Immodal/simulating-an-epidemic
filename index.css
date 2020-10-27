@@ -38,6 +38,24 @@ li {
   color: #DCDCDC;
 }
 
+.slider {
+  width: 100%;
+  display: inline-block;
+  align-self: center;
+}
+
+.simBtn {
+  background-color: #00000000;
+  border-radius: 5px;
+  border: 1px solid #DCDCDC;
+  color: #DCDCDC;
+}
+
+.simBtn:active {
+  color: #000;
+  background-color: #ffc40c;
+}
+
 .section {
   padding-left: 1em; 
   margin-top: 0.2em;

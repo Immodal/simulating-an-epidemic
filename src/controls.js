@@ -1,5 +1,9 @@
 class Controls {
-  constructor() {
+  constructor(simBasicCallback, simCentralCallback, simCommunityCallback) {
+    this.simBasicBtn = this.makeButton("Simple", "chooseASimInp", simBasicCallback)
+    this.simCentralBtn = this.makeButton("Central Location", "chooseASimInp", simCentralCallback)
+    this.simCommunityBtn = this.makeButton("Community", "chooseASimInp", simCommunityCallback)
+
     this.dontOverrideSettingsCb = this.makeCheckbox("Don't reset settings when changing simulation", "dontOverrideSettingsCb", false)
 
     // Destructuring directly into variable is unstable and causes some objects to be undefined
@@ -255,9 +259,7 @@ class Controls {
     titleObj.parent(titleParent)
     const slider = createSlider(sliderMin, sliderMax, sliderStart, sliderStep)
     slider.parent(sliderParent)
-    slider.style("width", "100%")
-    slider.style("display", "inline-block")
-    slider.style("align-self", "center")
+    slider.addClass("slider")
     const label = createSpan(`${slider.value()}`)
     label.parent(titleObj)
     return [slider, label]
@@ -271,6 +273,17 @@ class Controls {
     cb.parent(parent)
     cb.style('color', COLOR_LIGHT_GRAY)
     return cb
+  }
+
+  /**
+   * 
+   */
+  makeButton(title, parent, callback) {
+    const btn = createButton(title)
+    btn.parent(parent)
+    btn.mousePressed(callback)
+    btn.addClass("simBtn")
+    return btn
   }
 
   /**
