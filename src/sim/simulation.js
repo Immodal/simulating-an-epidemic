@@ -93,3 +93,4 @@ class Simulation {
 }
 
 Simulation.speed = SIM_SPEED_DEFAULT
+Simulation.hospitalResources = HOSPITAL_RESOURCES_DEFAULT

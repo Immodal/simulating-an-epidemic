@@ -64,7 +64,6 @@ class Field {
       let hospitalResourceUsed = 0
       this.pts.forEach(pt => {
         if (hospitalResourceUsed<Simulation.hospitalResources && pt.status == Point.INFECTIOUS2) {
-          console.log("TRUE")
           pt.beingTreated = true
           hospitalResourceUsed += 1
         } else {
