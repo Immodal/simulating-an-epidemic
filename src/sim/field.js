@@ -1,10 +1,11 @@
 class Field {
-  constructor(x, y, w, h, nPoints, infectiousRate, qtreeCapacity) {
+  constructor(x, y, w, h, nPoints, infectiousRate, qtreeCapacity, isQuarantine) {
     this.x = x
     this.y = y
     this.w = w
     this.h = h
 
+    this.isQuarantine = isQuarantine
     this.pts = []
     this.fill(nPoints, infectiousRate)
     this.qtreeCapacity = qtreeCapacity
@@ -59,6 +60,17 @@ class Field {
     this.qtree.query(this.east).forEach(pt => { if(pt.x + pt.velocity.x >= this.x + this.w) pt.velocity.x = -pt.velocity.x })
     this.qtree.query(this.west).forEach(pt => { if(pt.x + pt.velocity.x <= this.x) pt.velocity.x = -pt.velocity.x })
     this.pts.forEach(pt => pt.move())
+    if (this.isQuarantine) {
+      let hospitalResourceUsed = 0
+      this.pts.forEach(pt => {
+        if (hospitalResourceUsed<Simulation.hospitalResources && pt.status == Point.INFECTIOUS2) {
+          pt.beingTreated = true
+          hospitalResourceUsed += 1
+        } else {
+          pt.beingTreated = false
+        }
+      })
+    }
     this.pts.forEach(pt => pt.update(this.qtree))
   }
 

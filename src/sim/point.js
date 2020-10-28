@@ -10,6 +10,7 @@ class Point {
     this.nInfected = 0
     this.ignoreSocialDistancing = false
     this.inQuarantine = false
+    this.beingTreated = false
   }
 
   /**
@@ -17,6 +18,7 @@ class Point {
    * @param {Quadtree} qtree 
    */
   move(bypassLimit=false) {
+    if (this.status==Point.DEAD) return;
     if (!bypassLimit) this.velocity.limit(Point.maxSpeed)
     this.x += this.velocity.x
     this.y += this.velocity.y
@@ -28,33 +30,39 @@ class Point {
    * @param {Quadtree} qtree 
    */
   update(qtree) {
-    // Get points that are within range
-    const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
-    // Repulse and infect
-    const runInfection = !this.inQuarantine && this.isInfectious() && globalUpdateCount - this.lastInfection >= Point.infectionInterval + randomGaussian(0, DAY_LENGTH/10)
-    const pos = createVector(this.x, this.y)
-    others.forEach(pt => {
-      // Repulse
-      if (!(this.inQuarantine || pt.ignoreSocialDistancing)) {
-        const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
-        const mag = max(dist.mag(),1) // prevent mag from being 0
-        dist.setMag(Point.maxSpeed*Point.socialDistanceStrength*Point.socialDistanceFactor/mag)
-        pt.velocity.add(dist) // Think of this as a single instance of acceleration instead of continuous
-      }
-      // Infect
-      if(runInfection) {
-        this.lastInfection = globalUpdateCount
-        if (pt.status==0 && random() < Point.infectionChance) {
-          pt.setStatus(Point.INFECTIOUS1)
-          this.nInfected += 1
+    if (this.status==Point.DEAD) return;
+    if (!this.inQuarantine) {
+      // Get points that are within range
+      const others = qtree.query(this.infectionCircle).filter(pt => Utils.dist(pt.x, pt.y, this.x, this.y) <= this.infectionCircle.r + Point.radius)
+      // Repulse and infect
+      const runInfection = this.isInfectious() && globalUpdateCount - this.lastInfection >= Point.infectionInterval + randomGaussian(0, DAY_LENGTH/10)
+      if (runInfection) this.lastInfection = globalUpdateCount
+      const pos = createVector(this.x, this.y)
+      others.forEach(pt => {
+        if (pt.status!=Point.Dead) {
+          // Repulse
+          if (!pt.ignoreSocialDistancing) {
+            const dist = p5.Vector.sub(createVector(pt.x, pt.y), pos)
+            const mag = max(dist.mag(),1) // prevent mag from being 0
+            dist.setMag(Point.maxSpeed*Point.socialDistanceStrength*Point.socialDistanceFactor/mag)
+            pt.velocity.add(dist) // Think of this as a single instance of acceleration instead of continuous
+          }
+          // Infect
+          if(runInfection && pt.status==0 && random() < Point.infectionChance) {
+            pt.setStatus(Point.INFECTIOUS1)
+            this.nInfected += 1
+          }
         }
-      }
-    })
+      })
+    }
     // Update status
     if(this.status == Point.INFECTIOUS1 && globalUpdateCount - this.lastStatusUpdate >= Point.infectious1Interval) {
       this.setStatus(Point.INFECTIOUS2)
-    } else if(this.status == Point.INFECTIOUS2 && globalUpdateCount - this.lastStatusUpdate >= Point.infectious2Interval) {
-      this.setStatus(Point.REMOVED)
+    } else if(this.status == Point.INFECTIOUS2) {
+      if (globalUpdateCount - this.lastStatusUpdate >= Point.infectious2Interval) this.setStatus(Point.REMOVED)
+      else if (!this.beingTreated && (globalUpdateCount - this.lastStatusUpdate) % DAY_LENGTH == 0 && random()<Point.infectionUntreatedDeathRate) {
+        this.setStatus(Point.DEAD)
+      }
     }
   }
 
@@ -90,7 +98,8 @@ class Point {
     if (this.status==Point.SUSCEPTIBLE) color = Point.COLOR_SUSCEPTIBLE
     else if (this.status==Point.INFECTIOUS1) color = Point.COLOR_INFECTIOUS1
     else if (this.status==Point.INFECTIOUS2) color = Point.COLOR_INFECTIOUS2
-    else color = Point.COLOR_REMOVED
+    else if (this.status==Point.REMOVED) color = Point.COLOR_REMOVED
+    else color = Point.COLOR_DEAD
     strokeWeight(1)
     stroke(0)
     fill(color)
@@ -106,13 +115,14 @@ class Point {
 Point.COLOR_SUSCEPTIBLE = COLOR_TEAL
 Point.COLOR_INFECTIOUS1 = COLOR_DIM_YELLOW
 Point.COLOR_INFECTIOUS2 = COLOR_ORANGE_RED
-Point.COLOR_REMOVED = COLOR_MED_GRAY
+Point.COLOR_REMOVED = COLOR_DARK_BLUE
+Point.COLOR_DEAD = COLOR_MED_GRAY
 
 Point.SUSCEPTIBLE = 0
 Point.INFECTIOUS1 = 1 // Infectious, no symptoms
 Point.INFECTIOUS2 = 2 // Infectious, with symptoms
-Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
-
+Point.REMOVED = 3 // Recovered
+Point.DEAD = 4
 
 Point.maxSpeed = 1
 Point.radius = POINT_RADIUS_DEFAULT
@@ -123,3 +133,4 @@ Point.infectionInterval = INFECTION_INTERVAL_DEFAULT
 Point.infectionChance = INFECTION_CHANCE_DEFAULT
 Point.infectious1Interval = INFECTIOUS1_DURATION_DEFAULT
 Point.infectious2Interval = INFECTIOUS2_DURATION_DEFAULT
+Point.infectionUntreatedDeathRate = INFECTION_UNTREATED_DEATH_RATE_DEFAULT

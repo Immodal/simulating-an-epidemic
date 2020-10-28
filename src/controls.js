@@ -143,12 +143,21 @@ class Controls {
     this.comCrossIntSlider = group[0]
     this.comCrossIntLabel = group[1]
 
-    this.activeTestingCb = this.makeCheckbox("Enable Active Testing", "testingCb", ACTIVE_TESTING_STATUS_DEFAULT)
-
     this.quarantineSymptomsCb = this.makeCheckbox("Quarantine When Showing Symptoms", "quarantineWithSymptomsCb", QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     group = this.makeSliderGroup(
-      "% of People Randomly Tested Daily: ",  null,
+      "Quarantine Delay After Showing Symptoms: ", "(Days)",
+      "quarantineWithSymptomsDelayTxt",
+      "quarantineWithSymptomsDelayInp",
+      QUARANTINE_WITH_SYMPTOMS_DELAY_MIN,
+      QUARANTINE_WITH_SYMPTOMS_DELAY_MAX,
+      QUARANTINE_WITH_SYMPTOMS_DELAY_DEFAULT,
+      QUARANTINE_WITH_SYMPTOMS_DELAY_STEP)
+    this.qwsDelaySlider = group[0]
+    this.qwsDelayLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "% of People Randomly Tested Daily: ",  "(Those that test positive are immediately quarantined)",
       "testPropTxt",
       "testPropInp",
       TEST_PROP_MIN,
@@ -168,6 +177,28 @@ class Controls {
       SIM_SPEED_STEP)
     this.simSpeedSlider = group[0]
     this.simSpeedLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "Hospital Resources: ",  "(Number of people that can be treated at the same time)",
+      "hospResTxt",
+      "hospResInp",
+      HOSPITAL_RESOURCES_MIN,
+      HOSPITAL_RESOURCES_MAX,
+      HOSPITAL_RESOURCES_DEFAULT,
+      HOSPITAL_RESOURCES_STEP)
+    this.hospResSlider = group[0]
+    this.hospResLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "Daily Chance of Death if Untreated: ",  "(Treatment only available in quarantine)",
+      "deathChanceTxt",
+      "deathChanceInp",
+      INFECTION_UNTREATED_DEATH_RATE_MIN,
+      INFECTION_UNTREATED_DEATH_RATE_MAX,
+      INFECTION_UNTREATED_DEATH_RATE_DEFAULT,
+      INFECTION_UNTREATED_DEATH_RATE_STEP)
+    this.deathChanceSlider = group[0]
+    this.deathChanceLabel = group[1]
   }
 
   /**
@@ -175,8 +206,6 @@ class Controls {
    * @param {Integer} sNum Simulation Number
    */
   reset(sNum) {
-    this.activeTestingCb.checked(ACTIVE_TESTING_STATUS_DEFAULT)
-
     this.quarantineSymptomsCb.checked(QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
@@ -224,6 +253,15 @@ class Controls {
 
     this.simSpeedSlider.value(SIM_SPEED_DEFAULT)
     this.simSpeedCallback()
+
+    this.hospResSlider.value(HOSPITAL_RESOURCES_DEFAULT)
+    this.hospResCallback()
+
+    this.deathChanceSlider.value(INFECTION_UNTREATED_DEATH_RATE_DEFAULT)
+    this.deathChanceCallback()
+
+    this.qwsDelaySlider.value(QUARANTINE_WITH_SYMPTOMS_DELAY_DEFAULT)
+    this.qwsDelayCallback()
   }
 
   /**
@@ -272,6 +310,15 @@ class Controls {
 
     this.simSpeedCallback = this.simSpeedCallbackHOF(this.simSpeedSlider, this.simSpeedLabel)
     this.simSpeedSlider.changed(this.simSpeedCallback)
+
+    this.hospResCallback = this.hospResCallbackHOF(this.hospResSlider, this.hospResLabel)
+    this.hospResSlider.changed(this.hospResCallback)
+
+    this.deathChanceCallback = this.deathChanceCallbackHOF(this.deathChanceSlider, this.deathChanceLabel)
+    this.deathChanceSlider.changed(this.deathChanceCallback)
+
+    this.qwsDelayCallback = this.qwsDelayCallbackHOF(this.qwsDelaySlider, this.qwsDelayLabel)
+    this.qwsDelaySlider.changed(this.qwsDelayCallback)
   }
 
   /**
@@ -300,6 +347,8 @@ class Controls {
     const cb = createCheckbox(title, state)
     cb.parent(parent)
     cb.style('color', COLOR_LIGHT_GRAY)
+    cb.style('display', "flex")
+    cb.style('align-items', "center")
     return cb
   }
 
@@ -429,6 +478,26 @@ class Controls {
     return () => {
       label.html(slider.value())
       Simulation.speed = slider.value()
+    }
+  }
+
+  hospResCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+      Simulation.hospitalResources = slider.value()
+    }
+  }
+
+  deathChanceCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+      Point.infectionUntreatedDeathRate = slider.value()
+    }
+  }
+
+  qwsDelayCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
     }
   }
 }

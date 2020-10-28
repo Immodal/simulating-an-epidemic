@@ -1,14 +1,14 @@
 class CommunitiesSender extends Sender {
   constructor(fields, controls) {
-    super()
+    super(fields, controls)
     
     this.lastAuto = globalUpdateCount
-    this.fs = fields
+    this.fs = this.fields
     this.order = []
 
     this.controls = controls
     this.lastTest = globalUpdateCount
-    this.q1 = fields[fields.length-1]
+    this.q1 = this.fs[this.fs.length-1]
     this.q1Target = createVector(this.q1.x+this.q1.w/2, this.q1.y+this.q1.h/2)
   }
 
@@ -17,7 +17,7 @@ class CommunitiesSender extends Sender {
       this.fs.slice(0, this.fs.length-1).forEach(f => this.quarantineSymptomatic(f, this.q1, this.q1Target))
     }
 
-    if (this.controls.activeTestingCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
+    if (this.controls.testPropSlider.value()>0 && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       const testOrder = Utils.shuffle(this.fs.slice(0, this.fs.length-1))
       for(let i=0; i<testOrder.length; i++) {
         if(testOrder[i].pts.length>0) {

@@ -28,7 +28,7 @@
   <body style="background-color: #000000">
     
     <div id="main" class="contentDiv">
-      <div id="col1" class="section" style="height:800px; width:600px;">
+      <div id="col1" class="section" style="width:600px;">
         <h1>Simulating An Epidemic</h1>
         <p>
           What would happen if everyone went about their lives like COVID-19 doesn't exist? How quickly would the disease spread? 
@@ -62,7 +62,7 @@
           <li>Reducing transit between communities, late in the game, has a very limited effect. (Communities Crossing Interval)</li>
         </ol>
       </div>
-      <div id="col2" class="section" style="min-width: 550px;">
+      <div id="col2" class="section" style="min-width: 600px;">
         <div class="row"><h2>Controls</h2></div>
         <div class="row"><h4>Simulation</h4></div>
         <div class="row">
@@ -78,6 +78,10 @@
         <div class="row">
           <div id="simSpeedTxt" class="column"></div>
           <div id="simSpeedInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="hospResTxt" class="column"></div>
+          <div id="hospResInp" class="sliderCol"></div>
         </div>
         <div class="row">
           <div id="popSizeTxt" class="column"></div>
@@ -101,10 +105,6 @@
         </div>
         <div class="row"><h4 style="color:#008080">Disease Prevention</h4></div>
         <div class="row">
-          <div id="testingCb" class="column"></div>
-          <div id="quarantineWithSymptomsCb" class="column"></div>
-        </div>
-        <div class="row">
           <div id="testPropTxt" class="column"></div>
           <div id="testPropInp" class="sliderCol"></div>
         </div>
@@ -115,6 +115,13 @@
         <div class="row">
           <div id="isdistancingTxt" class="column"></div>
           <div id="isdistancingInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="quarantineWithSymptomsCb" class="column"></div>
+        </div>
+        <div class="row">
+          <div id="quarantineWithSymptomsDelayTxt" class="column"></div>
+          <div id="quarantineWithSymptomsDelayInp" class="column"></div>
         </div>
         <div class="row"><h4 style="color:#FF4500">Disease Attributes</h4></div>
         <div class="row">
@@ -136,6 +143,10 @@
         <div class="row">
           <div id="inf2DurationTxt" class="column"></div>
           <div id="inf2DurationInp" class="sliderCol"></div>
+        </div>
+        <div class="row">
+          <div id="deathChanceTxt" class="column"></div>
+          <div id="deathChanceInp" class="sliderCol"></div>
         </div>
       </div>
       <div id="cv" class="section">
