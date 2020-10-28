@@ -209,58 +209,52 @@ class Controls {
     this.quarantineSymptomsCb.checked(QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
-    this.popSizeCallback()
-
     this.comSizeSlider.value(COMMUNITY_SIZE_DEFAULT)
-    this.comSizeCallback()
-
     this.sDistSlider.value(SOCIAL_DISTANCE_FACTOR_DEFAULT)
-    this.sDistCallback()
-  
     this.igSDistSlider.value(SOCIAL_DISTANCE_IGNORE_DEFAULT)
-    this.igSDistCallback()
-  
+    
     if (sNum==SIM_COMMUNITIES) {
       this.infRadSlider.value(COMMUNITIES_INFECTION_RADIUS)
     }
     else if (sNum==SIM_CENTRAL) this.infRadSlider.value(CENTRAL_LOC_INFECTION_RADIUS)
     else this.infRadSlider.value(INFECTION_RADIUS_DEFAULT)
-    this.infRadCallback()
   
     this.infChanceSlider.value(INFECTION_CHANCE_DEFAULT)
-    this.infChanceCallback()
-
     this.infPopInitSlider.value(INFECTION_INITIAL_PROPORTION_DEFAULT)
-    this.infPopInitCallback()
-
     this.inf1DurationSlider.value(INFECTIOUS1_DURATION_DEFAULT)
-    this.inf1DurationCallback()
-
     this.inf2DurationSlider.value(INFECTIOUS2_DURATION_DEFAULT)
-    this.inf2DurationCallback()
-
     this.cenVisitIntSlider.value(CENTRAL_LOC_VISIT_INTERVAL_DEFAULT)
-    this.cenVisitIntCallback()
-
     this.cenLeaveIntSlider.value(CENTRAL_LOC_LEAVE_INTERVAL_DEFAULT)
-    this.cenLeaveIntCallback()
-
     this.comCrossIntSlider.value(COMMUNITIES_CROSSING_INTERVAL_DEFAULT)
-    this.comCrossIntCallback()
-
     this.testPropSlider.value(TEST_PROP_DEFAULT)
-    this.testPropCallback()
-
     this.simSpeedSlider.value(SIM_SPEED_DEFAULT)
-    this.simSpeedCallback()
-
     this.hospResSlider.value(HOSPITAL_RESOURCES_DEFAULT)
-    this.hospResCallback()
-
     this.deathChanceSlider.value(INFECTION_UNTREATED_DEATH_RATE_DEFAULT)
-    this.deathChanceCallback()
-
     this.qwsDelaySlider.value(QUARANTINE_WITH_SYMPTOMS_DELAY_DEFAULT)
+
+    this.syncSimWithSettings()
+  }
+
+  /**
+   * Calls every callback to ensure that all settings have been applied
+   */
+  syncSimWithSettings() {
+    this.popSizeCallback()
+    this.comSizeCallback()
+    this.sDistCallback()
+    this.igSDistCallback()
+    this.infRadCallback()
+    this.infChanceCallback()
+    this.infPopInitCallback()
+    this.inf1DurationCallback()
+    this.inf2DurationCallback()
+    this.cenVisitIntCallback()
+    this.cenLeaveIntCallback()
+    this.comCrossIntCallback()
+    this.testPropCallback()
+    this.simSpeedCallback()
+    this.hospResCallback()
+    this.deathChanceCallback()
     this.qwsDelayCallback()
   }
 

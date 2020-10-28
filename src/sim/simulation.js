@@ -23,6 +23,7 @@ class Simulation {
     this.updateR()
     this.controls.updateCallbacks(this)
     if(full) this.controls.reset(this.id)
+    else this.controls.syncSimWithSettings()
     this.chart.reset()
   }
 
