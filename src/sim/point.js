@@ -10,6 +10,7 @@ class Point {
     this.nInfected = 0
     this.ignoreSocialDistancing = false
     this.inQuarantine = false
+    this.beingTreated = false
   }
 
   /**
@@ -53,8 +54,11 @@ class Point {
     // Update status
     if(this.status == Point.INFECTIOUS1 && globalUpdateCount - this.lastStatusUpdate >= Point.infectious1Interval) {
       this.setStatus(Point.INFECTIOUS2)
-    } else if(this.status == Point.INFECTIOUS2 && globalUpdateCount - this.lastStatusUpdate >= Point.infectious2Interval) {
-      this.setStatus(Point.REMOVED)
+    } else if(this.status == Point.INFECTIOUS2) {
+      if (globalUpdateCount - this.lastStatusUpdate >= Point.infectious2Interval) this.setStatus(Point.REMOVED)
+      else if (!this.beingTreated && this.lastStatusUpdate % DAY_LENGTH == 0 && random()<INFECTION_UNTREATED_DEATH_RATE_DEFAULT) {
+        this.setStatus(Point.DEAD)
+      }
     }
   }
 
@@ -90,6 +94,7 @@ class Point {
     if (this.status==Point.SUSCEPTIBLE) color = Point.COLOR_SUSCEPTIBLE
     else if (this.status==Point.INFECTIOUS1) color = Point.COLOR_INFECTIOUS1
     else if (this.status==Point.INFECTIOUS2) color = Point.COLOR_INFECTIOUS2
+    else if (this.status==Point.DEAD) color = Point.COLOR_INFECTIOUS2
     else color = Point.COLOR_REMOVED
     strokeWeight(1)
     stroke(0)
@@ -107,12 +112,15 @@ Point.COLOR_SUSCEPTIBLE = COLOR_TEAL
 Point.COLOR_INFECTIOUS1 = COLOR_DIM_YELLOW
 Point.COLOR_INFECTIOUS2 = COLOR_ORANGE_RED
 Point.COLOR_REMOVED = COLOR_MED_GRAY
+Point.COLOR_DEAD = COLOR_BLACK
+Point.BORDER_COLOR_ALIVE = COLOR_BLACK
+Point.BORDER_COLOR_DEAD = COLOR_WHITE
 
 Point.SUSCEPTIBLE = 0
 Point.INFECTIOUS1 = 1 // Infectious, no symptoms
 Point.INFECTIOUS2 = 2 // Infectious, with symptoms
-Point.REMOVED = 3 // No longer susceptible, either recovered and immune or dead
-
+Point.REMOVED = 3 // Recovered
+Point.DEAD = 4
 
 Point.maxSpeed = 1
 Point.radius = POINT_RADIUS_DEFAULT

@@ -33,6 +33,8 @@ class InfectionChart {
       const infectious2 = this.chart.data.datasets[0].data
       const susceptible = this.chart.data.datasets[2].data
       const removed = this.chart.data.datasets[3].data
+      const hospitalResources = this.chart.data.datasets[4].data
+      hospitalResources.push(HOSPITAL_RESOURCES_DEFAULT)
 
       if (infectious1.length>=10) days.push(days[days.length-1]+1)
       let acc = nInfectious2
@@ -116,6 +118,12 @@ class InfectionChart {
             data: [],
             borderColor: Point.COLOR_REMOVED,
             backgroundColor: Point.COLOR_REMOVED
+          },{
+            label: "Hospital Resources",
+            data: [],
+            borderWidth: 2,
+            borderColor: COLOR_WHITE,
+            fill: false
           },
         ],
       },
