@@ -37,9 +37,7 @@ class CentralLocSender extends Sender {
         this.testAndQuarantine(nToTest, this.f1, this.q1, this.q1Target)
         
         const remToTest = nToTest-this.f1.pts.length
-        if (this.f0.pts.length>=remToTest) {
-          this.testAndQuarantine(remToTest, this.f0, this.q1, this.q1Target)
-        }
+        if (remToTest>0) this.testAndQuarantine(remToTest, this.f0, this.q1, this.q1Target)
       }
       this.lastTest = globalUpdateCount
     }
