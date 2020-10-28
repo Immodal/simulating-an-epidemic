@@ -10,9 +10,43 @@ function setup() {
   controls = new Controls(
     () => sim = new SimBasic(controls, infectionChart, !controls.dontOverrideSettingsCb.checked()),
     () => sim = new SimCentral(controls, infectionChart, !controls.dontOverrideSettingsCb.checked()),
-    () => sim = new SimCommunities(controls, infectionChart, !controls.dontOverrideSettingsCb.checked())
+    () => sim = new SimCommunities(controls, infectionChart, !controls.dontOverrideSettingsCb.checked()),
+    makePresetCallback(() => controls.infRadSlider.value(PRESET_LESS_INTERACTION_INF_RAD)),
+    makePresetCallback(() => controls.infRadSlider.value(PRESET_MORE_INTERACTION_INF_RAD)),
+    makePresetCallback(() => controls.infChanceSlider.value(PRESET_BETTER_HYGIENE_INF_RAD)),
+    makePresetCallback(() => controls.infChanceSlider.value(PRESET_WORSE_HYGIENE_INF_RAD)),
+    makePresetCallback(() => {
+      controls.inf1DurationSlider.value(PRESET_SHORTER_INF1_DURATION)
+      controls.inf2DurationSlider.value(PRESET_SHORTER_INF2_DURATION)
+    }),
+    makePresetCallback(() => {
+      controls.inf1DurationSlider.value(PRESET_LONGER_INF1_DURATION)
+      controls.inf2DurationSlider.value(PRESET_LONGER_INF2_DURATION)
+    }),
+    makePresetCallback(() => controls.testPropSlider.value(PRESET_HIGHER_TEST_PROP)),
+    makePresetCallback(() => controls.testPropSlider.value(PRESET_LOWER_TEST_PROP)),
+    makePresetCallback(() => {
+      controls.sDistSlider.value(PRESET_SODIST_FACTOR)
+      controls.igSDistSlider.value(PRESET_SODIST_NO_IGNORE)
+    }),
+    makePresetCallback(() => {
+      controls.sDistSlider.value(PRESET_SODIST_FACTOR)
+      controls.igSDistSlider.value(PRESET_SODIST_SOME_IGNORE)
+    }),
+    () => {
+      controls.simBtnCallback(()=>sim = new SimCommunities(controls, infectionChart, true), controls.simCommunityBtn, controls.simBtns)()
+      controls.comCrossIntSlider.value(PRESET_COM_CROSS_RESTRICTED)
+      controls.syncSimWithSettings()
+    },
+    () => {
+      controls.simBtnCallback(()=>sim = new SimCommunities(controls, infectionChart, true), controls.simCommunityBtn, controls.simBtns)()
+      controls.comCrossIntSlider.value(PRESET_COM_CROSS_UNRESTRICTED)
+      controls.syncSimWithSettings()
+    },
   )
+
   infectionChart = new InfectionChart(document.getElementById('chartcv1').getContext('2d'))
+
   resetBtn = new Button(FIELD_MARGIN, 0, RESET_BTN_W, RESET_BTN_H, "RESET", 
     () => {
       sim.reset()
@@ -38,4 +72,12 @@ function mousePressed() {
 
 function mouseReleased() {
   resetBtn.state = false
+}
+
+function makePresetCallback(callback) {
+  return () => {
+    sim.reset(true)
+    callback()
+    controls.syncSimWithSettings()
+  }
 }

@@ -61,6 +61,19 @@ li {
   background-color: #ffc40c;
 }
 
+.presetBtn {
+  border-radius: 5px;
+  color: #DCDCDC;
+  border: 1px solid #DCDCDC;
+  background-color: #00000000;
+}
+
+.presetBtn:active {
+  color: #000;
+  border: 1px solid #000;
+  background-color: #ffc40c;
+}
+
 .section {
   padding-left: 1em; 
   margin-top: 0.2em;

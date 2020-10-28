@@ -41,8 +41,9 @@
           to help understand why preventative measures such as quarantine, social distancing, community lock-downs, personal hygiene and extensive testing are important tools in this fight.
         </p>
         <br>
-        <p>There are three main sections:</p>
+        <p>There are four main sections:</p>
         <ol>
+          <li>Key Takeaways - There is some guidance here in what you can expect to observe, the buttons found here restarts any simulation with predetermined settings.</li>
           <li>Simulation - Here you can watch hundreds of people (small circles) move around their area, as they interact with disease carriers and spread the disease themselves.</li>
           <li>Population Status Chart - This chart documents the distribution of people who are healthy, infected, and recovered or dead at each point in time, at the end providing insight into how the disease progressed.</li>
           <li>Controls - Here you can change the many variables that can have drastic effects on the outcome of the simulation.</li>
@@ -52,14 +53,20 @@
           <li>While the disease still exists, as soon as people let up and go back to their normal lives with nothing in place to contain the cases, few though they might be, there will be an additional wave.</li>
           <li>The growth rate is very sensitive to: 
             <ul>
-              <li>Number of daily interactions. (Infection Radius)</li>
-              <li>Personal Hygiene, eg. hand washing, mask wearing. (Infection Chance)</li>
-              <li>Duration of illness (Infectious Duration)</li>
+              <li>Number of daily interactions. <br><span id="dailyInteractionsPreset"></span></li>
+              <li>Personal Hygiene, eg. hand washing, mask wearing. <br><span id="hygienePreset"></span></li>
+              <li>Duration of illness <br><span id="illnessDurationPreset"></span></li>
             </ul>
           </li>
-          <li>Changes in how many people slip through testing can cause disproportionately large changes to the total number of people infected. (Active Testing, % Population Tested Daily)</li>
-          <li>Social distancing slows the spread, but even small imperfections prolong it. (Social Distancing Factor, % Ignores Social Distancing)</li>
-          <li>Reducing transit between communities, late in the game, has a very limited effect. (Communities Crossing Interval)</li>
+          <li>
+            Social Distancing and extensive testing, both individually and in combination with each other can help significantly slow the spread of disease. 
+            <br><span id="testCoveragePreset"></span>
+            <br><span id="socialDistancingPreset"></span>
+          </li>
+          <li>
+            Reducing transit between communities can further protect those that are unaffected, but restrictions must be put in place early.
+            <br><span id="limitedTransitPreset"></span>
+          </li>
         </ol>
       </div>
       <div id="col2" class="section" style="min-width: 600px;">

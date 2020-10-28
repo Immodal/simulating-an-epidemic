@@ -1,12 +1,48 @@
 class Controls {
-  constructor(simBasicCallback, simCentralCallback, simCommunityCallback) {
-    this.simBasicBtn = this.makeButton("Simple", "chooseASimInp")
-    this.simCentralBtn = this.makeButton("Central Location", "chooseASimInp")
-    this.simCommunityBtn = this.makeButton("Community", "chooseASimInp")
+  constructor(simBasicCallback, simCentralCallback, simCommunityCallback,
+      lessInteractionPresetCallback, moreInteractionPresetCallback,
+      betterHygienePresetCallback, worseHygienePresetCallback,
+      shorterInfDurPresetCallback, longerInfDurPresetCallback,
+      higherTestPropPresetCallback, lowerTestPropPresetCallback,
+      fullSocDistPresetCallback, someSocDistPresetCallback,
+      restrictComCrossPresetCallBack, unrestrictComCrossPresetCallBack) {
+    this.simBasicBtn = this.makeSimBtn("Simple", "chooseASimInp")
+    this.simCentralBtn = this.makeSimBtn("Central Location", "chooseASimInp")
+    this.simCommunityBtn = this.makeSimBtn("Communities", "chooseASimInp")
     this.simBtns = [this.simBasicBtn, this.simCentralBtn, this.simCommunityBtn]
     this.simBasicBtn.mousePressed(this.simBtnCallback(simBasicCallback, this.simBasicBtn, this.simBtns))
     this.simCentralBtn.mousePressed(this.simBtnCallback(simCentralCallback, this.simCentralBtn, this.simBtns))
     this.simCommunityBtn.mousePressed(this.simBtnCallback(simCommunityCallback, this.simCommunityBtn, this.simBtns))
+
+    this.presetLessInteractionBtn = this.makePresetBtn("Less Interactions", "dailyInteractionsPreset")
+    this.presetLessInteractionBtn.mousePressed(lessInteractionPresetCallback)
+    this.presetMoreInteractionBtn = this.makePresetBtn("More Interactions", "dailyInteractionsPreset")
+    this.presetMoreInteractionBtn.mousePressed(moreInteractionPresetCallback)
+
+    this.presetBetterHygieneBtn = this.makePresetBtn("Better Hygiene", "hygienePreset")
+    this.presetBetterHygieneBtn.mousePressed(betterHygienePresetCallback)
+    this.presetWorseHygieneBtn = this.makePresetBtn("Worse Hygiene", "hygienePreset")
+    this.presetWorseHygieneBtn.mousePressed(worseHygienePresetCallback)
+
+    this.presetShorterInfDurBtn = this.makePresetBtn("Shorter Illness", "illnessDurationPreset")
+    this.presetShorterInfDurBtn.mousePressed(shorterInfDurPresetCallback)
+    this.presetLongerInfDurBtn = this.makePresetBtn("Longer Illness", "illnessDurationPreset")
+    this.presetLongerInfDurBtn.mousePressed(longerInfDurPresetCallback)
+
+    this.presetHigherTestPropBtn = this.makePresetBtn("More Testing", "testCoveragePreset")
+    this.presetHigherTestPropBtn.mousePressed(higherTestPropPresetCallback)
+    this.presetLowerTestPropBtn = this.makePresetBtn("Less Testing", "testCoveragePreset")
+    this.presetLowerTestPropBtn.mousePressed(lowerTestPropPresetCallback)
+
+    this.fullSocDistBtn = this.makePresetBtn("Full Social Distancing", "socialDistancingPreset")
+    this.fullSocDistBtn.mousePressed(fullSocDistPresetCallback)
+    this.someSocDistBtn = this.makePresetBtn("Some People Ignore Social Distancing", "socialDistancingPreset")
+    this.someSocDistBtn.mousePressed(someSocDistPresetCallback)
+
+    this.resComCrossBtn = this.makePresetBtn("Restricted Intercommunity Transit", "limitedTransitPreset")
+    this.resComCrossBtn.mousePressed(restrictComCrossPresetCallBack)
+    this.unresComCrossBtn = this.makePresetBtn("Unrestricted Intercommunity Transit", "limitedTransitPreset")
+    this.unresComCrossBtn.mousePressed(unrestrictComCrossPresetCallBack)
 
     this.dontOverrideSettingsCb = this.makeCheckbox("Don't reset settings when changing simulation", "dontOverrideSettingsCb", false)
 
@@ -352,6 +388,23 @@ class Controls {
   makeButton(title, parent) {
     const btn = createButton(title)
     btn.parent(parent)
+    return btn
+  }
+
+  /**
+   * 
+   */
+  makePresetBtn(title, parent) {
+    const btn = this.makeButton(title, parent)
+    btn.addClass("presetBtn")
+    return btn
+  }
+
+  /**
+   * 
+   */
+  makeSimBtn(title, parent) {
+    const btn = this.makeButton(title, parent)
     btn.addClass("simBtn")
     return btn
   }
