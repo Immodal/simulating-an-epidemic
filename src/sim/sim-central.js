@@ -4,10 +4,10 @@
 class SimCentral extends Simulation {
   constructor(controls, chart, fullReset=false) {
     super(controls, chart, fullReset)
-    this.id = SIM_CENTRAL
   }
 
   _reset() {
+    this.id = SIM_CENTRAL
     Point.radius = CENTRAL_LOC_POINT_RADIUS
 
     this.fields = []

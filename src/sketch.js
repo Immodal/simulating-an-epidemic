@@ -19,7 +19,7 @@ function setup() {
       resetBtn.state = true
     })
 
-  sim = new SimBasic(controls, infectionChart, true)
+  controls.simBtnCallback(()=>sim = new SimBasic(controls, infectionChart, true), controls.simBasicBtn, controls.simBtns)()
 }
 
 function draw() {

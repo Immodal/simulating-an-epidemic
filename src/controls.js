@@ -1,14 +1,18 @@
 class Controls {
   constructor(simBasicCallback, simCentralCallback, simCommunityCallback) {
-    this.simBasicBtn = this.makeButton("Simple", "chooseASimInp", simBasicCallback)
-    this.simCentralBtn = this.makeButton("Central Location", "chooseASimInp", simCentralCallback)
-    this.simCommunityBtn = this.makeButton("Community", "chooseASimInp", simCommunityCallback)
+    this.simBasicBtn = this.makeButton("Simple", "chooseASimInp")
+    this.simCentralBtn = this.makeButton("Central Location", "chooseASimInp")
+    this.simCommunityBtn = this.makeButton("Community", "chooseASimInp")
+    this.simBtns = [this.simBasicBtn, this.simCentralBtn, this.simCommunityBtn]
+    this.simBasicBtn.mousePressed(this.simBtnCallback(simBasicCallback, this.simBasicBtn, this.simBtns))
+    this.simCentralBtn.mousePressed(this.simBtnCallback(simCentralCallback, this.simCentralBtn, this.simBtns))
+    this.simCommunityBtn.mousePressed(this.simBtnCallback(simCommunityCallback, this.simCommunityBtn, this.simBtns))
 
     this.dontOverrideSettingsCb = this.makeCheckbox("Don't reset settings when changing simulation", "dontOverrideSettingsCb", false)
 
     // Destructuring directly into variable is unstable and causes some objects to be undefined
     let group = this.makeSliderGroup(
-      "Number of People (applies on RESET, doesn't affect COMMUNITIES): ", 
+      "Number of People: ", "(Applies on RESET, doesn't affect COMMUNITIES)",
       "popSizeTxt",
       "popSizeInp",
       POPULATION_SIZE_MIN,
@@ -19,7 +23,7 @@ class Controls {
     this.popSizeLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Number of People Per Community (applies on RESET): ", 
+      "Number of People Per Community: ", "(Applies on RESET)",
       "comSizeTxt",
       "comSizeInp",
       COMMUNITY_SIZE_MIN,
@@ -30,7 +34,7 @@ class Controls {
     this.comSizeLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Social Distancing Factor: ", 
+      "Social Distancing Factor: ", "(How strongly people stay away from each other)",
       "sdistancingTxt",
       "sdistancingInp",
       SOCIAL_DISTANCE_FACTOR_MIN,
@@ -41,7 +45,7 @@ class Controls {
     this.sDistLabel = group[1]
   
     group = this.makeSliderGroup(
-      "% of People Ignoring Social Distancing: ", 
+      "% of People Ignoring Social Distancing: ", null,
       "isdistancingTxt",
       "isdistancingInp",
       SOCIAL_DISTANCE_IGNORE_MIN,
@@ -52,7 +56,7 @@ class Controls {
     this.igSDistLabel = group[1]
   
     group = this.makeSliderGroup(
-      "Infection Radius: ", 
+      "Infection Radius: ",  "(Lower means mask wearing, less interaction with other people)",
       "infectionRadiusTxt",
       "infectionRadiusInp",
       INFECTION_RADIUS_MIN,
@@ -63,7 +67,7 @@ class Controls {
     this.infRadLabel = group[1]
   
     group = this.makeSliderGroup(
-      "Daily Infection Chance: ", 
+      "Daily Infection Chance: ", "(Lower means better hygiene, e.g. frequent hand washing)",
       "infectionChanceTxt",
       "infectionChanceInp",
       INFECTION_CHANCE_MIN,
@@ -74,7 +78,7 @@ class Controls {
     this.infChanceLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Initial Infection Chance (applies on RESET): ", 
+      "Initial Infection Chance: ", "(Applies on RESET)",
       "initialPopInfTxt",
       "initialPopInfInp",
       INFECTION_INITIAL_PROPORTION_MIN,
@@ -85,7 +89,7 @@ class Controls {
     this.infPopInitLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Infectious, No Symptoms Duration (Days): ", 
+      "Infectious, No Symptoms Duration: ", "(Days)",
       "inf1DurationTxt",
       "inf1DurationInp",
       INFECTIOUS1_DURATION_MIN,
@@ -96,7 +100,7 @@ class Controls {
     this.inf1DurationLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Infectious With Symptoms Duration (Days): ", 
+      "Infectious With Symptoms Duration: ", "(Days)",
       "inf2DurationTxt",
       "inf2DurationInp",
       INFECTIOUS2_DURATION_MIN,
@@ -107,7 +111,7 @@ class Controls {
     this.inf2DurationLabel = group[1]
 
     group = this.makeSliderGroup(
-      `Central Location Visit Interval (Up to a max capacity of ${CENTRAL_LOC_CAPACITY}): `, 
+      `Central Location Visit Interval: `, `(Length of time between people visiting, max ${CENTRAL_LOC_CAPACITY} people)`,
       "cenVisitIntTxt",
       "cenVisitIntInp",
       CENTRAL_LOC_VISIT_INTERVAL_MIN,
@@ -118,7 +122,7 @@ class Controls {
     this.cenVisitIntLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Central Location Leave Interval: ", 
+      "Central Location Leave Interval: ", "(Length of time between people leaving)",
       "cenLeaveIntTxt",
       "cenLeaveIntInp",
       CENTRAL_LOC_LEAVE_INTERVAL_MIN,
@@ -129,7 +133,7 @@ class Controls {
     this.cenLeaveIntLabel = group[1]
 
     group = this.makeSliderGroup(
-      "Communities Crossing Interval: ", 
+      "Communities Crossing Interval: ", "(Length of time between people crossing communities)",
       "comCrossIntTxt",
       "comCrossIntInp",
       COMMUNITIES_CROSSING_INTERVAL_MIN,
@@ -144,7 +148,7 @@ class Controls {
     this.quarantineSymptomsCb = this.makeCheckbox("Quarantine When Showing Symptoms", "quarantineWithSymptomsCb", QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     group = this.makeSliderGroup(
-      "% of People Tested Daily: ", 
+      "% of People Randomly Tested Daily: ",  null,
       "testPropTxt",
       "testPropInp",
       TEST_PROP_MIN,
@@ -153,6 +157,17 @@ class Controls {
       TEST_PROP_STEP)
     this.testPropSlider = group[0]
     this.testPropLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "Simulation Speed: ",  null,
+      "simSpeedTxt",
+      "simSpeedInp",
+      SIM_SPEED_MIN,
+      SIM_SPEED_MAX,
+      SIM_SPEED_DEFAULT,
+      SIM_SPEED_STEP)
+    this.simSpeedSlider = group[0]
+    this.simSpeedLabel = group[1]
   }
 
   /**
@@ -176,7 +191,9 @@ class Controls {
     this.igSDistSlider.value(SOCIAL_DISTANCE_IGNORE_DEFAULT)
     this.igSDistCallback()
   
-    if (sNum==SIM_COMMUNITIES) this.infRadSlider.value(COMMUNITIES_INFECTION_RADIUS)
+    if (sNum==SIM_COMMUNITIES) {
+      this.infRadSlider.value(COMMUNITIES_INFECTION_RADIUS)
+    }
     else if (sNum==SIM_CENTRAL) this.infRadSlider.value(CENTRAL_LOC_INFECTION_RADIUS)
     else this.infRadSlider.value(INFECTION_RADIUS_DEFAULT)
     this.infRadCallback()
@@ -204,6 +221,9 @@ class Controls {
 
     this.testPropSlider.value(TEST_PROP_DEFAULT)
     this.testPropCallback()
+
+    this.simSpeedSlider.value(SIM_SPEED_DEFAULT)
+    this.simSpeedCallback()
   }
 
   /**
@@ -249,14 +269,22 @@ class Controls {
 
     this.testPropCallback = this.testPropCallbackHOF(this.testPropSlider, this.testPropLabel)
     this.testPropSlider.changed(this.testPropCallback)
+
+    this.simSpeedCallback = this.simSpeedCallbackHOF(this.simSpeedSlider, this.simSpeedLabel)
+    this.simSpeedSlider.changed(this.simSpeedCallback)
   }
 
   /**
    * 
    */
-  makeSliderGroup(title, titleParent, sliderParent, sliderMin, sliderMax, sliderStart, sliderStep) {
+  makeSliderGroup(title, info, titleParent, sliderParent, sliderMin, sliderMax, sliderStart, sliderStep) {
     const titleObj = createP(title)
     titleObj.parent(titleParent)
+    if(info!=null) {
+      const infoObj = createP(info)
+      infoObj.parent(titleParent)
+      infoObj.addClass("colInfo")
+    }
     const slider = createSlider(sliderMin, sliderMax, sliderStart, sliderStep)
     slider.parent(sliderParent)
     slider.addClass("slider")
@@ -278,12 +306,23 @@ class Controls {
   /**
    * 
    */
-  makeButton(title, parent, callback) {
+  makeButton(title, parent) {
     const btn = createButton(title)
     btn.parent(parent)
-    btn.mousePressed(callback)
     btn.addClass("simBtn")
     return btn
+  }
+
+  simBtnCallback(callback, btn, btns) {
+    return () => {
+      btns.forEach(b => {
+        if (b.hasClass(SIM_BTN_STATE_ON_CLASS)) b.removeClass(SIM_BTN_STATE_ON_CLASS)
+        if (!b.hasClass(SIM_BTN_STATE_OFF_CLASS)) b.addClass(SIM_BTN_STATE_OFF_CLASS)
+      })
+      callback()
+      if (!btn.hasClass(SIM_BTN_STATE_ON_CLASS)) btn.addClass(SIM_BTN_STATE_ON_CLASS)
+      if (btn.hasClass(SIM_BTN_STATE_OFF_CLASS)) btn.removeClass(SIM_BTN_STATE_OFF_CLASS)
+    }
   }
 
   /**
@@ -383,6 +422,13 @@ class Controls {
   testPropCallbackHOF(slider, label) {
     return () => {
       label.html(slider.value())
+    }
+  }
+
+  simSpeedCallbackHOF(slider, label) {
+    return () => {
+      label.html(slider.value())
+      Simulation.speed = slider.value()
     }
   }
 }

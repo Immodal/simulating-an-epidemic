@@ -2,9 +2,7 @@ class Simulation {
   constructor(controls, chart, fullReset=false) {
     this.controls = controls
     this.chart = chart
-
     this.id = null
-    this.speed = SIM_SPEED_DEFAULT
   
     this.reset(fullReset)
   }
@@ -24,7 +22,7 @@ class Simulation {
 
     this.updateR()
     this.controls.updateCallbacks(this)
-    if(full) this.controls.reset()
+    if(full) this.controls.reset(this.id)
     this.chart.reset()
   }
 
@@ -37,7 +35,7 @@ class Simulation {
    * Move simulation forward timesteps dictated by simulation speed
    */
   update() {
-    for(let i=0; i<this.speed; i++) {
+    for(let i=0; i<Simulation.speed; i++) {
       globalUpdateCount += 1
       this.fields.forEach(f => f.update())
       this.sender.auto()
@@ -53,12 +51,11 @@ class Simulation {
   draw() {
     stroke(255)
     fill(255)
+    textAlign(LEFT, CENTER)
     textSize(TEXT_SIZE_R)
-    rectMode(CENTER)
-    text(`R: ${this.rVal.toFixed(4)}`, 2.35*width/8, TEXT_Y_R)
-    text(`Rmax: ${this.rMax.toFixed(4)}`, width/2, TEXT_Y_R)
-    text(`Quarantined: ${this.sender.nQuarantined}`, 5.6*width/8, TEXT_Y_R)
-    rectMode(CORNER)
+    text(`R: ${this.rVal.toFixed(4)}`, TEXT_X_R, TEXT_Y_R)
+    text(`Rmax: ${this.rMax.toFixed(4)}`, TEXT_X_R_MAX, TEXT_Y_R)
+    text(`Quarantined: ${this.sender.nQuarantined}`, TEXT_X_QUARANTINED, TEXT_Y_R)
     
     this.fields.forEach(f => f.draw())
     this.sender.draw()
@@ -93,5 +90,6 @@ class Simulation {
       this.lastRUpdate = globalUpdateCount
     }
   }
-  
 }
+
+Simulation.speed = SIM_SPEED_DEFAULT

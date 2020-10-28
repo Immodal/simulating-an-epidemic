@@ -45,14 +45,19 @@ li {
 }
 
 .simBtn {
-  background-color: #00000000;
+  width:100%;
   border-radius: 5px;
-  border: 1px solid #DCDCDC;
-  color: #DCDCDC;
 }
 
-.simBtn:active {
+.simBtnOff {
+  color: #DCDCDC;
+  border: 1px solid #DCDCDC;
+  background-color: #00000000;
+}
+
+.simBtnOn {
   color: #000;
+  border: 1px solid #000;
   background-color: #ffc40c;
 }
 
@@ -76,7 +81,12 @@ li {
   width: 50%;
   height:100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.colInfo {
+  font-size:10px;
 }
 
 .sliderCol {

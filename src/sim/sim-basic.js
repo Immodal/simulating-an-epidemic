@@ -4,10 +4,10 @@
 class SimBasic extends Simulation {
   constructor(controls, chart, fullReset=false) {
     super(controls, chart, fullReset)
-    this.id = SIM_BASIC
   }
 
   _reset() {
+    this.id = SIM_BASIC
     Point.radius = POINT_RADIUS_DEFAULT
 
     this.fields = []

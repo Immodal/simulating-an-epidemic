@@ -31,7 +31,7 @@ class Button {
     strokeWeight(0)
     if (this.state) fill(0)
     else fill(COLOR_LIGHT_GRAY)
-    text(this.msg, this.boundary.cx, this.boundary.cy, this.boundary.w, this.boundary.h)
+    text(this.msg, this.boundary.cx, this.boundary.cy+2, this.boundary.w, this.boundary.h)
     rectMode(CORNER)
   }
 }

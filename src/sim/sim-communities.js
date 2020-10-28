@@ -4,10 +4,10 @@
 class SimCommunities extends Simulation {
   constructor(controls, chart, fullReset=false) {
     super(controls, chart, fullReset)
-    this.id = SIM_COMMUNITIES
   }
 
   _reset() {
+    this.id = SIM_COMMUNITIES
     Point.radius = COMMUNITIES_POINT_RADIUS
 
     let fy = FIELD_START_Y
