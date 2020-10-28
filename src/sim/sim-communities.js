@@ -29,7 +29,9 @@ class SimCommunities extends Simulation {
       const field2 = new Field(fx2, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
       this.fields.push(field2)
       const field3 = new Field(fx3, fy, fieldW, fieldW, 
-        this.fields.length<=14 ? this.controls.comSizeSlider.value() : 0, this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
+        this.fields.length>14 ? 0 : this.controls.comSizeSlider.value(), 
+        this.controls.infPopInitSlider.value(), 
+        QTREE_DEFAULT_CAPACITY, this.fields.length>14)
       this.fields.push(field3)
     }
   

@@ -20,11 +20,13 @@ class InfectionChart {
       let nInfectious1 = 0
       let nInfectious2 = 0
       let nRemoved = 0
+      let nDead = 0
       stats.forEach(s => {
         nSusceptible += s.nSusceptible
         nInfectious1 += s.nInfectious1
         nInfectious2 += s.nInfectious2
         nRemoved += s.nRemoved
+        nDead += s.nDead
       })
 
       // Add to Chart data object
@@ -33,8 +35,9 @@ class InfectionChart {
       const infectious2 = this.chart.data.datasets[0].data
       const susceptible = this.chart.data.datasets[2].data
       const removed = this.chart.data.datasets[3].data
-      const hospitalResources = this.chart.data.datasets[4].data
-      hospitalResources.push(HOSPITAL_RESOURCES_DEFAULT)
+      const dead = this.chart.data.datasets[4].data
+      const hospitalResources = this.chart.data.datasets[5].data
+      hospitalResources.push(Simulation.hospitalResources)
 
       if (infectious1.length>=10) days.push(days[days.length-1]+1)
       let acc = nInfectious2
@@ -49,6 +52,9 @@ class InfectionChart {
 
       acc += nRemoved
       removed.push(acc)
+
+      acc += nDead
+      dead.push(acc)
 
       this.chart.update()
       this.lastUpdate = globalUpdateCount
@@ -74,16 +80,19 @@ class InfectionChart {
       nSusceptible: 0,
       nInfectious1: 0, nInfectious2: 0,
       nRemoved: 0,
+      nDead:0,
     }
     stats.nSusceptible = 0
     stats.nInfectious1 = 0
     stats.nInfectious2 = 0
     stats.nRemoved = 0
+    stats.nDead = 0
     pts.forEach(pt => {
       if (pt.status==Point.SUSCEPTIBLE) stats.nSusceptible += 1
       else if (pt.status==Point.INFECTIOUS1) stats.nInfectious1 += 1
       else if (pt.status==Point.INFECTIOUS2) stats.nInfectious2 += 1
       else if (pt.status==Point.REMOVED) stats.nRemoved += 1
+      else if (pt.status==Point.DEAD) stats.nDead += 1
     })
     return stats
   }
@@ -114,10 +123,15 @@ class InfectionChart {
             borderColor: Point.COLOR_SUSCEPTIBLE,
             backgroundColor: Point.COLOR_SUSCEPTIBLE
           },{
-            label: "Removed",
+            label: "Recovered",
             data: [],
             borderColor: Point.COLOR_REMOVED,
             backgroundColor: Point.COLOR_REMOVED
+          },{
+            label: "Dead",
+            data: [],
+            borderColor: Point.COLOR_DEAD,
+            backgroundColor: Point.COLOR_DEAD
           },{
             label: "Hospital Resources",
             data: [],

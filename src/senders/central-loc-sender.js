@@ -1,10 +1,10 @@
 class CentralLocSender extends Sender {
-  constructor(fields) {
-    super()
+  constructor(fields, controls) {
+    super(fields, controls)
     
     this.lastVisit = globalUpdateCount
     this.lastLeave = globalUpdateCount
-    this.f0 = fields[0]
+    this.f0 = this.fields[0]
     this.f0TargetsCounter = 0
     this.f0Targets = [
       createVector(this.f0.x+this.f0.w/2, this.f0.y+this.f0.h/5), // North
@@ -16,12 +16,12 @@ class CentralLocSender extends Sender {
       createVector(this.f0.x+4*this.f0.w/5, this.f0.y+this.f0.h/2), // East
       createVector(this.f0.x+3*this.f0.w/4, this.f0.y+this.f0.h/4), 
     ]
-    this.f1 = fields[1]
-    this.f1Target = createVector(fields[1].x+fields[1].w/2, fields[1].y+fields[1].h/2)
+    this.f1 = this.fields[1]
+    this.f1Target = createVector(this.f1.x+this.f1.w/2, this.f1.y+this.f1.h/2)
 
     this.controls = controls
     this.lastTest = globalUpdateCount
-    this.q1 = fields[2]
+    this.q1 = this.fields[2]
     this.q1Target = createVector(this.q1.x+this.q1.w/2, this.q1.y+this.q1.h/2)
   }
 
@@ -31,7 +31,7 @@ class CentralLocSender extends Sender {
       this.quarantineSymptomatic(this.f1, this.q1, this.q1Target)
     }
 
-    if (this.controls.activeTestingCb.checked() && globalUpdateCount - this.lastTest > DAY_LENGTH) {
+    if (this.controls.testPropSlider.value()>0 && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       if (this.f0.pts.length + this.f1.pts.length>0) {
         const nToTest = ceil(this.controls.popSizeSlider.value() * this.controls.testPropSlider.value()/100)
         this.testAndQuarantine(nToTest, this.f1, this.q1, this.q1Target)

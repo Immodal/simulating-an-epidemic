@@ -1,7 +1,9 @@
 class Sender {
-  constructor() {
+  constructor(fields, controls) {
     this.objs = []
     this.nQuarantined = 0
+    this.fields = fields
+    this.controls = controls
   }
 
   auto() {}
@@ -31,7 +33,10 @@ class Sender {
    */
   quarantineSymptomatic(from, to, target) {
     let found = []
-    from.pts.forEach((pt,i) => { if(pt.status == Point.INFECTIOUS2) found.push(i) })
+    from.pts.forEach((pt,i) => { 
+      if(pt.status == Point.INFECTIOUS2 && (globalUpdateCount - pt.lastStatusUpdate) >= this.controls.qwsDelaySlider.value()*DAY_LENGTH) 
+        found.push(i) 
+    })
     found.sort(Utils.sortDesc)
       .forEach(i => {
         from.pts[i].inQuarantine = true

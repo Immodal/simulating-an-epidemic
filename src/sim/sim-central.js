@@ -25,7 +25,7 @@ class SimCentral extends Simulation {
     field.addRepulsionZone(new Circle(field.x+field.w, field.y+field.h, QUARANTINE_SIZE*2))
     const quarantine = new Field(field.x+field.w-QUARANTINE_SIZE, field.y+field.h-QUARANTINE_SIZE, QUARANTINE_SIZE, QUARANTINE_SIZE, 
       0, 0, 
-      QTREE_DEFAULT_CAPACITY)
+      QTREE_DEFAULT_CAPACITY, true)
     this.fields.push(quarantine)
   
     this.sender = new CentralLocSender(this.fields, this.controls)
