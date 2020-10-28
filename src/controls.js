@@ -146,7 +146,7 @@ class Controls {
     this.quarantineSymptomsCb = this.makeCheckbox("Quarantine When Showing Symptoms", "quarantineWithSymptomsCb", QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     group = this.makeSliderGroup(
-      "Quarantine Delay After Showing Symptoms: ", null,
+      "Quarantine Delay After Showing Symptoms: ", "(Days)",
       "quarantineWithSymptomsDelayTxt",
       "quarantineWithSymptomsDelayInp",
       QUARANTINE_WITH_SYMPTOMS_DELAY_MIN,
@@ -347,6 +347,8 @@ class Controls {
     const cb = createCheckbox(title, state)
     cb.parent(parent)
     cb.style('color', COLOR_LIGHT_GRAY)
+    cb.style('display', "flex")
+    cb.style('align-items', "center")
     return cb
   }
 

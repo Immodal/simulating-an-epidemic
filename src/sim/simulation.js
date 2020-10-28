@@ -59,6 +59,44 @@ class Simulation {
     
     this.fields.forEach(f => f.draw())
     this.sender.draw()
+    if (this.chart.simComplete>=SIM_COMPLETE_THRESH) this.showTotals()
+  }
+
+  /**
+   * 
+   */
+  showTotals() {
+    //const infectious2 = this.chart.chart.data.datasets[0].data
+    const infectious1 = this.chart.chart.data.datasets[1].data
+    const infectious1Val = infectious1[infectious1.length-1]
+
+    const susceptible = this.chart.chart.data.datasets[2].data
+    const susceptibleVal = susceptible[susceptible.length-1]
+    const nSusceptible = susceptibleVal-infectious1Val
+
+    const removed = this.chart.chart.data.datasets[3].data
+    const removedVal = removed[removed.length-1]
+    const nRemoved = removedVal-susceptibleVal
+
+    const dead = this.chart.chart.data.datasets[4].data
+    const deadVal = dead[dead.length-1]
+    const nDead = deadVal-removedVal
+
+    let hospitalDeaths = 0
+    this.sender.q1.pts.forEach(pt => hospitalDeaths += pt.status==Point.DEAD ? 1 : 0)
+
+    const yDiff = TEXT_SIZE_TOTALS+15
+
+    fill("#000000dd")
+    rect(RECT_X_TOTALS, RECT_Y_TOTALS, RECT_W_TOTALS, RECT_H_TOTALS, RECT_RADIUS_TOTALS)
+    textSize(TEXT_SIZE_TOTALS)
+    textAlign(LEFT, TOP)
+    fill(COLOR_LIGHT_GRAY)
+    text(`Total Unaffected: ${nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS)
+    text(`Total Infected: ${dead[dead.length-1]-nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff)
+    text(`Total Recovered: ${nRemoved}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*2)
+    text(`Total Dead: ${nDead}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*3)
+    text(`Deaths due hospital overcrowding: ${hospitalDeaths}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*4)
   }
 
   /**
