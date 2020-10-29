@@ -1,3 +1,7 @@
+
+/**
+ * Button that is drawn on the canvas
+ */
 class Button {
   constructor(x, y, w, h, msg, callback, state=false) {
     this.boundary = new Rectangle(x, y, w, h)

@@ -2,6 +2,9 @@
 let sim, infectionChart, controls, resetBtn;
 let globalUpdateCount = 0
 
+/**
+ * Setup
+ */
 function setup() {
   frameRate(30)
   const canvas = createCanvas(CANVAS_W, CANVAS_H)
@@ -70,6 +73,9 @@ function setup() {
   controls.simBtnCallback(newBasicSim, controls.simBasicBtn, controls.simBtns)()
 }
 
+/**
+ * Draw
+ */
 function draw() {
   background(0)
 
@@ -80,6 +86,9 @@ function draw() {
   sim.draw()
 }
 
+/**
+ * Mouse stuff
+ */
 function mousePressed() {
   if (resetBtn.inBounds(mouseX, mouseY)) resetBtn.action()
 }
@@ -88,6 +97,9 @@ function mouseReleased() {
   resetBtn.state = false
 }
 
+/**
+ * Callback Stuff
+ */
 function newBasicSim() {
   sim = new SimBasic(controls, infectionChart, !controls.dontOverrideSettingsCb.checked())
 }

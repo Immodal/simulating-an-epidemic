@@ -359,7 +359,7 @@ class Controls {
   }
 
   /**
-   * 
+   * Group that includes a title, a label that can be updated with the value, an info subtitle and the slider
    */
   makeSliderGroup(title, info, titleParent, sliderParent, sliderMin, sliderMax, sliderStart, sliderStep) {
     const titleObj = createP(title)
@@ -378,7 +378,7 @@ class Controls {
   }
 
   /**
-   * 
+   * Just a checkbox
    */
   makeCheckbox(title, parent, state=false) {
     const cb = createCheckbox(title, state)
@@ -390,7 +390,7 @@ class Controls {
   }
 
   /**
-   * 
+   * Basic button
    */
   makeButton(title, parent) {
     const btn = createButton(title)
@@ -399,7 +399,7 @@ class Controls {
   }
 
   /**
-   * 
+   * Button with styling for presets
    */
   makePresetBtn(title, parent) {
     const btn = this.makeButton(title, parent)
@@ -408,7 +408,7 @@ class Controls {
   }
 
   /**
-   * 
+   * Button with styling for Simulations
    */
   makeSimBtn(title, parent) {
     const btn = this.makeButton(title, parent)
@@ -416,6 +416,12 @@ class Controls {
     return btn
   }
 
+  /**
+   * Generate a callback for a simBtn to call when pressed
+   * @param {Function} callback 
+   * @param {Button} btn 
+   * @param {Array} btns 
+   */
   simBtnCallback(callback, btn, btns) {
     return () => {
       btns.forEach(b => {

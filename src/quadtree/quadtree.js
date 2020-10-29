@@ -1,3 +1,6 @@
+/**
+ * Data structure for keeping track of which points are in a given area
+ */
 class Quadtree {
 
   /** */

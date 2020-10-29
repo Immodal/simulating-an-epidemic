@@ -11,10 +11,12 @@ class SimpleSender extends Sender {
   }
 
   auto() {
+    // Quarantine when showing symptoms
     if (this.controls.quarantineSymptomsCb.checked()) {
       this.quarantineSymptomatic(this.f0, this.q1, this.q1Target)
     }
 
+    // Test and Quarantine
     if (this.controls.testPropSlider.value()>0 && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       if (this.f0.pts.length>0) {
         const nToTest = ceil(this.controls.popSizeSlider.value() * this.controls.testPropSlider.value()/100)

@@ -13,10 +13,12 @@ class CommunitiesSender extends Sender {
   }
 
   auto() {
+    // Quarantine when showing symptoms
     if (this.controls.quarantineSymptomsCb.checked()) {
       this.fs.slice(0, this.fs.length-1).forEach(f => this.quarantineSymptomatic(f, this.q1, this.q1Target))
     }
 
+    // Test and Quarantine
     if (this.controls.testPropSlider.value()>0 && globalUpdateCount - this.lastTest > DAY_LENGTH) {
       const testOrder = Utils.shuffle(this.fs.slice(0, this.fs.length-1))
       for(let i=0; i<testOrder.length; i++) {

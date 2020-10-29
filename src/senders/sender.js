@@ -1,3 +1,6 @@
+/**
+ * For sending points between fields
+ */
 class Sender {
   constructor(fields, controls) {
     this.objs = []
@@ -6,8 +9,18 @@ class Sender {
     this.controls = controls
   }
 
+  /**
+   * Override this to contain the code specific to each simulation
+   */
   auto() {}
 
+  /**
+   * Launch a specific point from a field toward a target found inside another.
+   * @param {Integer} ptInd Index of point to be launched in from.pts
+   * @param {Field} from 
+   * @param {Field} to 
+   * @param {p5.Vector} target Coordinates
+   */
   launch(ptInd, from, to, target) {
     const targetCircle = new Circle(target.x, target.y, 16)
 
@@ -21,6 +34,12 @@ class Sender {
     point.velocity = vel
   }
 
+  /**
+   * Launch a random point from a field toward a target found inside another.
+   * @param {Field} from 
+   * @param {Field} to 
+   * @param {p5.Vector} target Coordinates
+   */
   launchRandom(from, to, target) {
     this.launch(Utils.randomInt(0, from.pts.length), from, to, target)
   }
@@ -29,7 +48,7 @@ class Sender {
    * Quarantine all that are showing symptoms in a population
    * @param {Field} from 
    * @param {Field} to 
-   * @param {p5.Vector} target
+   * @param {p5.Vector} target Coordinates
    */
   quarantineSymptomatic(from, to, target) {
     let found = []
@@ -50,7 +69,7 @@ class Sender {
    * @param {Integer} n Number of points to test
    * @param {Field} from 
    * @param {Field} to 
-   * @param {p5.Vector} target
+   * @param {p5.Vector} target Coordinates
    */
   testAndQuarantine(n, from, to, target) {
     let subjects = Utils.range(from.pts.length)
@@ -65,6 +84,9 @@ class Sender {
       })
   }
 
+  /**
+   * Update
+   */
   update() {
     const removal = []
     this.objs.forEach((obj,i) => {
@@ -85,6 +107,9 @@ class Sender {
     }
   }
 
+  /**
+   * Draw
+   */
   draw(debug=false) {
     this.objs.forEach(obj => {
       if (debug) {

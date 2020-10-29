@@ -64,7 +64,7 @@ class Simulation {
   }
 
   /**
-   * 
+   * Tally up the results of the simulation and then display them
    */
   showTotals() {
     //const infectious2 = this.chart.chart.data.datasets[0].data
