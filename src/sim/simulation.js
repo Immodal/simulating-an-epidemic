@@ -88,16 +88,31 @@ class Simulation {
 
     const yDiff = TEXT_SIZE_TOTALS+15
 
+    strokeWeight(0)
+    stroke(0)
     fill("#000000dd")
     rect(RECT_X_TOTALS, RECT_Y_TOTALS, RECT_W_TOTALS, RECT_H_TOTALS, RECT_RADIUS_TOTALS)
     textSize(TEXT_SIZE_TOTALS)
     textAlign(LEFT, TOP)
     fill(COLOR_LIGHT_GRAY)
-    text(`Total Unaffected: ${nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS)
-    text(`Total Infected: ${dead[dead.length-1]-nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff)
-    text(`Total Recovered: ${nRemoved}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*2)
-    text(`Total Dead: ${nDead}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*3)
-    text(`Deaths due hospital overcrowding: ${hospitalDeaths}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*4)
+    text(`Simulation Complete!`, TEXT_X_TOTALS+80, TEXT_Y_TOTALS)
+    text(`Total Unaffected: ${nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff)
+    text(`Total Infected: ${dead[dead.length-1]-nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*2)
+    text(`Total Recovered: ${nRemoved}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*3)
+    text(`Total Dead: ${nDead}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*4)
+    text(`Deaths due hospital overcrowding: ${hospitalDeaths}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*5)
+    this.drawResetArrow()
+  }
+
+  /**
+   * Arrow that points at the reset button
+   */
+  drawResetArrow() {
+    stroke(COLOR_DIM_YELLOW)
+    fill(COLOR_DIM_YELLOW)
+    strokeWeight(3)
+    line((RESET_BTN_W)/2+FIELD_MARGIN, RESET_BTN_H, TEXT_X_TOTALS, TEXT_Y_TOTALS)
+    triangle((RESET_BTN_W)/2+FIELD_MARGIN, RESET_BTN_H, 50, 40, 60, 35)
   }
 
   /**
