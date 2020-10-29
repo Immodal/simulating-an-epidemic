@@ -8,9 +8,7 @@ function setup() {
   canvas.parent("#cv")
 
   controls = new Controls(
-    () => sim = new SimBasic(controls, infectionChart, !controls.dontOverrideSettingsCb.checked()),
-    () => sim = new SimCentral(controls, infectionChart, !controls.dontOverrideSettingsCb.checked()),
-    () => sim = new SimCommunities(controls, infectionChart, !controls.dontOverrideSettingsCb.checked()),
+    newBasicSim, newCentralSim, newCommunitySim,
     makePresetCallback(() => controls.infRadSlider.value(PRESET_LESS_INTERACTION_INF_RAD)),
     makePresetCallback(() => controls.infRadSlider.value(PRESET_MORE_INTERACTION_INF_RAD)),
     makePresetCallback(() => controls.infChanceSlider.value(PRESET_BETTER_HYGIENE_INF_RAD)),
@@ -34,14 +32,30 @@ function setup() {
       controls.igSDistSlider.value(PRESET_SODIST_SOME_IGNORE)
     }),
     () => {
-      controls.simBtnCallback(()=>sim = new SimCommunities(controls, infectionChart, true), controls.simCommunityBtn, controls.simBtns)()
+      controls.simBtnCallback(newCommunitySim, controls.simCommunityBtn, controls.simBtns)()
       controls.comCrossIntSlider.value(PRESET_COM_CROSS_RESTRICTED)
       controls.syncSimWithSettings()
     },
     () => {
-      controls.simBtnCallback(()=>sim = new SimCommunities(controls, infectionChart, true), controls.simCommunityBtn, controls.simBtns)()
+      controls.simBtnCallback(newCommunitySim, controls.simCommunityBtn, controls.simBtns)()
       controls.comCrossIntSlider.value(PRESET_COM_CROSS_UNRESTRICTED)
       controls.syncSimWithSettings()
+    },
+    () => {
+      controls.simBtnCallback(newBasicSim, controls.simBasicBtn, controls.simBtns)()
+      controls.sDistSlider.value(PRESET_SPC_SODIST_FACTOR)
+      controls.popSizeSlider.value(PRESET_SMALL_SPC_POP_SIZE)
+      controls.infPopInitSlider.value(PRESET_SMALL_SPC_INF_INIT)
+      controls.infRadSlider.value(PRESET_SMALL_SPC_INF_RADIUS)
+      sim.reset()
+    },
+    () => {
+      controls.simBtnCallback(newBasicSim, controls.simBasicBtn, controls.simBtns)()
+      controls.sDistSlider.value(PRESET_SPC_SODIST_FACTOR)
+      controls.popSizeSlider.value(PRESET_LARGE_SPC_POP_SIZE)
+      controls.infPopInitSlider.value(PRESET_LARGE_SPC_INF_INIT)
+      controls.infRadSlider.value(PRESET_LARGE_SPC_INF_RADIUS)
+      sim.reset()
     },
   )
 
@@ -53,7 +67,7 @@ function setup() {
       resetBtn.state = true
     })
 
-  controls.simBtnCallback(()=>sim = new SimBasic(controls, infectionChart, true), controls.simBasicBtn, controls.simBtns)()
+  controls.simBtnCallback(newBasicSim, controls.simBasicBtn, controls.simBtns)()
 }
 
 function draw() {
@@ -72,6 +86,18 @@ function mousePressed() {
 
 function mouseReleased() {
   resetBtn.state = false
+}
+
+function newBasicSim() {
+  sim = new SimBasic(controls, infectionChart, !controls.dontOverrideSettingsCb.checked())
+}
+
+function newCentralSim() {
+  sim = new SimCentral(controls, infectionChart, !controls.dontOverrideSettingsCb.checked())
+}
+
+function newCommunitySim() {
+  sim = new SimCommunities(controls, infectionChart, !controls.dontOverrideSettingsCb.checked())
 }
 
 function makePresetCallback(callback) {

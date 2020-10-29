@@ -5,7 +5,9 @@ class Controls {
       shorterInfDurPresetCallback, longerInfDurPresetCallback,
       higherTestPropPresetCallback, lowerTestPropPresetCallback,
       fullSocDistPresetCallback, someSocDistPresetCallback,
-      restrictComCrossPresetCallBack, unrestrictComCrossPresetCallBack) {
+      restrictComCrossPresetCallBack, unrestrictComCrossPresetCallBack,
+      smallSpaceLessPeoplePresetCallback, smallSpaceMorePeoplePresetCallback) {
+
     this.simBasicBtn = this.makeSimBtn("Simple", "chooseASimInp")
     this.simCentralBtn = this.makeSimBtn("Central Location", "chooseASimInp")
     this.simCommunityBtn = this.makeSimBtn("Communities", "chooseASimInp")
@@ -43,6 +45,11 @@ class Controls {
     this.resComCrossBtn.mousePressed(restrictComCrossPresetCallBack)
     this.unresComCrossBtn = this.makePresetBtn("Unrestricted Intercommunity Transit", "limitedTransitPreset")
     this.unresComCrossBtn.mousePressed(unrestrictComCrossPresetCallBack)
+
+    this.smlSpcLessPplBtn = this.makePresetBtn("Small Space, Less People", "smallSpacePreset")
+    this.smlSpcLessPplBtn.mousePressed(smallSpaceLessPeoplePresetCallback)
+    this.smlSpcMorePplBtn = this.makePresetBtn("Small Space, More People", "smallSpacePreset")
+    this.smlSpcMorePplBtn.mousePressed(smallSpaceMorePeoplePresetCallback)
 
     this.dontOverrideSettingsCb = this.makeCheckbox("Don't reset settings when changing simulation", "dontOverrideSettingsCb", false)
 
@@ -92,7 +99,7 @@ class Controls {
     this.igSDistLabel = group[1]
   
     group = this.makeSliderGroup(
-      "Infection Radius: ",  "(Lower means mask wearing, less interaction with other people)",
+      "Infection Radius: ",  "(Lower means less interaction with other people)",
       "infectionRadiusTxt",
       "infectionRadiusInp",
       INFECTION_RADIUS_MIN,
@@ -103,7 +110,7 @@ class Controls {
     this.infRadLabel = group[1]
   
     group = this.makeSliderGroup(
-      "Daily Infection Chance: ", "(Lower means better hygiene, e.g. frequent hand washing)",
+      "Daily Infection Chance: ", "(Lower means better hygiene, e.g. frequent hand washing, masks)",
       "infectionChanceTxt",
       "infectionChanceInp",
       INFECTION_CHANCE_MIN,

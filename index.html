@@ -31,7 +31,7 @@
         <h1>Simulating An Epidemic</h1>
         <p>
           What would happen if everyone went about their lives like COVID-19 doesn't exist? How quickly would the disease spread? 
-          On the other hand, what if a significant proportion of the people in your area was tested every day for the disease? How quickly could it be eradicated?
+          On the other hand, what if a significant proportion of the people in your area were tested every day for the disease? How quickly could it be eradicated?
           We all have that little scientist in our head, asking hypothetical questions about the current pandemic that has changed our lives forever. 
         </p><br>
         <p>
@@ -40,15 +40,15 @@
         </p><br>
         <p>There are four main sections:</p>
         <ol>
-          <li>Key Takeaways - There is some guidance here in what you can expect to observe, the buttons found here restarts any simulation with predetermined settings.</li>
+          <li>Key Takeaways - There is some guidance here in what you can expect to observe, and the buttons restart any simulation with predetermined settings.</li>
           <li>Controls - Here you can change the many variables that can have drastic effects on the outcome of the simulation.</li>
-          <li>Population Status Chart - This chart documents the distribution of people who are healthy, infected, and recovered or dead at each point in time, at the end providing insight into how the disease progressed.</li>
-          <li>Simulation - Here you can watch hundreds of people (small circles) move around their area, as they interact with disease carriers and spread the disease themselves.</li>
+          <li>Population Status Chart - This chart documents the distribution of people who are healthy, infected, recovered or dead at each point in time, at the end providing insight into how the disease progressed.</li>
+          <li>Simulation - Here you can watch hundreds of people (small circles) move around their area as they interact with disease carriers and spread the disease themselves.</li>
         </ol>
         <h2>Key Takeaways</h2>
         <p>
           *Disclaimer* I am not an epidemiologist so any lessons learned here should not be generalized without deeper consideration.
-          These simulations also aren't meant to be realistic (people aren't little dots randomly roaming around a rectangle), but they allow us to explore ideas by being experimental and quantitative even if it’s in a necessarily limited fashion.
+          These simulations aren't meant to be realistic (people aren't little dots randomly roaming around a rectangle), but they allow us to explore ideas by being experimental and quantitative even if it’s in a necessarily limited fashion.
         </p>
         <ol>
           <li>While the disease still exists, as soon as people let up and go back to their normal lives with nothing in place to contain the cases, few though they might be, there will be an additional wave.</li>
@@ -61,8 +61,11 @@
           </li>
           <li>
             Social Distancing and extensive testing, both individually and in combination with each other can help significantly slow the spread of disease. 
-            <br><span id="testCoveragePreset"></span>
-            <br><span id="socialDistancingPreset"></span>
+            <br><span id="testCoveragePreset"></span><span id="socialDistancingPreset"></span>
+          </li>
+          <li>
+            Where Social Distancing is impossible, it is better to limit the number of occupants.
+            <br><span id="smallSpacePreset"></span>
           </li>
           <li>
             Reducing transit between communities can further protect those that are unaffected, but restrictions must be put in place early.
@@ -165,7 +168,7 @@
   <footer>
     <h6>
       * This is an interactive simulation based on 3Blue1Brown's very informative <a href="https://www.youtube.com/watch?v=gxAaO2rsdIs&ab_channel=3Blue1Brown">video with the same name</a>. 
-      I would highly recommend watching it because it provides a much more thorough explanation of these simulations that I could provide here.
+      I would highly recommend watching it because it provides a much more thorough explanation of these simulations than I can provide here.
       <br>
       * Link to repo: <a href="https://github.com/Immodal/simulating-an-epidemic">Immodal/simulating-an-epidemic</a>
       <br>
