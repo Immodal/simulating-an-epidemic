@@ -31,17 +31,13 @@ class CommunitiesSender extends Sender {
     }
 
     if (CommunitiesSender.interval!=COMMUNITIES_CROSSING_INTERVAL_MAX && globalUpdateCount - this.lastAuto > CommunitiesSender.interval) {
-      if (this.order.length==0) {
-        this.order = this.fs.slice(0, this.fs.length-1)
-        Utils.shuffle(this.order)
-        this.order.sort((a,b) => a.pts.length>b.pts.length ? -1 : a.pts.length<b.pts.length ? 1 : 0)
-      } 
-      const from = this.order[0]
-      let to = this.order[this.order.length-1]
-      if (from.pts.length>0) this.launchRandom(from, to, createVector(to.x+to.w/2, to.y+to.h/2))
+      if (this.order.length<=1) this.order = Utils.shuffle(this.fs.slice(0, this.fs.length-1))
+      const f1 = this.order.pop()
+      const f2 = this.order.pop()
+
+      if (f1.pts.length>0) this.launchRandom(f1, f2, createVector(f2.x+f2.w/2, f2.y+f2.h/2))
+      //else if (f2.pts.length>0) this.launchRandom(f2, f1, createVector(f1.x+f1.w/2, f1.y+f1.h/2))
       this.lastAuto = globalUpdateCount
-      this.order.pop()
-      this.order.shift()
     }
   }
 }
