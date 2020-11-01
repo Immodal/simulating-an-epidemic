@@ -21,12 +21,14 @@ class InfectionChart {
       let nInfectious2 = 0
       let nRemoved = 0
       let nDead = 0
+      let nVaccinated = 0
       stats.forEach(s => {
         nSusceptible += s.nSusceptible
         nInfectious1 += s.nInfectious1
         nInfectious2 += s.nInfectious2
         nRemoved += s.nRemoved
         nDead += s.nDead
+        nVaccinated += s.nVaccinated
       })
 
       // Add to Chart data object
@@ -34,9 +36,10 @@ class InfectionChart {
       const infectious1 = this.chart.data.datasets[1].data
       const infectious2 = this.chart.data.datasets[0].data
       const susceptible = this.chart.data.datasets[2].data
-      const removed = this.chart.data.datasets[3].data
-      const dead = this.chart.data.datasets[4].data
-      const hospitalResources = this.chart.data.datasets[5].data
+      const vaccinated = this.chart.data.datasets[3].data
+      const removed = this.chart.data.datasets[4].data
+      const dead = this.chart.data.datasets[5].data
+      const hospitalResources = this.chart.data.datasets[6].data
       hospitalResources.push(Simulation.hospitalResources)
 
       if (infectious1.length>=10) days.push(days[days.length-1]+1)
@@ -49,6 +52,9 @@ class InfectionChart {
 
       acc += nSusceptible
       susceptible.push(acc)
+
+      acc += nVaccinated
+      vaccinated.push(acc)
 
       acc += nRemoved
       removed.push(acc)
@@ -76,23 +82,20 @@ class InfectionChart {
    * @param {Array} pts
    */
   getStats(pts) {
-    const stats = {
-      nSusceptible: 0,
-      nInfectious1: 0, nInfectious2: 0,
-      nRemoved: 0,
-      nDead:0,
-    }
+    const stats = {}
     stats.nSusceptible = 0
     stats.nInfectious1 = 0
     stats.nInfectious2 = 0
     stats.nRemoved = 0
     stats.nDead = 0
+    stats.nVaccinated = 0
     pts.forEach(pt => {
       if (pt.status==Point.SUSCEPTIBLE) stats.nSusceptible += 1
       else if (pt.status==Point.INFECTIOUS1) stats.nInfectious1 += 1
       else if (pt.status==Point.INFECTIOUS2) stats.nInfectious2 += 1
       else if (pt.status==Point.REMOVED) stats.nRemoved += 1
       else if (pt.status==Point.DEAD) stats.nDead += 1
+      else if (pt.status==Point.VACCINATED) stats.nVaccinated += 1
     })
     return stats
   }
@@ -122,6 +125,11 @@ class InfectionChart {
             data: [],
             borderColor: Point.COLOR_SUSCEPTIBLE,
             backgroundColor: Point.COLOR_SUSCEPTIBLE
+          },{
+            label: "Vaccinated",
+            data: [],
+            borderColor: Point.COLOR_VACCINATED,
+            backgroundColor: Point.COLOR_VACCINATED
           },{
             label: "Recovered",
             data: [],

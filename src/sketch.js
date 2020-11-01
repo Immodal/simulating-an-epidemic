@@ -36,16 +36,19 @@ function setup() {
     }),
     () => {
       controls.simBtnCallback(newCommunitySim, controls.simCommunityBtn, controls.simBtns)()
+      sim.reset(true)
       controls.comCrossIntSlider.value(PRESET_COM_CROSS_RESTRICTED)
       controls.syncSimWithSettings()
     },
     () => {
       controls.simBtnCallback(newCommunitySim, controls.simCommunityBtn, controls.simBtns)()
+      sim.reset(true)
       controls.comCrossIntSlider.value(PRESET_COM_CROSS_UNRESTRICTED)
       controls.syncSimWithSettings()
     },
     () => {
       controls.simBtnCallback(newBasicSim, controls.simBasicBtn, controls.simBtns)()
+      sim.reset(true)
       controls.sDistSlider.value(PRESET_SPC_SODIST_FACTOR)
       controls.popSizeSlider.value(PRESET_SMALL_SPC_POP_SIZE)
       controls.infPopInitSlider.value(PRESET_SMALL_SPC_INF_INIT)
@@ -54,6 +57,7 @@ function setup() {
     },
     () => {
       controls.simBtnCallback(newBasicSim, controls.simBasicBtn, controls.simBtns)()
+      sim.reset(true)
       controls.sDistSlider.value(PRESET_SPC_SODIST_FACTOR)
       controls.popSizeSlider.value(PRESET_LARGE_SPC_POP_SIZE)
       controls.infPopInitSlider.value(PRESET_LARGE_SPC_INF_INIT)

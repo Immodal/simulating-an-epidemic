@@ -16,14 +16,14 @@ class Simulation {
     this.rMax = 0
     this.rVal = 0
     this.fields = []
+    if(full) this.controls.reset(this.id, false)
 
     // Unique for each simulation
     this._reset()
 
     this.updateR()
     this.controls.updateCallbacks(this)
-    if(full) this.controls.reset(this.id)
-    else this.controls.syncSimWithSettings()
+    this.controls.syncSimWithSettings()
     this.chart.reset()
   }
 
@@ -75,11 +75,15 @@ class Simulation {
     const susceptibleVal = susceptible[susceptible.length-1]
     const nSusceptible = susceptibleVal-infectious1Val
 
-    const removed = this.chart.chart.data.datasets[3].data
-    const removedVal = removed[removed.length-1]
-    const nRemoved = removedVal-susceptibleVal
+    const vaccinated = this.chart.chart.data.datasets[3].data
+    const vaccinatedVal = vaccinated[vaccinated.length-1]
+    const nVaccinated = vaccinatedVal-susceptibleVal
 
-    const dead = this.chart.chart.data.datasets[4].data
+    const removed = this.chart.chart.data.datasets[4].data
+    const removedVal = removed[removed.length-1]
+    const nRemoved = removedVal-vaccinatedVal
+
+    const dead = this.chart.chart.data.datasets[5].data
     const deadVal = dead[dead.length-1]
     const nDead = deadVal-removedVal
 
@@ -96,8 +100,8 @@ class Simulation {
     textAlign(LEFT, TOP)
     fill(COLOR_LIGHT_GRAY)
     text(`Simulation Complete!`, TEXT_X_TOTALS+80, TEXT_Y_TOTALS)
-    text(`Total Unaffected: ${nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff)
-    text(`Total Infected: ${dead[dead.length-1]-nSusceptible}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*2)
+    text(`Total Unaffected: ${nSusceptible+nVaccinated}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff)
+    text(`Total Infected: ${dead[dead.length-1]-nSusceptible-nVaccinated}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*2)
     text(`Total Recovered: ${nRemoved}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*3)
     text(`Total Dead: ${nDead}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*4)
     text(`Deaths due hospital overcrowding: ${hospitalDeaths}`, TEXT_X_TOTALS, TEXT_Y_TOTALS+yDiff*5)

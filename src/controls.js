@@ -242,13 +242,24 @@ class Controls {
       INFECTION_UNTREATED_DEATH_RATE_STEP)
     this.deathChanceSlider = group[0]
     this.deathChanceLabel = group[1]
+
+    group = this.makeSliderGroup(
+      "% of People Vaccinated: ",  "(Only applies to SUSCEPTIBLE, overrides Daily Infection Chance)",
+      "vaccinationTxt",
+      "vaccinationInp",
+      VACCINATION_RATE_MIN,
+      VACCINATION_RATE_MAX,
+      VACCINATION_RATE_DEFAULT,
+      VACCINATION_RATE_STEP)
+    this.vaccinationSlider = group[0]
+    this.vaccinationLabel = group[1]
   }
 
   /**
    * 
    * @param {Integer} sNum Simulation Number
    */
-  reset(sNum) {
+  reset(sNum, sync=true) {
     this.quarantineSymptomsCb.checked(QUARANTINE_WITH_SYMPTOMS_DEFAULT)
 
     this.popSizeSlider.value(POPULATION_SIZE_DEFAULT)
@@ -274,8 +285,9 @@ class Controls {
     this.hospResSlider.value(HOSPITAL_RESOURCES_DEFAULT)
     this.deathChanceSlider.value(INFECTION_UNTREATED_DEATH_RATE_DEFAULT)
     this.qwsDelaySlider.value(QUARANTINE_WITH_SYMPTOMS_DELAY_DEFAULT)
+    this.vaccinationSlider.value(VACCINATION_RATE_DEFAULT)
 
-    this.syncSimWithSettings()
+    if(sync) this.syncSimWithSettings()
   }
 
   /**
@@ -299,6 +311,7 @@ class Controls {
     this.hospResCallback()
     this.deathChanceCallback()
     this.qwsDelayCallback()
+    this.vaccinationCallback()
   }
 
   /**
@@ -356,6 +369,9 @@ class Controls {
 
     this.qwsDelayCallback = this.qwsDelayCallbackHOF(this.qwsDelaySlider, this.qwsDelayLabel)
     this.qwsDelaySlider.changed(this.qwsDelayCallback)
+
+    this.vaccinationCallback = this.vaccinationCallbackHOF(this.vaccinationSlider, this.vaccinationLabel, sim)
+    this.vaccinationSlider.changed(this.vaccinationCallback)
   }
 
   /**
@@ -558,6 +574,18 @@ class Controls {
   qwsDelayCallbackHOF(slider, label) {
     return () => {
       label.html(slider.value())
+    }
+  }
+
+  vaccinationCallbackHOF(slider, label, sim) {
+    return () => {
+      label.html(slider.value())
+      sim.fields.forEach(f => f.pts.forEach(pt => {
+        if (pt.status==Point.SUSCEPTIBLE) pt.status = random()<slider.value()/100 ? Point.VACCINATED : Point.SUSCEPTIBLE
+      }))
+      sim.sender.objs.forEach(o => {
+        if (o.point.status==Point.SUSCEPTIBLE) o.point.status = random()<slider.value()/100 ? Point.VACCINATED : Point.SUSCEPTIBLE
+      })
     }
   }
 }

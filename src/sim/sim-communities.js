@@ -22,15 +22,15 @@ class SimCommunities extends Simulation {
     this.fields = []
     for(let i=0; i<4; i++) {
       fy += i>0 ? (fieldW + fieldSubmargin) : 0
-      const field0 = new Field(fx0, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
+      const field0 = new Field(fx0, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), this.controls.vaccinationSlider.value()/100, QTREE_DEFAULT_CAPACITY)
       this.fields.push(field0)
-      const field1 = new Field(fx1, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
+      const field1 = new Field(fx1, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), this.controls.vaccinationSlider.value()/100, QTREE_DEFAULT_CAPACITY)
       this.fields.push(field1)
-      const field2 = new Field(fx2, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), QTREE_DEFAULT_CAPACITY)
+      const field2 = new Field(fx2, fy, fieldW, fieldW, this.controls.comSizeSlider.value(), this.controls.infPopInitSlider.value(), this.controls.vaccinationSlider.value()/100, QTREE_DEFAULT_CAPACITY)
       this.fields.push(field2)
       const field3 = new Field(fx3, fy, fieldW, fieldW, 
         this.fields.length>14 ? 0 : this.controls.comSizeSlider.value(), 
-        this.controls.infPopInitSlider.value(), 
+        this.controls.infPopInitSlider.value(), this.controls.vaccinationSlider.value()/100,
         QTREE_DEFAULT_CAPACITY, this.fields.length>14)
       this.fields.push(field3)
     }

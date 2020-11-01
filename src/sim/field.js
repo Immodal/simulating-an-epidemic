@@ -1,5 +1,5 @@
 class Field {
-  constructor(x, y, w, h, nPoints, infectiousRate, qtreeCapacity, isQuarantine) {
+  constructor(x, y, w, h, nPoints, infectiousRate, vaccinationRate, qtreeCapacity, isQuarantine) {
     this.x = x
     this.y = y
     this.w = w
@@ -7,7 +7,7 @@ class Field {
 
     this.isQuarantine = isQuarantine
     this.pts = []
-    this.fill(nPoints, infectiousRate)
+    this.fill(nPoints, infectiousRate, vaccinationRate)
     this.qtreeCapacity = qtreeCapacity
     this.qtree = new Quadtree(new Rectangle(this.x, this.y, this.w, this.h), this.qtreeCapacity)
     this.repulsionZones = []
@@ -25,15 +25,26 @@ class Field {
    * Fill this field with nPoints number of Points
    * @param {Integer} nPoints Number of points to generate
    * @param {Float} infectiousRate Chance a random point will start off with the INFECTIOUS1 status
+   * @param {Float} vaccineRate Chance a random point will start off with the VACCINATED status, takes precedence over infectiousRate
    */
-  fill(nPoints, infectiousRate) {
+  fill(nPoints, infectiousRate, vaccineRate=0) {
     this.pts = []
+    let nInfected = 0
     for(let i=0; i<nPoints; i++) {
       const rx = random(this.x, this.x+this.w)
       const ry = random(this.y, this.y+this.h)
       const rv = createVector(random(-Point.maxSpeed, Point.maxSpeed), random(-Point.maxSpeed, Point.maxSpeed))
       let st = Point.SUSCEPTIBLE
-      if (random()<infectiousRate) st = Point.INFECTIOUS1
+      // Guarantee at least 1 infected if infection rates is non-zero and vaccination rate is below 100%
+      if (random()<infectiousRate || (i==nPoints-1 && vaccineRate<1 && infectiousRate>0 && nInfected==0)) {
+        st = Point.INFECTIOUS1
+        nInfected += 1
+      } 
+      // Override infection if randomed into into vaccination
+      if (random()<vaccineRate && (i<nPoints-1)) {
+        if (st == Point.INFECTIOUS1) nInfected -= 1
+        st = Point.VACCINATED
+      }
       const point = new Point(rx, ry, rv, st)
       this.insert(point)
     }

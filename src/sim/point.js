@@ -96,6 +96,7 @@ class Point {
   draw() {
     let color = null
     if (this.status==Point.SUSCEPTIBLE) color = Point.COLOR_SUSCEPTIBLE
+    else if (this.status==Point.VACCINATED) color = Point.COLOR_VACCINATED
     else if (this.status==Point.INFECTIOUS1) color = Point.COLOR_INFECTIOUS1
     else if (this.status==Point.INFECTIOUS2) color = Point.COLOR_INFECTIOUS2
     else if (this.status==Point.REMOVED) color = Point.COLOR_REMOVED
@@ -117,12 +118,14 @@ Point.COLOR_INFECTIOUS1 = COLOR_DIM_YELLOW
 Point.COLOR_INFECTIOUS2 = COLOR_ORANGE_RED
 Point.COLOR_REMOVED = COLOR_DARK_BLUE
 Point.COLOR_DEAD = COLOR_MED_GRAY
+Point.COLOR_VACCINATED = COLOR_LIGHT_BLUE
 
 Point.SUSCEPTIBLE = 0
 Point.INFECTIOUS1 = 1 // Infectious, no symptoms
 Point.INFECTIOUS2 = 2 // Infectious, with symptoms
 Point.REMOVED = 3 // Recovered
 Point.DEAD = 4
+Point.VACCINATED = 5
 
 Point.maxSpeed = 1
 Point.radius = POINT_RADIUS_DEFAULT
